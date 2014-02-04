@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.LayoutManager;
 
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ public class ListsPanel extends JPanel {
 	
 	public ListsPanel() {
 		this.setLayout(new BorderLayout());
+		this.setBackground(Color.WHITE);
 		createPanels();
 		createComboBox();
 		createButtons();
@@ -29,10 +31,11 @@ public class ListsPanel extends JPanel {
 		p_north.add(filter);
 		p_north.add(b_new);
 		
-		
+		p_west.add(tasks);
 	}
+	
 	private void createList(){
-		String[] temp = {"Class School", "Buy Milk"};
+		String[] temp = {"Class School", "Buy Milk", "EAT", "Jobba"};
 		tasks = new JList(temp);
 	}
 	
@@ -46,6 +49,8 @@ public class ListsPanel extends JPanel {
 	private void createPanels(){
 		p_north = new JPanel();
 		p_west = new JPanel();
+		p_north.setBackground(Color.WHITE);
+		p_west.setBackground(Color.WHITE);
 	}
 	
 	private void createButtons(){
