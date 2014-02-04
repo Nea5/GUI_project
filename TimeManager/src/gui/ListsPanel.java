@@ -10,12 +10,15 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class ListsPanel extends JPanel {
 	private JPanel p_north, p_west;
 	private JComboBox sort_by, filter;
 	private JButton b_new;
-	private JList tasks;
+	private JTable tasks;
+	private JScrollPane tableScroll;
 	
 	public ListsPanel() {
 		this.setLayout(new BorderLayout());
@@ -23,7 +26,7 @@ public class ListsPanel extends JPanel {
 		createPanels();
 		createComboBox();
 		createButtons();
-		createList();
+		createTable();
 		
 		this.add(p_north, BorderLayout.NORTH);
 		this.add(p_west, BorderLayout.WEST);
@@ -32,12 +35,12 @@ public class ListsPanel extends JPanel {
 		p_north.add(filter);
 		p_north.add(b_new);
 		
-		p_west.add(tasks);
+		p_west.add(tableScroll);
 	}
 	
-	private void createList(){
-		String[] temp = {"Class School", "Buy Milk", "EAT", "Jobba"};
-		tasks = new JList(temp);
+	private void createTable(){
+		tasks = new JTable(new TaskTableModel());
+		tableScroll = new JScrollPane(tasks);
 	}
 	
 	private void createComboBox(){
