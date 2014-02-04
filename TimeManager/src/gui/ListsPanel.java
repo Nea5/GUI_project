@@ -32,8 +32,8 @@ public class ListsPanel extends JPanel {
 		
 	}
 	private void createList(){
-		String[] tasks = {"Class School", "Buy Milk"};
-		tasks = new JList(tasks);
+		String[] temp = {"Class School", "Buy Milk"};
+		tasks = new JList(temp);
 	}
 	
 	private void createComboBox(){
