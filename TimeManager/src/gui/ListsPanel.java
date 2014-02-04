@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 import javax.swing.JButton;
@@ -56,6 +57,7 @@ public class ListsPanel extends JPanel {
 		JFrame frame = new JFrame();
 		JPanel lists = new ListsPanel();
 		frame.add(lists);
+		frame.setMinimumSize(new Dimension(400,400));
 		frame.setVisible(true);
 		frame.pack();
 	}
