@@ -12,12 +12,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 
 public class ListsPanel extends JPanel {
 	private JPanel p_north, p_west;
 	private JComboBox sort_by, filter;
 	private JButton b_new;
-	private JTable tasks;
+	private JTable t_tasks;
+	private AbstractTableModel t_tasks_model;
 	private JScrollPane tableScroll;
 	
 	public ListsPanel() {
@@ -39,8 +41,9 @@ public class ListsPanel extends JPanel {
 	}
 	
 	private void createTable(){
-		tasks = new JTable(new TaskTableModel());
-		tableScroll = new JScrollPane(tasks);
+		t_tasks_model = new TaskTableModel();
+		t_tasks = new JTable(t_tasks_model);
+		tableScroll = new JScrollPane(t_tasks);
 	}
 	
 	private void createComboBox(){
