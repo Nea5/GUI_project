@@ -20,9 +20,9 @@ public class MainFrame extends JFrame {
 	}
 	
 	private void createMenuBar(String osName){
-		if(osName=="Mac OS X"){
+		if(osName.equals("Mac OS X")){
 			System.setProperty("apple.laf.useScreenMenuBar", "true"); 
-			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "TimeManager");		
+			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "TimeManager");	
 		}
 		menubar = new TimeMenuBar();
 	}
