@@ -21,6 +21,7 @@ public class MainFrame extends JFrame {
 		this.setJMenuBar(menubar);
 		this.setMinimumSize(new Dimension(485,560));
 		this.setVisible(true);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
 	}
 	

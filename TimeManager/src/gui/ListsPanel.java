@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
  *
  */
 public class ListsPanel extends JPanel {
-	private JPanel p_north, p_west;
+	private JPanel p_north, p_center;
 	private JComboBox sort_by, filter;
 	private JButton b_new;
 	private JTable t_tasks;
@@ -60,7 +60,7 @@ public class ListsPanel extends JPanel {
 		createTable();
 		
 		this.add(p_north, BorderLayout.NORTH);
-		this.add(p_west, BorderLayout.WEST);
+		this.add(p_center, BorderLayout.CENTER);
 		
 		p_north.add(sort_by);
 		p_north.add(filter);
@@ -68,7 +68,7 @@ public class ListsPanel extends JPanel {
 		
 		b_new.addActionListener(new NewTaskListener());
 		
-		p_west.add(tableScroll);
+		p_center.add(tableScroll);
 	}
 	/**
 	 * Creates a JTable with a modified DefaultTableModel
@@ -104,9 +104,9 @@ public class ListsPanel extends JPanel {
 	 */
 	private void createPanels(){
 		p_north = new JPanel();
-		p_west = new JPanel();
+		p_center = new JPanel();
 		p_north.setBackground(Color.WHITE);
-		p_west.setBackground(Color.WHITE);
+		p_center.setBackground(Color.WHITE);
 	}
 	/**
 	 * Creates the new task button
