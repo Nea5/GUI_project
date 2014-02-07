@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JTabbedPane;
-
+/**
+ * 
+ */
 public class MainFrame extends JFrame {
 	private JMenuBar menubar;
 	private JTabbedPane tabbedPane;

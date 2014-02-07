@@ -19,6 +19,16 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Panel to display the list view in the time manager
+ * @author Johan Dahlkar 
+ * @author Markus Ebbesson 
+ * @author Marcus Enderskog
+ * @author Jonas Rosenlind
+ * @author Linnea Sandelin
+ * @author Marcus Utter
+ *
+ */
 public class ListsPanel extends JPanel {
 	private JPanel p_north, p_west;
 	private JComboBox sort_by, filter;
@@ -38,7 +48,9 @@ public class ListsPanel extends JPanel {
 				"Personal", 6
 			}	
 	};
-	
+	/**
+	 * 
+	 */
 	public ListsPanel() {
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.WHITE);
@@ -58,7 +70,7 @@ public class ListsPanel extends JPanel {
 		
 		p_west.add(tableScroll);
 	}
-	/*
+	/**
 	 * Creates a JTable with a modified DefaultTableModel
 	 */
 	private void createTable(){
@@ -78,8 +90,8 @@ public class ListsPanel extends JPanel {
 		t_tasks = new JTable(t_tasks_model);
 		tableScroll = new JScrollPane(t_tasks);
 	}
-	/*
-	 * Creates all the JComboBoxes
+	/**
+	 * Creates all the JComboBoxes, filter list and sort by list
 	 */
 	private void createComboBox(){
 		String [] filters = { "Filter","School", "Personal", "Work"};
@@ -87,7 +99,7 @@ public class ListsPanel extends JPanel {
 		sort_by = new JComboBox(sorts);
 		filter = new JComboBox(filters);
 	}
-	/*
+	/**
 	 * Creates all the JPanels
 	 */
 	private void createPanels(){
@@ -96,14 +108,22 @@ public class ListsPanel extends JPanel {
 		p_north.setBackground(Color.WHITE);
 		p_west.setBackground(Color.WHITE);
 	}
-	/*
-	 * Creates all the JButtons
+	/**
+	 * Creates the new task button
 	 */
 	private void createButtons(){
 		b_new = new JButton("+ New Task");
 		
 	}
-	
+	/**
+	  * Handles input when adding a new task
+	  * @author Johan Dahlkar 
+	  * @author Markus Ebbesson 
+	  * @author Marcus Enderskog
+	  * @author Jonas Rosenlind
+	  * @author Linnea Sandelin
+	  * @author Marcus Utter
+	 */
 	public class NewTaskListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			NewTaskPanel p_newTask = new NewTaskPanel();
@@ -115,7 +135,10 @@ public class ListsPanel extends JPanel {
 			}
 		}
 	}
-	
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String [] args){
 		JFrame frame = new JFrame();
 		JPanel lists = new ListsPanel();

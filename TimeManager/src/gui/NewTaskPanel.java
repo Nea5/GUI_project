@@ -14,7 +14,15 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
-
+/**
+ * Panel for adding tasks
+ * @author Johan Dahlkar 
+ * @author Markus Ebbesson 
+ * @author Marcus Enderskog
+ * @author Jonas Rosenlind
+ * @author Linnea Sandelin
+ * @author Marcus Utter
+ */
 public class NewTaskPanel extends JPanel {
 	private JLabel l_name, l_date, l_category, l_priority;
 	private JTextField tf_name;
@@ -41,25 +49,33 @@ public class NewTaskPanel extends JPanel {
 		
 		this.setLayout(new GridLayout(4, 2));
 	}
-	
+	/**
+	 * Creates labels for all fields in the panel
+	 */
 	private void createLabels(){
 		l_name = new JLabel("Name:");
 		l_date = new JLabel("Date:");
 		l_category = new JLabel("Category:"); 
 		l_priority = new JLabel("Priority:");
 	}
-	
+	/**
+	 * Creates text field for the panel
+	 */
 	private void createTextFields(){
 		tf_name = new JTextField(16);
 	}
-	
+	/**
+	 * Creates drop down menus/combo boxes with different alternatives
+	 */
 	private void createComboBoxes(){
 		String[] categories = {" ", "School", "Work", "Personal"};
 		String[] priorities = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 		cb_category = new JComboBox<String>(categories);
 		cb_priority = new JComboBox<String>(priorities);
 	}
-	
+	/**
+	 * Creates a spinner for entering date and time
+	 */
 	private void createSpinners(){
 		Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
@@ -70,16 +86,16 @@ public class NewTaskPanel extends JPanel {
 		s_format = ((JSpinner.DateEditor) s_date.getEditor()).getFormat();
 	    s_format.applyPattern("yyyy-MM-dd HH:mm");
 	}
-	
+	/**
+	 * Returns the content from the user's input
+	 * @return Returns the content from the user's input as an Object array
+	 */
 	public Object[] getData(){
 		String name = tf_name.getText();
-		Date date = s_model.getDate();
 		String category = (String)cb_category.getSelectedItem();
 		int priority = Integer.parseInt((String)cb_priority.getSelectedItem());
-		Calendar newDate = new GregorianCalendar();
-		newDate.setTime(date);
 		return (new Object[]{
-			Boolean.FALSE, name, newDate.getTime(), category, priority 
+			Boolean.FALSE, name, s_model.getDate(), category, priority 
 		});
 	}
 	
