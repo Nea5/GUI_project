@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JTabbedPane;
@@ -15,6 +17,7 @@ public class MainFrame extends JFrame {
 		this.add(tabbedPane);
 		
 		this.setJMenuBar(menubar);
+		this.setMinimumSize(new Dimension(485,560));
 		this.setVisible(true);
 		this.pack();
 	}
