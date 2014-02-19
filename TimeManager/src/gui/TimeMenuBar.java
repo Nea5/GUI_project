@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.ResourceBundle;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -22,10 +24,13 @@ public class TimeMenuBar extends JMenuBar {
 		this.add(m_help);
 	}
 	
+	
+	
 	private void createMenus(){
-		m_file = new JMenu("File");
-		m_edit = new JMenu("Edit");
-		m_help = new JMenu("Help");
+		ResourceBundle rb = ResourceBundle.getBundle("gui.resources.language");
+		m_file = new JMenu(rb.getString("m_file"));
+		m_edit = new JMenu(rb.getString("m_edit"));
+		m_help = new JMenu(rb.getString("m_help"));
 	}
 	
 	private void createMenuItems(){
