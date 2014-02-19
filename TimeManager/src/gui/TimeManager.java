@@ -28,9 +28,8 @@ public class TimeManager {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Locale Svenska = new Locale("sv", "SE");
-		
-		rb = ResourceBundle.getBundle("gui.resources.language", Svenska);
+		//Locale Svenska = new Locale("sv", "SE");
+		rb = ResourceBundle.getBundle("gui.resources.language");
 		new MainFrame();
 	}
 
