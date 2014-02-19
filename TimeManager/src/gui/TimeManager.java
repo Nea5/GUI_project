@@ -1,4 +1,7 @@
 package gui;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import gui.MainFrame;
 
 /**
@@ -18,12 +21,17 @@ import gui.MainFrame;
 
 public class TimeManager {
 
+	public static ResourceBundle rb;
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-			new MainFrame();
+		Locale Svenska = new Locale("sv", "SE");
+		
+		rb = ResourceBundle.getBundle("gui.resources.language", Svenska);
+		new MainFrame();
 	}
 
 }
