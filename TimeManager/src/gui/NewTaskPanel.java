@@ -1,5 +1,6 @@
 package gui;
 
+import todo.*;
 import java.awt.GridLayout;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -90,13 +91,11 @@ public class NewTaskPanel extends JPanel {
 	 * Returns the content from the user's input
 	 * @return Returns the content from the user's input as an Object array
 	 */
-	public Object[] getData(){
+	public ToDo getData(){
 		String name = tf_name.getText();
 		String category = (String)cb_category.getSelectedItem();
 		int priority = Integer.parseInt((String)cb_priority.getSelectedItem());
-		return (new Object[]{
-			Boolean.FALSE, name, s_model.getDate(), category, priority 
-		});
+		return (new ToDo(name, category, priority, s_model.getDate()));
 	}
 	
 	public static void main(String [] args){

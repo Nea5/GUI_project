@@ -18,6 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import java.io.*;
+import todo.*;
 
 /**
  * Panel to display the list view in the time manager
@@ -29,7 +31,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Marcus Utter
  *
  */
-public class ListsPanel extends JPanel {
+public class ListsPanel extends JPanel implements Serializable{
+	private static final long serialVersionUID = 6529685098267757690L;
 	private JPanel p_north, p_center;
 	private JComboBox sort_by, filter;
 	private JButton b_new;
@@ -37,21 +40,24 @@ public class ListsPanel extends JPanel {
 	private DefaultTableModel t_tasks_model;
 	private JScrollPane tableScroll;
 	
-	private String[] columnNames = {" ", "Task", "Date", "Category", "Priority"};
-	private Object[][] data = {
-			{
-				Boolean.FALSE, "Buy milk", new GregorianCalendar().getTime(),
-				"Home", 5
-			},
-			{
-				Boolean.FALSE, "Eat", new GregorianCalendar().getTime(),
-				"Personal", 6
-			}	
-	};
+	private String[] columnNames = {" ", "Task", "Category","Date", "Priority"};
+	private Object[][] data;
+	private ToDoManager manager;
 	/**
 	 * 
 	 */
 	public ListsPanel() {
+		try{
+			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.srz")));
+			manager = (ToDoManager)in.readObject();
+			in.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(manager == null){
+			manager = new ToDoManager();
+		}
+		data = manager.getData();
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.WHITE);
 		createPanels();
@@ -130,8 +136,18 @@ public class ListsPanel extends JPanel {
 			int result = JOptionPane.showConfirmDialog(null, p_newTask, 
 		               "Please Enter a new task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			if(result == JOptionPane.OK_OPTION){
-				Object[] newTask = p_newTask.getData();
+				ToDo t = p_newTask.getData();
+				manager.add(t);
+				Object[] newTask = new Object[]{Boolean.FALSE, t.getName(), t.getCategory(),
+						t.getDue(), t.getPriority()};
 				t_tasks_model.addRow(newTask);
+				try{
+					ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
+					out.writeObject(manager);
+					out.close();
+				}catch(Exception ea){
+					ea.printStackTrace();
+				}
 			}
 		}
 	}
