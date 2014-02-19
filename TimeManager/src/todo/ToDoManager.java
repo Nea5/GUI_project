@@ -22,6 +22,7 @@ public class ToDoManager implements Serializable{
 			ToDo t = (ToDo)it.next();
 			data[i] = (new Object[]{Boolean.FALSE, t.getName(), t.getCategory(),
 					t.getDue(), t.getPriority()});
+			i++;
 		}
 		return data;
 	}
