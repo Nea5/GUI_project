@@ -18,7 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+
 import java.io.*;
+
 import todo.*;
 
 /**
@@ -40,7 +42,7 @@ public class ListsPanel extends JPanel implements Serializable{
 	private DefaultTableModel t_tasks_model;
 	private JScrollPane tableScroll;
 	
-	private String[] columnNames = {" ", "Task", "Category","Date", "Priority"};
+	private String[] columnNames = {" ", TimeManager.rb.getString("task"), TimeManager.rb.getString("category"),TimeManager.rb.getString("date"), TimeManager.rb.getString("priority")};
 	private Object[][] data;
 	private ToDoManager manager;
 	/**
@@ -118,7 +120,7 @@ public class ListsPanel extends JPanel implements Serializable{
 	 * Creates the new task button
 	 */
 	private void createButtons(){
-		b_new = new JButton("+ New Task");
+		b_new = new JButton("+ " + TimeManager.rb.getString("new_task_button"));
 		
 	}
 	/**
@@ -134,7 +136,7 @@ public class ListsPanel extends JPanel implements Serializable{
 		public void actionPerformed(ActionEvent e){
 			NewTaskPanel p_newTask = new NewTaskPanel();
 			int result = JOptionPane.showConfirmDialog(null, p_newTask, 
-		               "Please Enter a new task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+					TimeManager.rb.getString("enter_task_name"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			if(result == JOptionPane.OK_OPTION){
 				ToDo t = p_newTask.getData();
 				manager.add(t);
