@@ -53,10 +53,10 @@ public class NewTaskPanel extends JPanel {
 	 * Creates labels for all fields in the panel
 	 */
 	private void createLabels(){
-		l_name = new JLabel("Name:");
-		l_date = new JLabel("Date:");
-		l_category = new JLabel("Category:"); 
-		l_priority = new JLabel("Priority:");
+		l_name = new JLabel(TimeManager.rb.getString("l_name") + ": ");
+		l_date = new JLabel(TimeManager.rb.getString("l_date") + ": ");
+		l_category = new JLabel(TimeManager.rb.getString("l_category") + ": "); 
+		l_priority = new JLabel(TimeManager.rb.getString("l_priority") + ": ");
 	}
 	/**
 	 * Creates text field for the panel
