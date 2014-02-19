@@ -20,8 +20,8 @@ public class TabPanel extends JTabbedPane {
 	public TabPanel() {
 		createPanels();
 		this.setBackground(Color.WHITE);
-		this.addTab("List", p_lists);
-		this.addTab("Calendar", p_calendar);
+		this.addTab(TimeManager.rb.getString("p_lists"), p_lists);
+		this.addTab(TimeManager.rb.getString("p_calendar"), p_calendar);
 	}
 	/**
 	 * Creates the different panels shown in the tabs
