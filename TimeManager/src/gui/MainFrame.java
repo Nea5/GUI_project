@@ -4,13 +4,13 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 /**
  * 
  */
 public class MainFrame extends JFrame {
-	private JMenuBar menubar;
-	private JTabbedPane tabbedPane;
+	private TimeMenuBar menubar;
+	private TabPanel tabbedPane;
 	
 	public MainFrame(){
 		createMenuBar(System.getProperty("os.name"));
@@ -37,6 +37,13 @@ public class MainFrame extends JFrame {
 		tabbedPane = new TabPanel();
 	}
 	
+	public TabPanel getTabPanel(){
+		return tabbedPane;
+	}
+	
+	public TimeMenuBar getMenu(){
+		return menubar;
+	}
 	public static void main(String [] args){
 		new MainFrame();
 	}

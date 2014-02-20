@@ -3,7 +3,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import gui.MainFrame;
-
+import control.*;
 /**
 * 
 * This is our Time Manager.
@@ -30,7 +30,7 @@ public class TimeManager {
 		// TODO Auto-generated method stub
 		//Locale Svenska = new Locale("sv", "SE");
 		rb = ResourceBundle.getBundle("gui.resources.language");
-		new MainFrame();
+		new Controller(new MainFrame());
 	}
 
 }

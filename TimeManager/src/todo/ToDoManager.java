@@ -13,6 +13,17 @@ public class ToDoManager implements Serializable{
 		todos.add(t);
 	}
 	
+	public ToDo get(int i){
+		return todos.get(i);
+	}
+	
+	public void edit(ToDo t, int i){
+		todos.set(i, t);
+	}
+	
+	public void delete(int i){
+		todos.remove(i);
+	}
 	public Object[][] getData(){
 		int s = todos.size();
 		Object[][] data = new Object[s][5];

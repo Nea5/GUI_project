@@ -17,8 +17,7 @@ import javax.swing.JRadioButtonMenuItem;
 
 public class TimeMenuBar extends JMenuBar {
 	private JMenu m_file, m_edit, m_help;
-	private JMenuItem mi_new, mi_help;
-	
+	private JMenuItem mi_new, mi_help, mi_edit, mi_delete;
 	private JMenu m_language;
     private JRadioButtonMenuItem Svenska;
     private JRadioButtonMenuItem English;
@@ -32,13 +31,19 @@ public class TimeMenuBar extends JMenuBar {
 		
 		m_file.add(mi_new);
 		m_file.add(m_language);
+		
+		m_edit.add(mi_edit);
+		m_edit.add(mi_delete);
+		
 		m_help.add(mi_help);
+		
 		m_language.add(Svenska);
 		m_language.add(English);
 		group.add(English);
 		group.add(Svenska);
 		
-		
+		mi_edit.setEnabled(false);
+		mi_delete.setEnabled(false);
 		
 		this.add(m_file);
 		this.add(m_edit);
@@ -46,8 +51,6 @@ public class TimeMenuBar extends JMenuBar {
 		
 		
 	}
-	
-
 	
 	private void createMenus(){
 		m_file = new JMenu(TimeManager.rb.getString("m_file"));
@@ -59,10 +62,11 @@ public class TimeMenuBar extends JMenuBar {
 	private void createMenuItems(){
 		mi_new = new JMenuItem(TimeManager.rb.getString("mi_new"));
 		mi_help = new JMenuItem(TimeManager.rb.getString("mi_help"));
+		mi_edit = new JMenuItem("Edit");
+		mi_delete = new JMenuItem("Delete");
 		group = new ButtonGroup();
 		English = new JRadioButtonMenuItem("English");
-		Svenska = new JRadioButtonMenuItem("Svenska");
-		
+		Svenska = new JRadioButtonMenuItem("Svenska");	
 		
 		Svenska.addItemListener(new ItemListener(){
             @Override
@@ -83,21 +87,22 @@ public class TimeMenuBar extends JMenuBar {
                 } */
             }
         });
-		
-		
 		English.setSelected(true);
 	}
 	
-	
-	
-	
-		
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("Test");
-		frame.setVisible(true);
-		JMenuBar menubar = new TimeMenuBar();
-		frame.setJMenuBar(menubar);
-
+	public JMenuItem getEditItem(){
+		return mi_edit;
 	}
-
+	
+	public JMenuItem getDeleteItem(){
+		return mi_delete;
+	}
+	
+	public JMenuItem getNewItem(){
+		return mi_new;
+	}
+	
+	public JMenuItem getHelpItem(){
+		return mi_help;
+	}
 }

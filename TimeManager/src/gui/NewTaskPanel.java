@@ -105,4 +105,16 @@ public class NewTaskPanel extends JPanel {
 		frame.setVisible(true);
 		frame.pack();
 	}
+	public void setEdit(boolean b){
+		tf_name.setEditable(b);
+	}
+	public void setData(ToDo t){
+		tf_name.setText(t.getName());
+		cb_category.setSelectedItem(t.getCategory());
+		cb_priority.setSelectedItem(t.getPriority());
+		s_model.setValue(t.getDue());
+	}
+	private void setCategory(String c){
+		
+	}
 }

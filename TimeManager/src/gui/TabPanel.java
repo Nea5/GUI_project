@@ -15,7 +15,8 @@ import javax.swing.JTabbedPane;
  * @author Marcus Utter
  */
 public class TabPanel extends JTabbedPane {
-	private JPanel p_lists, p_calendar;
+	private JPanel p_calendar;
+	private ListsPanel p_lists;
 	
 	public TabPanel() {
 		createPanels();
@@ -29,6 +30,13 @@ public class TabPanel extends JTabbedPane {
 	public void createPanels(){
 		p_lists = new ListsPanel();
 		p_calendar = new JPanel(); // Temp
+	}
+	
+	public ListsPanel getListPanel(){
+		return p_lists;
+	}
+	public JPanel getCalendar(){
+		return p_calendar;
 	}
 	
 	public static void main(String [] args){
