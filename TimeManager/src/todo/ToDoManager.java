@@ -26,13 +26,13 @@ public class ToDoManager implements Serializable{
 	}
 	public Object[][] getData(){
 		int s = todos.size();
-		Object[][] data = new Object[s][5];
+		Object[][] data = new Object[s][6];
 		Iterator<ToDo> it = todos.iterator();
 		int i = 0;
 		while(it.hasNext()){
 			ToDo t = (ToDo)it.next();
 			data[i] = (new Object[]{Boolean.FALSE, t.getName(), t.getCategory(),
-					t.getDue(), t.getPriority()});
+					t.getDue(), t.getPriority(), i});
 			i++;
 		}
 		return data;

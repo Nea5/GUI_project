@@ -21,6 +21,7 @@ public class TodoTable extends JTable {
 	public TodoTable(Object[][] data) {
 		this.data = data;
 		addModel();
+		
 	}
 	private void addModel(){
 		model = new DefaultTableModel(data, columnNames){
@@ -55,6 +56,16 @@ public class TodoTable extends JTable {
 		model.setValueAt(rowData[4], row, 4);
 	}
 	public void removeRow(int row){
+		System.out.println("" + model.getValueAt(row,1) + row);
 		model.removeRow(row);
 	}
+	public boolean getMarked(){
+		boolean marked = false;
+		for(int i = 0; i < model.getRowCount();i++){
+			if((boolean)model.getValueAt(i, 0)){
+				marked = true;
+			}
+		}
+		return marked;
+	} 
 }

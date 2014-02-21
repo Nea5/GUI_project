@@ -136,7 +136,7 @@ public class ListsPanel extends JPanel implements Serializable{
 	}
 	
 	public void editTask(){
-		int i = t_tasks.getSelectedRow();
+		int i = t_tasks.convertRowIndexToModel(t_tasks.getSelectedRow());
 		ToDo t = manager.get(i);
 		EditPanel p_edit = new EditPanel(t);
 		int result = JOptionPane.showConfirmDialog(this, p_edit,
@@ -159,10 +159,15 @@ public class ListsPanel extends JPanel implements Serializable{
 	
 	public void deleteTasks(){
 		for(int i = 0; i < t_tasks.getRowCount();i++){
-			boolean b = (boolean)t_tasks.getValueAt(i, 0);
+			int x = t_tasks.convertRowIndexToModel(i);
+			boolean b = (boolean)t_tasks.getValueAt(i,0);
+			System.out.println("" + b);
 			if(b){
-				manager.delete(i);
-				t_tasks.removeRow(i);
+				System.out.println("i " + i);
+				System.out.println("x " + x);
+				t_tasks.removeRow(x);
+				manager.delete(x);
+				b = false;
 				i--;
 				try{
 					ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));

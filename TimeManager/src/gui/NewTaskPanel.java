@@ -80,12 +80,14 @@ public class NewTaskPanel extends JPanel {
 	private void createSpinners(){
 		Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
-        s_model = new SpinnerDateModel();
-        s_model.setValue(date);
+        cal.add(Calendar.HOUR, -1);
+        Date earliestDate = cal.getTime();
+        cal.add(Calendar.YEAR, 50);
+        Date latestDate = cal.getTime();
+        s_model = new SpinnerDateModel(date, earliestDate, latestDate, Calendar.YEAR);
+        //s_model.setValue(date);
 		s_date = new JSpinner(s_model);
-		s_date.setEditor(new JSpinner.DateEditor(s_date,"yyyy-MM-dd HH:mm"));
-		s_format = ((JSpinner.DateEditor) s_date.getEditor()).getFormat();
-	    s_format.applyPattern("yyyy-MM-dd HH:mm");
+		s_date.setEditor(new JSpinner.DateEditor(s_date,"dd-MM-yyyy HH:mm"));
 	}
 	/**
 	 * Returns the content from the user's input
@@ -97,14 +99,6 @@ public class NewTaskPanel extends JPanel {
 		int priority = Integer.parseInt((String)cb_priority.getSelectedItem());
 		return (new ToDo(name, category, priority, s_model.getDate()));
 	}
-	
-	public static void main(String [] args){
-		JFrame frame = new JFrame();
-		JPanel panel = new NewTaskPanel();
-		frame.add(panel);
-		frame.setVisible(true);
-		frame.pack();
-	}
 	public void setEdit(boolean b){
 		tf_name.setEditable(b);
 	}
@@ -113,8 +107,5 @@ public class NewTaskPanel extends JPanel {
 		cb_category.setSelectedItem(t.getCategory());
 		cb_priority.setSelectedItem(t.getPriority());
 		s_model.setValue(t.getDue());
-	}
-	private void setCategory(String c){
-		
 	}
 }

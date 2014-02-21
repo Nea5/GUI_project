@@ -96,21 +96,7 @@ public class Controller {
 
 		@Override
 		public void tableChanged(TableModelEvent e) {
-			loop:
-				for(int i = 0; i < t_tasks.getRowCount();i++){
-					boolean b = (boolean)t_tasks.getValueAt(i, 0);
-					if(b){
-						b_delete.setEnabled(b);
-						m_delete.setEnabled(b);
-						break loop;
-					}
-					b_delete.setEnabled(b);
-					m_delete.setEnabled(b);
-				}
-				if(t_tasks.getRowCount() == 0){
-					b_delete.setEnabled(false);
-					m_delete.setEnabled(false);
-				}
+			b_delete.setEnabled(t_tasks.getMarked());
 		}
 		
 	}
