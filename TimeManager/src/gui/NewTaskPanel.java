@@ -105,7 +105,7 @@ public class NewTaskPanel extends JPanel {
 	public void setData(ToDo t){
 		tf_name.setText(t.getName());
 		cb_category.setSelectedItem(t.getCategory());
-		cb_priority.setSelectedItem(t.getPriority());
+		cb_priority.setSelectedItem("" + t.getPriority());
 		s_model.setValue(t.getDue());
 	}
 }

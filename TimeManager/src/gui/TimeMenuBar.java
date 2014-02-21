@@ -33,6 +33,7 @@ public class TimeMenuBar extends JMenuBar {
 		group.add(English);
 		group.add(Svenska);
 		mi_delete.setEnabled(false);
+		mi_edit.setEnabled(false);
 		this.add(m_file);
 		this.add(m_edit);
 		this.add(m_help);

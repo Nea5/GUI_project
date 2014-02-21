@@ -180,6 +180,10 @@ public class ListsPanel extends JPanel implements Serializable{
 		}
 	}
 	
+	public void filterTasks(){
+		
+	}
+	
 	public JButton getNewButton(){
 		return b_new;
 	}
