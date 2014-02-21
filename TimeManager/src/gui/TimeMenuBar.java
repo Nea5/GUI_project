@@ -1,21 +1,18 @@
 package gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 import javax.swing.ButtonGroup;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 
 public class TimeMenuBar extends JMenuBar {
+	private static final long serialVersionUID = 1L;
 	private JMenu m_file, m_edit, m_help;
 	private JMenuItem mi_new, mi_help, mi_edit, mi_delete;
 	private JMenu m_language;
@@ -23,33 +20,22 @@ public class TimeMenuBar extends JMenuBar {
     private JRadioButtonMenuItem English;
 	private ButtonGroup group;
 
-
-		
 	public TimeMenuBar() {
 		createMenus();
 		createMenuItems();
-		
 		m_file.add(mi_new);
 		m_file.add(m_language);
-		
 		m_edit.add(mi_edit);
 		m_edit.add(mi_delete);
-		
 		m_help.add(mi_help);
-		
 		m_language.add(Svenska);
 		m_language.add(English);
 		group.add(English);
 		group.add(Svenska);
-		
-		mi_edit.setEnabled(false);
 		mi_delete.setEnabled(false);
-		
 		this.add(m_file);
 		this.add(m_edit);
 		this.add(m_help);
-		
-		
 	}
 	
 	private void createMenus(){
@@ -72,22 +58,39 @@ public class TimeMenuBar extends JMenuBar {
             @Override
             public void itemStateChanged(ItemEvent e)
             {
-             /*   //getItem returns an object so it gets cast
-                //as a String to retrieve the item value
-                String item = (String)e.getItem();
                 if (e.getStateChange() == ItemEvent.SELECTED)
                 {
-                	Locale Svenska = new Locale("sv", "SE");
-            		TimeManager.rb = ResourceBundle.getBundle("gui.resources.language", Svenska);
+                	try {
+                		FileOutputStream out = new FileOutputStream("src/gui/resources/settings.properties");
+                        Properties props = new Properties();
+                     	props.setProperty("language", "Svenska");
+                        props.store(out, null);
+	                    out.close();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
                 }
                 else
                 {
-            		TimeManager.rb = ResourceBundle.getBundle("gui.resources.language", Locale.ENGLISH);
-
-                } */
+                	try {
+                 		FileOutputStream out = new FileOutputStream("src/gui/resources/settings.properties");
+                        Properties props = new Properties();
+                      	props.setProperty("language", "English");
+                        props.store(out, null);
+ 	                    out.close();
+ 					} catch (IOException e1) {
+ 						// TODO Auto-generated catch block
+ 						e1.printStackTrace();
+ 					}
+                } 
             }
         });
-		English.setSelected(true);
+		if(TimeManager.language.equals("Svenska")){
+			Svenska.setSelected(true);
+		} else {
+			English.setSelected(true);
+		}
 	}
 	
 	public JMenuItem getEditItem(){
