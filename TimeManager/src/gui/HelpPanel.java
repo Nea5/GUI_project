@@ -18,10 +18,10 @@ public class HelpPanel extends JPanel {
 	}
 	
 	private void createLabels(){
-		l_help = new JLabel("Help");
+		l_help = new JLabel(TimeManager.rb.getString("l_help"));
 	}
 	
 	private void createTextArea(){
-		textArea = new JTextArea("Some help info");
+		textArea = new JTextArea(TimeManager.rb.getString("help_info"));
 	}
 }
