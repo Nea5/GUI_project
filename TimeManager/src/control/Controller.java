@@ -107,7 +107,7 @@ public class Controller {
 		public void actionPerformed(ActionEvent e) {
 			JPanel p_help = new HelpPanel();
 			JOptionPane.showMessageDialog(pLists, p_help, 
-					"Help", JOptionPane.PLAIN_MESSAGE);
+					TimeManager.rb.getString("help_window"), JOptionPane.PLAIN_MESSAGE);
 		}
 		
 	}
