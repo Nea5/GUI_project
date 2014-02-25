@@ -19,7 +19,15 @@ import javax.swing.event.TableModelListener;
 
 import todo.*;
 import gui.*;
-
+/**
+ * 
+ * @author Johan Dahlkar
+ * @author Markus Ebbesson
+ * @author Marcus Enderskog
+ * @author Jonas Rosenlind
+ * @author Linnea Sandelin
+ * @author Marcus Utter
+ */
 public class Controller {
 	private MainFrame view;
 	private ListsPanel pLists;
@@ -63,6 +71,9 @@ public class Controller {
 	}
 	
 	public class NewTaskListener implements ActionListener{
+		/**
+		 * Performs the newTask() method in ListsPanel
+		 */
 		public void actionPerformed(ActionEvent e){
 			pLists.newTask();
 		}	
@@ -71,6 +82,9 @@ public class Controller {
 	
 	public class EditTaskListener implements ActionListener{
 		@Override
+		/**
+		 * Performs the editTask() method in ListsPanel
+		 */
 		public void actionPerformed(ActionEvent e) {
 			pLists.editTask();
 		}
@@ -78,6 +92,9 @@ public class Controller {
 	}
 	public class DeleteListener implements ActionListener{
 		@Override
+		/**
+		 * Performs the deleteTasks() method in ListsPanel
+		 */
 		public void actionPerformed(ActionEvent e) {
 			pLists.deleteTasks();
 		}
@@ -85,6 +102,10 @@ public class Controller {
 	}
 	public class SelectedListener implements ListSelectionListener{
 		@Override
+		/**
+		 * Sets b_edit and m_edit to enabled/disabled depending on
+		 * if there is any row selected
+		 */
 		public void valueChanged(ListSelectionEvent e) {
 			ListSelectionModel lsm = (ListSelectionModel)e.getSource();
             b_edit.setEnabled(!lsm.isSelectionEmpty());
@@ -95,8 +116,14 @@ public class Controller {
 	public class CheckedListener implements TableModelListener{
 
 		@Override
+		/**
+		 * Performes the getMarked() method in TodoTable and uses the
+		 * returned value to set m_delete and d_delete enabled/disabled
+		 */
 		public void tableChanged(TableModelEvent e) {
-			b_delete.setEnabled(t_tasks.getMarked());
+			boolean b = t_tasks.getMarked();
+			b_delete.setEnabled(b);
+			m_delete.setEnabled(b);
 		}
 		
 	}
@@ -104,6 +131,9 @@ public class Controller {
 	public class HelpListener implements ActionListener{
 
 		@Override
+		/**
+		 * Opens a JOptionPane with a HelpPanel
+		 */
 		public void actionPerformed(ActionEvent e) {
 			JPanel p_help = new HelpPanel();
 			JOptionPane.showMessageDialog(pLists, p_help, 

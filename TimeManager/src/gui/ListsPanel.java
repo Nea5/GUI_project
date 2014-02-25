@@ -48,7 +48,7 @@ public class ListsPanel extends JPanel implements Serializable{
 	private Object[][] data;
 	private ToDoManager manager;
 	/**
-	 * 
+	 * Constructs a new ListsPanel
 	 */
 	public ListsPanel() {
 		this.loadSaved();
@@ -69,6 +69,9 @@ public class ListsPanel extends JPanel implements Serializable{
 
 		p_center.add(tableScroll);
 	}
+	/**
+	 * Loads in the currently saved tasks from "todos.srz"
+	 */
 	private void loadSaved(){
 		try{
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.srz")));
@@ -115,6 +118,9 @@ public class ListsPanel extends JPanel implements Serializable{
 		b_delete = new MyButton("Delete", "Delete24");
 		b_delete.setEnabled(false);
 	}
+	/**
+	 * Opens a JOptionPane to be able to add a new task to the TodoTable
+	 */
 	public void newTask(){
 		NewTaskPanel p_newTask = new NewTaskPanel();
 		int result = JOptionPane.showConfirmDialog(this, p_newTask, 
@@ -134,7 +140,9 @@ public class ListsPanel extends JPanel implements Serializable{
 			}
 		}
 	}
-	
+	/**
+	 * Opens a JOptionPane to be able to edit the currently selected task in the TodoTable
+	 */
 	public void editTask(){
 		int i = t_tasks.convertRowIndexToModel(t_tasks.getSelectedRow());
 		ToDo t = manager.get(i);
@@ -156,7 +164,9 @@ public class ListsPanel extends JPanel implements Serializable{
 			}
 		}
 	}
-	
+	/**
+	 * Deletes the marked tasks in the TodoTable
+	 */
 	public void deleteTasks(){
 		for(int i = 0; i < t_tasks.getRowCount();i++){
 			int x = t_tasks.convertRowIndexToModel(i);
@@ -179,23 +189,35 @@ public class ListsPanel extends JPanel implements Serializable{
 			}
 		}
 	}
-	
-	public void filterTasks(){
-		
-	}
-	
+	/**
+	 * returns a JButton
+	 * 
+	 * @return b_new
+	 */
 	public JButton getNewButton(){
 		return b_new;
 	}
-	
+	/**
+	 * Returns a JButton
+	 * 
+	 * @return b_edit
+	 */
 	public JButton getEditButton(){
 		return b_edit;
 	}
-	
+	/**
+	 * Retruns a JButton
+	 * 
+	 * @return b_delete
+	 */
 	public JButton getDeleteButton(){
 		return b_delete;
 	}
-	
+	/**
+	 * Returns a TodoTable
+	 *
+	 * @return t_tasks
+	 */
 	public TodoTable getTable(){
 		return t_tasks;
 	}

@@ -3,7 +3,16 @@ package todo;
 import java.io.Serializable;
 import java.util.Date;
 
-//
+/**
+ * 
+ * @author Johan Dahlkar 
+ * @author Markus Ebbesson 
+ * @author Marcus Enderskog
+ * @author Jonas Rosenlind
+ * @author Linnea Sandelin
+ * @author Marcus Utter
+ *
+ */
 public class ToDo implements Serializable{
 	private String name, category;
 	private int priority, progress;
@@ -13,41 +22,61 @@ public class ToDo implements Serializable{
 		this.setName(name);
 		this.setCategory(category);
 		this.setPriority(priority);
-		this.setProgress(0);
 		this.setDue(due);
 	}
-	
+	/**
+	 * Sets this objects name to name
+	 * @param name New name
+	 */
 	public void setName(String name){
 		this.name = name;
 	}
+	/**
+	 * Returns this objects name
+	 * @return name
+	 */
 	public String getName(){
 		return this.name;
 	}
+	/**
+	 * Sets this objects priority to priority
+	 * @param priority New priority
+	 */
 	public void setPriority(int priority){
 		this.priority = priority;
 	}
+	/**
+	 * Returns this objects priority
+	 * @return priority
+	 */
 	public int getPriority(){
 		return this.priority;
 	}
-	public void setProgress(int progress){
-		this.progress = progress;
-	}
-	public int getProgress(){
-		return this.progress;
-	}
+	/**
+	 * Sets this objects due to due
+	 * @param due New due
+	 */
 	public void setDue(Date due){
 		this.due = due;
 	}
+	/** 
+	 * Returns this objects due
+	 * @return due
+	 */
 	public Date getDue(){
 		return this.due;
 	}
-	public String toString(){
-		String s = "Name: " + name;
-		return s;
-	}
+	/**
+	 * Sets this objects category to category
+	 * @param category New category
+	 */
 	public void setCategory(String category){
 		this.category = category;
 	}
+	/**
+	 * Returns this objects category
+	 * @return category
+	 */
 	public String getCategory(){
 		return this.category;
 	}

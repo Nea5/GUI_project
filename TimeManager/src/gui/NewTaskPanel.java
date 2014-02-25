@@ -99,9 +99,18 @@ public class NewTaskPanel extends JPanel {
 		int priority = Integer.parseInt((String)cb_priority.getSelectedItem());
 		return (new ToDo(name, category, priority, s_model.getDate()));
 	}
+	/**
+	 * Sets tf_name to editable or not depending on b
+	 * @param b 
+	 */
 	public void setEdit(boolean b){
 		tf_name.setEditable(b);
 	}
+	/**
+	 * Sets the text / selected value to tf_name, cb_category, cb_priority and s_model, from an ToDo object
+	 * 
+	 * @param t 
+	 */
 	public void setData(ToDo t){
 		tf_name.setText(t.getName());
 		cb_category.setSelectedItem(t.getCategory());

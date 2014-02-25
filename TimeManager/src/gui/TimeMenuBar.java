@@ -38,14 +38,18 @@ public class TimeMenuBar extends JMenuBar {
 		this.add(m_edit);
 		this.add(m_help);
 	}
-	
+	/**
+	 * Constructs all the JMenus to be used in this JMenuBar
+	 */
 	private void createMenus(){
 		m_file = new JMenu(TimeManager.rb.getString("m_file"));
 		m_edit = new JMenu(TimeManager.rb.getString("m_edit"));
 		m_help = new JMenu(TimeManager.rb.getString("m_help"));
 		m_language = new JMenu(TimeManager.rb.getString("m_language"));
 	}
-	
+	/**
+	 * Constructs all JMenuItems to be used in this JMenuBar. And adds ItemListener to RadioButtons
+	 */
 	private void createMenuItems(){
 		mi_new = new JMenuItem(TimeManager.rb.getString("mi_new"));
 		mi_help = new JMenuItem(TimeManager.rb.getString("mi_help"));
@@ -93,19 +97,31 @@ public class TimeMenuBar extends JMenuBar {
 			English.setSelected(true);
 		}
 	}
-	
+	/**
+	 * Returns a JMenuItem
+	 * @return mi_edit
+	 */
 	public JMenuItem getEditItem(){
 		return mi_edit;
 	}
-	
+	/**
+	 * Returns a JMenuItem
+	 * @return mi_delete
+	 */
 	public JMenuItem getDeleteItem(){
 		return mi_delete;
 	}
-	
+	/**
+	 * Returns a JMenuItem
+	 * @return mi_new
+	 */
 	public JMenuItem getNewItem(){
 		return mi_new;
 	}
-	
+	/**
+	 * Returns a JMenuItem
+	 * @return mi_help
+	 */
 	public JMenuItem getHelpItem(){
 		return mi_help;
 	}

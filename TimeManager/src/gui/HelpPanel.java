@@ -16,11 +16,15 @@ public class HelpPanel extends JPanel {
 		this.add(l_help, BorderLayout.NORTH);
 		this.add(textArea, BorderLayout.CENTER);
 	}
-	
+	/**
+	 * Constructs all the JLables to be used
+	 */
 	private void createLabels(){
 		l_help = new JLabel(TimeManager.rb.getString("l_help"));
 	}
-	
+	/**
+	 * Constructs all the JTextAreas to be used 
+	 */
 	private void createTextArea(){
 		textArea = new JTextArea(TimeManager.rb.getString("help_info"));
 	}

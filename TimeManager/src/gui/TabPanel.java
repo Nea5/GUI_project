@@ -31,10 +31,17 @@ public class TabPanel extends JTabbedPane {
 		p_lists = new ListsPanel();
 		p_calendar = new JPanel(); // Temp
 	}
-	
+	/**
+	 * Returns a ListsPanel
+	 * @return p_lists
+	 */
 	public ListsPanel getListPanel(){
 		return p_lists;
 	}
+	/**
+	 * Returns a JPnael
+	 * @return p_calendar
+	 */
 	public JPanel getCalendar(){
 		return p_calendar;
 	}
