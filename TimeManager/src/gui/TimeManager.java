@@ -1,5 +1,10 @@
 package gui;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.ResourceBundle;
+
 import gui.MainFrame;
 import control.*;
 /**
@@ -25,16 +30,21 @@ public class TimeManager {
 	/**
 	 * @param args
 	 * @return 
+	 * @throws IOException 
 	 */
 	
-	public static void main(String[] args) {
-		ResourceBundle settings = ResourceBundle.getBundle("gui.resources.settings");
-		language = settings.getString("language");
+	public static void main(String[] args) throws IOException {
+		FileInputStream in = new FileInputStream("settings.properties");
+		Properties prop = new Properties();
+		prop.load(in);
+		language = prop.getProperty("language");
+		//ResourceBundle settings = ResourceBundle.getBundle("settings");
+		//language = settings.getString("language");
 		if(language.equals("Svenska")){
-			System.out.println("Svenskt språk valt");
+			System.out.println("Svenskt sprak valt");
 			rb = ResourceBundle.getBundle("gui.resources.language_sv_SE");
 		} else {
-			System.out.println("English språk valt");
+			System.out.println("English sprak valt");
 			rb = ResourceBundle.getBundle("gui.resources.language_en_GB");
 		}
 		new Controller(new MainFrame());

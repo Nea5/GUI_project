@@ -62,7 +62,7 @@ public class ListsPanel extends JPanel implements Serializable{
 		this.add(p_north, BorderLayout.NORTH);
 		this.add(p_center, BorderLayout.CENTER);
 		
-		p_north.add(filter);
+		//p_north.add(filter);
 		p_north.add(b_new);
 		p_north.add(b_edit);
 		p_north.add(b_delete);

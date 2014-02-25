@@ -5,6 +5,7 @@ import java.awt.event.ItemListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -61,12 +62,16 @@ public class TimeMenuBar extends JMenuBar {
 		
 		Svenska.addItemListener(new ItemListener(){
             @Override
+            /**
+             * Changes language
+             */
             public void itemStateChanged(ItemEvent e)
             {
+            	
                 if (e.getStateChange() == ItemEvent.SELECTED)
                 {
                 	try {
-                		FileOutputStream out = new FileOutputStream("src/gui/resources/settings.properties");
+                		FileOutputStream out = new FileOutputStream("settings.properties");
                         Properties props = new Properties();
                      	props.setProperty("language", "Svenska");
                         props.store(out, null);
@@ -79,7 +84,7 @@ public class TimeMenuBar extends JMenuBar {
                 else
                 {
                 	try {
-                 		FileOutputStream out = new FileOutputStream("src/gui/resources/settings.properties");
+                 		FileOutputStream out = new FileOutputStream("settings.properties");
                         Properties props = new Properties();
                       	props.setProperty("language", "English");
                         props.store(out, null);
