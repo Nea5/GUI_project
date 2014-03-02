@@ -1,11 +1,11 @@
-package todo;
+package model;
 
 import java.io.Serializable;
 import java.util.*;
 
-import todo.*;
+import model.*;
 
-public class ToDoManager implements Serializable{
+public class ToDoModel implements Serializable{
 
 	private ArrayList<ToDo> todos = new ArrayList<ToDo>();
 	

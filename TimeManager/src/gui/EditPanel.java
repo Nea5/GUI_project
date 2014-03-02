@@ -1,6 +1,6 @@
 package gui;
 
-import todo.*;
+import model.*;
 
 public class EditPanel extends NewTaskPanel {
 

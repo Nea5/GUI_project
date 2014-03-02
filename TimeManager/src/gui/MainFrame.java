@@ -1,18 +1,23 @@
 package gui;
 
 import java.awt.Dimension;
+import java.awt.event.ItemListener;
 
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelListener;
+
+import model.ToDoModel;
 /**
  * 
  */
 public class MainFrame extends JFrame {
 	private TimeMenuBar menubar;
 	private TabPanel tabbedPane;
+	private ToDoModel model;
 	
-	public MainFrame(){
+	public MainFrame(ToDoModel model){
+		this.model = model;
 		createMenuBar(System.getProperty("os.name"));
 		createTabbedPane();
 		
@@ -34,17 +39,48 @@ public class MainFrame extends JFrame {
 	}
 	
 	private void createTabbedPane(){
-		tabbedPane = new TabPanel();
+		tabbedPane = new TabPanel(model);
 	}
-	
-	public TabPanel getTabPanel(){
-		return tabbedPane;
+	public void newTask(){
+		tabbedPane.newTask();
 	}
-	
-	public TimeMenuBar getMenu(){
-		return menubar;
+	public void editTask(){
+		tabbedPane.editTask();
 	}
-	public static void main(String [] args){
-		new MainFrame();
+	public void deleteTasks(){
+		tabbedPane.deleteTasks();
+	}
+	public void addNewTaskAction(AbstractAction a){
+		tabbedPane.addNewTaskAction(a);
+		menubar.addNewTaskAction(a);
+	}
+	public void addEditTaskAction(AbstractAction a){
+		tabbedPane.addEditTaskAction(a);
+		menubar.addEditTaskAction(a);
+	}
+	public void addDeleteTaskAction(AbstractAction a){
+		tabbedPane.addDeleteTaskAction(a);
+		menubar.addDeleteTaskAction(a);
+	}
+	public void addHelpAction(AbstractAction a){
+		menubar.addHelpAction(a);
+	}
+	public void addSelectionListener(ListSelectionListener l){
+		tabbedPane.addSelectionListener(l);
+	}
+	public void addTableModelListener(TableModelListener t){
+		tabbedPane.addTableModelListener(t);
+	}
+	public boolean getMarked(){
+		return tabbedPane.getMarked();
+	}
+	public void addLanguageListener(ItemListener l){
+		menubar.addLanguageListener(l);
+	}
+	public void newFilter(String s){
+		tabbedPane.newFilter(s);
+	}
+	public void addFilterListener(ItemListener l){
+		tabbedPane.addFilterListener(l);
 	}
 }

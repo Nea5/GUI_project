@@ -6,8 +6,10 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.util.GregorianCalendar;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,9 +26,11 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
-import java.io.*;
+import control.Controller.CheckedListener;
+import control.Controller.SelectedListener;
+import model.*;
 
-import todo.*;
+import java.io.*;
 
 /**
  * Panel to display the list view in the time manager
@@ -46,12 +50,13 @@ public class ListsPanel extends JPanel implements Serializable{
 	private TodoTable t_tasks;
 	private JScrollPane tableScroll;
 	private Object[][] data;
-	private ToDoManager manager;
+	private ToDoModel model;
 	/**
 	 * Constructs a new ListsPanel
 	 */
-	public ListsPanel() {
-		this.loadSaved();
+	public ListsPanel(ToDoModel model) {
+		this.model = model;
+		data = model.getData();
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.WHITE);
 		createPanels();
@@ -62,28 +67,12 @@ public class ListsPanel extends JPanel implements Serializable{
 		this.add(p_north, BorderLayout.NORTH);
 		this.add(p_center, BorderLayout.CENTER);
 		
-		//p_north.add(filter);
+		p_north.add(filter);
 		p_north.add(b_new);
 		p_north.add(b_edit);
 		p_north.add(b_delete);
 
 		p_center.add(tableScroll);
-	}
-	/**
-	 * Loads in the currently saved tasks from "todos.srz"
-	 */
-	private void loadSaved(){
-		try{
-			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.srz")));
-			manager = (ToDoManager)in.readObject();
-			in.close();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		if(manager == null){
-			manager = new ToDoManager();
-		}
-		data = manager.getData();
 	}
 	/**
 	 * Creates a JTable with a modified DefaultTableModel
@@ -112,11 +101,32 @@ public class ListsPanel extends JPanel implements Serializable{
 	 * Creates the new task button
 	 */
 	private void createButtons(){
-		b_new = new MyButton(TimeManager.rb.getString("new_task_button"), "Add24");
-		b_edit = new MyButton("Edit", "Edit24");
-		b_edit.setEnabled(false);
-		b_delete = new MyButton("Delete", "Delete24");
-		b_delete.setEnabled(false);
+		b_new = new JButton();
+		b_edit = new JButton();
+		b_delete = new JButton();
+	}
+	
+	public boolean getMarked(){
+		return t_tasks.getMarked();
+	}
+	
+	public void addNewTaskAction(AbstractAction a){
+		b_new.setAction(a);
+	}
+	public void addEditTaskAction(AbstractAction a){
+		b_edit.setAction(a);
+	}
+	public void addDeleteTaskAction(AbstractAction a){
+		b_delete.setAction(a);
+	}
+	
+	public void addSelectionListener(ListSelectionListener l){
+		ListSelectionModel listSelectModel = t_tasks.getSelectionModel();
+		listSelectModel.addListSelectionListener(l);
+	}
+	
+	public void addTableModelListener(TableModelListener t){
+		t_tasks.getModel().addTableModelListener(t);
 	}
 	/**
 	 * Opens a JOptionPane to be able to add a new task to the TodoTable
@@ -127,13 +137,13 @@ public class ListsPanel extends JPanel implements Serializable{
 				TimeManager.rb.getString("enter_task_name"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if(result == JOptionPane.OK_OPTION){
 			ToDo t = p_newTask.getData();
-			manager.add(t);
+			model.add(t);
 			Object[] newTask = new Object[]{Boolean.FALSE, t.getName(), t.getCategory(),
 					t.getDue(), t.getPriority()};
 			t_tasks.addRow(newTask);
 			try{
 				ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
-				out.writeObject(manager);
+				out.writeObject(model);
 				out.close();
 			}catch(Exception ea){
 				ea.printStackTrace();
@@ -145,19 +155,19 @@ public class ListsPanel extends JPanel implements Serializable{
 	 */
 	public void editTask(){
 		int i = t_tasks.convertRowIndexToModel(t_tasks.getSelectedRow());
-		ToDo t = manager.get(i);
+		ToDo t = model.get(i);
 		EditPanel p_edit = new EditPanel(t);
 		int result = JOptionPane.showConfirmDialog(this, p_edit,
 					"Edit task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);	
 		if(result == JOptionPane.OK_OPTION){
 			ToDo edit_t = p_edit.getData();
-			manager.edit(edit_t, i);
+			model.edit(edit_t, i);
 			Object[] editTask = new Object[]{Boolean.FALSE, edit_t.getName(), edit_t.getCategory(),
 					edit_t.getDue(), edit_t.getPriority()};
 			t_tasks.editRow(i, editTask);
 			try{
 				ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
-				out.writeObject(manager);
+				out.writeObject(model);
 				out.close();
 			}catch(Exception ea){
 				ea.printStackTrace();
@@ -176,12 +186,12 @@ public class ListsPanel extends JPanel implements Serializable{
 				System.out.println("i " + i);
 				System.out.println("x " + x);
 				t_tasks.removeRow(x);
-				manager.delete(x);
+				model.delete(x);
 				b = false;
-				i--;
+				// i--;
 				try{
 					ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
-					out.writeObject(manager);
+					out.writeObject(model);
 					out.close();
 				}catch(Exception ea){
 					ea.printStackTrace();
@@ -189,36 +199,11 @@ public class ListsPanel extends JPanel implements Serializable{
 			}
 		}
 	}
-	/**
-	 * returns a JButton
-	 * 
-	 * @return b_new
-	 */
-	public JButton getNewButton(){
-		return b_new;
+	
+	public void newFilter(String s){
+		t_tasks.newFilter(s);
 	}
-	/**
-	 * Returns a JButton
-	 * 
-	 * @return b_edit
-	 */
-	public JButton getEditButton(){
-		return b_edit;
-	}
-	/**
-	 * Retruns a JButton
-	 * 
-	 * @return b_delete
-	 */
-	public JButton getDeleteButton(){
-		return b_delete;
-	}
-	/**
-	 * Returns a TodoTable
-	 *
-	 * @return t_tasks
-	 */
-	public TodoTable getTable(){
-		return t_tasks;
+	public void addFilterListener(ItemListener l){
+		filter.addItemListener(l);
 	}
 }

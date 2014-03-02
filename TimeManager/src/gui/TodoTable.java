@@ -2,16 +2,17 @@ package gui;
 
 import java.util.*;
 
-import todo.*;
-
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import model.*;
 
 /**
  * 
@@ -23,9 +24,10 @@ import javax.swing.table.TableRowSorter;
  * @author Marcus Utter
  */
 public class TodoTable extends JTable {
-	private DefaultTableModel model;
+	private MyTableModel model;
 	private String[] columnNames = {" ", TimeManager.rb.getString("task"), TimeManager.rb.getString("category"),TimeManager.rb.getString("date"), TimeManager.rb.getString("priority")};
 	private Object[][] data;
+	private TableRowSorter<MyTableModel> sorter;
 	
 	public TodoTable(Object[][] data) {
 		this.data = data;
@@ -36,7 +38,7 @@ public class TodoTable extends JTable {
 	 * Sets the model of this Table
 	 */
 	private void addModel(){
-		model = new DefaultTableModel(data, columnNames){
+		/*model = new DefaultTableModel(data, columnNames){
 			@Override
 		    public Class<?> getColumnClass(int col) {
 				if (col == 2){
@@ -48,15 +50,16 @@ public class TodoTable extends JTable {
 			public boolean isCellEditable(int row, int col){
 				return (col == 0);
 			}
-		};
+		};*/
+		model = new MyTableModel(columnNames, data);
 		this.setModel(model);
-		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
-		this.setRowSorter(sorter);	
+		sorter = new TableRowSorter<MyTableModel>(model);
+		this.setRowSorter(sorter);
 	}
 	/**
 	 * Returns this tables DefaultTableModel model
 	 */
-	public DefaultTableModel getModel(){
+	public MyTableModel getModel(){
 		return model;
 	}
 	/**
@@ -87,7 +90,6 @@ public class TodoTable extends JTable {
 	 * @param row Index of the row to be removed
 	 */
 	public void removeRow(int row){
-		System.out.println("" + model.getValueAt(row,1) + row);
 		model.removeRow(row);
 	}
 	/**
@@ -105,4 +107,22 @@ public class TodoTable extends JTable {
 		}
 		return marked;
 	} 
+	
+	public void newFilter(final String category){
+		RowFilter<MyTableModel, Integer> filter = new RowFilter<MyTableModel, Integer>(){
+			@Override
+			public boolean include(
+					javax.swing.RowFilter.Entry<? extends MyTableModel, ? extends Integer> entry) {	
+			
+				if(category.equals("Filter")){
+					return true;
+				} else if(entry.getValue(2).equals(category)){
+					return true;
+				}
+				return false;
+			}
+			
+		};
+		sorter.setRowFilter(filter);
+	}
 }

@@ -1,12 +1,15 @@
 package gui;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import model.ToDoModel;
 import gui.MainFrame;
 import control.*;
 /**
@@ -28,14 +31,20 @@ public class TimeManager {
 
 	public static ResourceBundle rb;
 	public static String language;
+	private ToDoModel model;
 
 	/**
 	 * @param args
 	 * @return 
 	 * @throws IOException 
 	 */
-	
-	public static void main(String[] args){
+	public TimeManager(){
+		loadSaved();
+		loadLanguage();
+		MainFrame view = new MainFrame(model);
+		new Controller(view);
+	}	
+	private void loadLanguage(){
 		FileInputStream in;
 		File settings = new File("settings.properties");
 		if(!settings.exists()){
@@ -58,31 +67,32 @@ public class TimeManager {
 				prop.load(in);
 				language = prop.getProperty("language");
 				if(language.equals("Svenska")){
-					System.out.println("Svenskt sprak valt");
 					rb = ResourceBundle.getBundle("gui.resources.language_sv_SE");
 				} else {
-					System.out.println("English sprak valt");
 					rb = ResourceBundle.getBundle("gui.resources.language_en_GB");
 				}
-				new Controller(new MainFrame());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				//rb = ResourceBundle.getBundle("gui.resources.language_en_GB");
-				//language = "English";
-				//new Controller(new MainFrame());
 				e.printStackTrace();
 			}	
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			//rb = ResourceBundle.getBundle("gui.resources.language_en_GB");
-			//language = "English";
-			//new Controller(new MainFrame());
 			e.printStackTrace();
 		}
-		
-		//ResourceBundle settings = ResourceBundle.getBundle("settings");
-		//language = settings.getString("language");
-		
+	}
+	private void loadSaved(){
+		try{
+			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.srz")));
+			model = (ToDoModel)in.readObject();
+			in.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(model == null){
+			model = new ToDoModel();
+		}
+	}
+	
+	public static void main(String[] args){
+		new TimeManager();
 	}
 
 }

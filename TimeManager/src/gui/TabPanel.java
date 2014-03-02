@@ -1,10 +1,17 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.event.ItemListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelListener;
+
+import model.ToDoModel;
 /**
  * Creates tabs with different panels
  * @author Johan Dahlkar 
@@ -17,8 +24,10 @@ import javax.swing.JTabbedPane;
 public class TabPanel extends JTabbedPane {
 	private JPanel p_calendar;
 	private ListsPanel p_lists;
+	private ToDoModel model;
 	
-	public TabPanel() {
+	public TabPanel(ToDoModel model) {
+		this.model = model;
 		createPanels();
 		this.setBackground(Color.WHITE);
 		this.addTab(TimeManager.rb.getString("p_lists"), p_lists);
@@ -28,29 +37,40 @@ public class TabPanel extends JTabbedPane {
 	 * Creates the different panels shown in the tabs
 	 */
 	public void createPanels(){
-		p_lists = new ListsPanel();
+		p_lists = new ListsPanel(model);
 		p_calendar = new JPanel(); // Temp
 	}
-	/**
-	 * Returns a ListsPanel
-	 * @return p_lists
-	 */
-	public ListsPanel getListPanel(){
-		return p_lists;
+	public void newTask(){
+		p_lists.newTask();
 	}
-	/**
-	 * Returns a JPnael
-	 * @return p_calendar
-	 */
-	public JPanel getCalendar(){
-		return p_calendar;
+	public void editTask(){
+		p_lists.editTask();
 	}
-	
-	public static void main(String [] args){
-		JFrame frame = new JFrame();
-		JTabbedPane lists = new TabPanel();
-		frame.add(lists);
-		frame.setVisible(true);
-		frame.pack();
+	public void deleteTasks(){
+		p_lists.deleteTasks();
+	}
+	public void addNewTaskAction(AbstractAction a){
+		p_lists.addNewTaskAction(a);
+	}
+	public void addEditTaskAction(AbstractAction a){
+		p_lists.addEditTaskAction(a);
+	}
+	public void addDeleteTaskAction(AbstractAction a){
+		p_lists.addDeleteTaskAction(a);
+	}
+	public void addSelectionListener(ListSelectionListener l){
+		p_lists.addSelectionListener(l);
+	}
+	public void addTableModelListener(TableModelListener t){
+		p_lists.addTableModelListener(t);
+	}
+	public boolean getMarked(){
+		return p_lists.getMarked();
+	}
+	public void newFilter(String s){
+		p_lists.newFilter(s);
+	}
+	public void addFilterListener(ItemListener l){
+		p_lists.addFilterListener(l);
 	}
 }

@@ -7,9 +7,13 @@ import gui.TimeManager;
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Properties;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -17,7 +21,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import todo.*;
+import model.*;
 import gui.*;
 /**
  * 
@@ -30,73 +34,79 @@ import gui.*;
  */
 public class Controller {
 	private MainFrame view;
-	private ListsPanel pLists;
-	private TimeMenuBar menubar;
-	private TodoTable t_tasks;
-	private JButton b_new, b_edit, b_delete;
-	private JMenuItem m_new, m_edit, m_delete, m_help;
+	private AbstractAction newAction, deleteAction, editAction, helpAction;
+	private Icon iNew, iEdit, iDelete;
 	
 	
 	public Controller(MainFrame view) {
 		this.view = view;
+		this.getResources();
+		this.createActions();
 		
-		pLists = view.getTabPanel().getListPanel();
-		menubar = view.getMenu();
-		
-		t_tasks = pLists.getTable();
-		
-		b_new = pLists.getNewButton();
-		b_edit = pLists.getEditButton();
-		b_delete = pLists.getDeleteButton();
-		
-		m_new = menubar.getNewItem();
-		m_edit = menubar.getEditItem();
-		m_delete = menubar.getDeleteItem();
-		m_help = menubar.getHelpItem();
-		
-		b_new.addActionListener(new NewTaskListener());
-		m_new.addActionListener(new NewTaskListener());
-		
-		b_edit.addActionListener(new EditTaskListener());
-		m_edit.addActionListener(new EditTaskListener());
-		
-		b_delete.addActionListener(new DeleteListener());
-		m_delete.addActionListener(new DeleteListener());
-		
-		m_help.addActionListener(new HelpListener());
-		
-		ListSelectionModel listSelectModel = t_tasks.getSelectionModel();
-		listSelectModel.addListSelectionListener(new SelectedListener());
-		t_tasks.getModel().addTableModelListener(new CheckedListener());
+		view.addNewTaskAction(newAction);
+		view.addEditTaskAction(editAction);
+		view.addDeleteTaskAction(deleteAction);
+		view.addHelpAction(helpAction);
+		view.addSelectionListener(new SelectedListener());
+		view.addTableModelListener(new CheckedListener());
+		view.addLanguageListener(new LanguageListener());
+		view.addFilterListener(new FilterListener());
 	}
 	
-	public class NewTaskListener implements ActionListener{
-		/**
-		 * Performs the newTask() method in ListsPanel
-		 */
-		public void actionPerformed(ActionEvent e){
-			pLists.newTask();
-		}	
+	private void createActions(){
+		newAction = new NewTaskAction();
+		editAction = new EditTaskAction();
+		deleteAction = new DeleteTaskAction();
+		helpAction = new HelpAction();
 	}
+	
+	private void getResources(){
+		ClassLoader cl = getClass().getClassLoader();
+		iNew = new ImageIcon(cl.getResource("resources/Add24.gif"));
+		iEdit = new ImageIcon(cl.getResource("resources/Edit24.gif"));
+		iDelete = new ImageIcon(cl.getResource("resources/Delete24.gif"));
+	}
+	
+	public class NewTaskAction extends AbstractAction {
 
+		public NewTaskAction() {
+			super(TimeManager.rb.getString("new_task_button"), iNew);
+			// TODO Auto-generated constructor stub
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			view.newTask();
+		}
+
+	}
 	
-	public class EditTaskListener implements ActionListener{
+	public class EditTaskAction extends AbstractAction{
+		
+		public EditTaskAction() {
+			super(TimeManager.rb.getString("edit_task_button"), iEdit);
+			this.setEnabled(false);
+		}
 		@Override
 		/**
 		 * Performs the editTask() method in ListsPanel
 		 */
 		public void actionPerformed(ActionEvent e) {
-			pLists.editTask();
+			view.editTask();
 		}
 		
 	}
-	public class DeleteListener implements ActionListener{
+	public class DeleteTaskAction extends AbstractAction{
+		
+		public DeleteTaskAction() {
+			super(TimeManager.rb.getString("delete_task_button"), iDelete);
+			this.setEnabled(false);
+		}
 		@Override
 		/**
 		 * Performs the deleteTasks() method in ListsPanel
 		 */
 		public void actionPerformed(ActionEvent e) {
-			pLists.deleteTasks();
+			view.deleteTasks();
 		}
 		
 	}
@@ -108,8 +118,7 @@ public class Controller {
 		 */
 		public void valueChanged(ListSelectionEvent e) {
 			ListSelectionModel lsm = (ListSelectionModel)e.getSource();
-            b_edit.setEnabled(!lsm.isSelectionEmpty());
-            m_edit.setEnabled(!lsm.isSelectionEmpty());
+            editAction.setEnabled(!lsm.isSelectionEmpty());
 		}
 	}
 	
@@ -121,24 +130,69 @@ public class Controller {
 		 * returned value to set m_delete and d_delete enabled/disabled
 		 */
 		public void tableChanged(TableModelEvent e) {
-			boolean b = t_tasks.getMarked();
-			b_delete.setEnabled(b);
-			m_delete.setEnabled(b);
+			boolean b = view.getMarked();
+			deleteAction.setEnabled(b);
 		}
 		
 	}
 	
-	public class HelpListener implements ActionListener{
+	public class HelpAction extends AbstractAction{
 
+		public HelpAction(){
+			super(TimeManager.rb.getString("mi_help"));
+		}
 		@Override
 		/**
 		 * Opens a JOptionPane with a HelpPanel
 		 */
 		public void actionPerformed(ActionEvent e) {
 			JPanel p_help = new HelpPanel();
-			JOptionPane.showMessageDialog(pLists, p_help, 
+			JOptionPane.showMessageDialog(view, p_help, 
 					TimeManager.rb.getString("help_window"), JOptionPane.PLAIN_MESSAGE);
 		}
 		
 	}
+	
+	public class FilterListener implements ItemListener{
+
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			view.newFilter((String)e.getItem());
+		}
+		
+	}
+	
+	public class LanguageListener implements ItemListener{
+        @Override
+        /**
+         * Changes language
+         */
+        public void itemStateChanged(ItemEvent e) { 	
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+            	try {
+            		FileOutputStream out = new FileOutputStream("settings.properties");
+                    Properties props = new Properties();
+                 	props.setProperty("language", "Svenska");
+                    props.store(out, null);
+                    out.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+            else
+            {
+            	try {
+             		FileOutputStream out = new FileOutputStream("settings.properties");
+                    Properties props = new Properties();
+                  	props.setProperty("language", "English");
+                    props.store(out, null);
+	                    out.close();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+            } 
+        }
+    }
 }

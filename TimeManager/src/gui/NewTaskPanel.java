@@ -1,6 +1,5 @@
 package gui;
 
-import todo.*;
 import java.awt.GridLayout;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -15,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+
+import model.*;
 /**
  * Panel for adding tasks
  * @author Johan Dahlkar 

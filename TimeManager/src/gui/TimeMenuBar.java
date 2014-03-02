@@ -6,7 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -17,11 +19,13 @@ public class TimeMenuBar extends JMenuBar {
 	private JMenu m_file, m_edit, m_help;
 	private JMenuItem mi_new, mi_help, mi_edit, mi_delete;
 	private JMenu m_language;
-    private JRadioButtonMenuItem Svenska;
-    private JRadioButtonMenuItem English;
+    private JRadioButtonMenuItem rbSvenska;
+    private JRadioButtonMenuItem rbEnglish;
 	private ButtonGroup group;
+	private ImageIcon iSvenska, iEnglish;
 
 	public TimeMenuBar() {
+		getResources();
 		createMenus();
 		createMenuItems();
 		m_file.add(mi_new);
@@ -29,10 +33,10 @@ public class TimeMenuBar extends JMenuBar {
 		m_edit.add(mi_edit);
 		m_edit.add(mi_delete);
 		m_help.add(mi_help);
-		m_language.add(Svenska);
-		m_language.add(English);
-		group.add(English);
-		group.add(Svenska);
+		m_language.add(rbSvenska);
+		m_language.add(rbEnglish);
+		group.add(rbEnglish);
+		group.add(rbSvenska);
 		mi_delete.setEnabled(false);
 		mi_edit.setEnabled(false);
 		this.add(m_file);
@@ -48,86 +52,49 @@ public class TimeMenuBar extends JMenuBar {
 		m_help = new JMenu(TimeManager.rb.getString("m_help"));
 		m_language = new JMenu(TimeManager.rb.getString("m_language"));
 	}
+	
+	private void getResources(){
+		ClassLoader cl = getClass().getClassLoader();
+		iSvenska = new ImageIcon(cl.getResource("resources/Sweden24.png"));
+		iEnglish = new ImageIcon(cl.getResource("resources/English24.png"));
+	}
 	/**
 	 * Constructs all JMenuItems to be used in this JMenuBar. And adds ItemListener to RadioButtons
 	 */
 	private void createMenuItems(){
-		mi_new = new JMenuItem(TimeManager.rb.getString("mi_new"));
-		mi_help = new JMenuItem(TimeManager.rb.getString("mi_help"));
-		mi_edit = new JMenuItem("Edit");
-		mi_delete = new JMenuItem("Delete");
+		mi_new = new JMenuItem();
+		mi_help = new JMenuItem();
+		mi_edit = new JMenuItem();
+		mi_delete = new JMenuItem();
 		group = new ButtonGroup();
-		English = new JRadioButtonMenuItem("English");
-		Svenska = new JRadioButtonMenuItem("Svenska");	
-		
-		Svenska.addItemListener(new ItemListener(){
-            @Override
-            /**
-             * Changes language
-             */
-            public void itemStateChanged(ItemEvent e)
-            {
-            	
-                if (e.getStateChange() == ItemEvent.SELECTED)
-                {
-                	try {
-                		FileOutputStream out = new FileOutputStream("settings.properties");
-                        Properties props = new Properties();
-                     	props.setProperty("language", "Svenska");
-                        props.store(out, null);
-	                    out.close();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-                }
-                else
-                {
-                	try {
-                 		FileOutputStream out = new FileOutputStream("settings.properties");
-                        Properties props = new Properties();
-                      	props.setProperty("language", "English");
-                        props.store(out, null);
- 	                    out.close();
- 					} catch (IOException e1) {
- 						// TODO Auto-generated catch block
- 						e1.printStackTrace();
- 					}
-                } 
-            }
-        });
+		rbEnglish = new JRadioButtonMenuItem("English");
+		rbEnglish.setIcon(iEnglish);
+		rbSvenska = new JRadioButtonMenuItem("Svenska");
+		rbSvenska.setIcon(iSvenska);
 		if(TimeManager.language.equals("Svenska")){
-			Svenska.setSelected(true);
+			rbSvenska.setSelected(true);
 		} else {
-			English.setSelected(true);
+			rbEnglish.setSelected(true);
 		}
 	}
-	/**
-	 * Returns a JMenuItem
-	 * @return mi_edit
-	 */
-	public JMenuItem getEditItem(){
-		return mi_edit;
+	
+	public void addLanguageListener(ItemListener l){
+		rbSvenska.addItemListener(l);
 	}
-	/**
-	 * Returns a JMenuItem
-	 * @return mi_delete
-	 */
-	public JMenuItem getDeleteItem(){
-		return mi_delete;
+	
+	public void addNewTaskAction(AbstractAction a){
+		mi_new.setAction(a);
 	}
-	/**
-	 * Returns a JMenuItem
-	 * @return mi_new
-	 */
-	public JMenuItem getNewItem(){
-		return mi_new;
+	
+	public void addEditTaskAction(AbstractAction a){
+		mi_edit.setAction(a);
 	}
-	/**
-	 * Returns a JMenuItem
-	 * @return mi_help
-	 */
-	public JMenuItem getHelpItem(){
-		return mi_help;
+	
+	public void addDeleteTaskAction(AbstractAction a){
+		mi_delete.setAction(a);
+	}
+	
+	public void addHelpAction(AbstractAction a){
+		mi_help.setAction(a);
 	}
 }
