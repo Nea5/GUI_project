@@ -3,8 +3,6 @@ package resources;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
 
 public class MyResources extends ResourceBundle{
 

@@ -44,7 +44,7 @@ import java.io.*;
  */
 public class ListsPanel extends JPanel implements Serializable{
 	private static final long serialVersionUID = 6529685098267757690L;
-	private JPanel p_north, p_center;
+	private JPanel p_north;
 	private JComboBox filter;
 	private JButton b_new, b_edit, b_delete;
 	private TodoTable t_tasks;
@@ -65,14 +65,12 @@ public class ListsPanel extends JPanel implements Serializable{
 		createTable();
 		
 		this.add(p_north, BorderLayout.NORTH);
-		this.add(p_center, BorderLayout.CENTER);
+		this.add(tableScroll, BorderLayout.CENTER);
 		
 		p_north.add(filter);
 		p_north.add(b_new);
 		p_north.add(b_edit);
 		p_north.add(b_delete);
-
-		p_center.add(tableScroll);
 	}
 	/**
 	 * Creates a JTable with a modified DefaultTableModel
@@ -93,9 +91,9 @@ public class ListsPanel extends JPanel implements Serializable{
 	 */
 	private void createPanels(){
 		p_north = new JPanel();
-		p_center = new JPanel();
-		p_north.setBackground(Color.WHITE);
-		p_center.setBackground(Color.WHITE);
+		//p_center = new JPanel();
+		//p_north.setBackground(Color.WHITE);
+		//p_center.setBackground(Color.WHITE);
 	}
 	/**
 	 * Creates the new task button
@@ -180,7 +178,7 @@ public class ListsPanel extends JPanel implements Serializable{
 	public void deleteTasks(){
 		for(int i = 0; i < t_tasks.getRowCount();i++){
 			int x = t_tasks.convertRowIndexToModel(i);
-			boolean b = (boolean)t_tasks.getValueAt(i,0);
+			boolean b = (Boolean)t_tasks.getValueAt(i,0);
 			System.out.println("" + b);
 			if(b){
 				System.out.println("i " + i);

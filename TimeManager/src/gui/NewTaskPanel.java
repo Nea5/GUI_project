@@ -72,8 +72,8 @@ public class NewTaskPanel extends JPanel {
 	private void createComboBoxes(){
 		String[] categories = {" ", "School", "Work", "Personal"};
 		String[] priorities = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-		cb_category = new JComboBox<String>(categories);
-		cb_priority = new JComboBox<String>(priorities);
+		cb_category = new JComboBox(categories);
+		cb_priority = new JComboBox(priorities);
 	}
 	/**
 	 * Creates a spinner for entering date and time

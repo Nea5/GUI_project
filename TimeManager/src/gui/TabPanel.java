@@ -29,7 +29,7 @@ public class TabPanel extends JTabbedPane {
 	public TabPanel(ToDoModel model) {
 		this.model = model;
 		createPanels();
-		this.setBackground(Color.WHITE);
+		//this.setBackground(Color.WHITE);
 		this.addTab(TimeManager.rb.getString("p_lists"), p_lists);
 		this.addTab(TimeManager.rb.getString("p_calendar"), p_calendar);
 	}

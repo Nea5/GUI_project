@@ -101,7 +101,7 @@ public class TodoTable extends JTable {
 	public boolean getMarked(){
 		boolean marked = false;
 		for(int i = 0; i < model.getRowCount();i++){
-			if((boolean)model.getValueAt(i, 0)){
+			if((Boolean)model.getValueAt(i, 0)){
 				marked = true;
 			}
 		}
