@@ -2,6 +2,14 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -25,9 +33,13 @@ public class MainFrame extends JFrame {
 		
 		this.setJMenuBar(menubar);
 		this.setMinimumSize(new Dimension(400,200));
+		this.loadPosition();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
+		
+		// TODO loadSize works only if it is after pack(), why?
+		this.loadSize();
 	}
 	
 	private void createMenuBar(String osName){
@@ -36,6 +48,67 @@ public class MainFrame extends JFrame {
 			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "TimeManager");	
 		}
 		menubar = new TimeMenuBar();
+	}
+	
+	private void loadPosition(){
+		FileInputStream in;
+		File settings = new File("settings.properties");
+		if(settings.exists()){
+			try {
+				in = new FileInputStream("settings.properties");
+				Properties prop = new Properties();
+				try {
+					prop.load(in);
+					in.close();
+					if (prop.containsKey("windowposx") && prop.containsKey("windowposy")){
+						String windowposx = prop.getProperty("windowposx");
+						String windowposy = prop.getProperty("windowposy");
+						this.setLocation(Integer.parseInt(windowposx), Integer.parseInt(windowposy));
+					}
+					else{
+						// TODO standard position
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}	
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			// TODO standard position
+		}
+	}
+	
+	private void loadSize(){
+		FileInputStream in;
+		File settings = new File("settings.properties");
+		if(settings.exists()){
+			try {
+				in = new FileInputStream("settings.properties");
+				Properties prop = new Properties();
+				try {
+					prop.load(in);
+					in.close();
+					
+					if (prop.containsKey("windowwidth") && prop.containsKey("windowheight")){
+						String windowwidth = prop.getProperty("windowwidth");
+						String windowheight = prop.getProperty("windowheight");
+						this.setSize(Integer.parseInt(windowwidth), Integer.parseInt(windowheight));
+					}
+					else{
+						// TODO standard size
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}	
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			// TODO standard size
+		}
 	}
 	
 	private void createTabbedPane(){
