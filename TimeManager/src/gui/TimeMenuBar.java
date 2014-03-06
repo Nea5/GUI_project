@@ -26,7 +26,6 @@ public class TimeMenuBar extends JMenuBar {
 	private ImageIcon iSvenska, iEnglish;
 
 	public TimeMenuBar() {
-		this.setBackground(Color.BLACK);
 		getResources();
 		createMenus();
 		createMenuItems();
