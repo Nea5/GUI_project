@@ -32,7 +32,7 @@ public class MainFrame extends JFrame {
 		this.add(tabbedPane);
 		
 		this.setJMenuBar(menubar);
-		this.setMinimumSize(new Dimension(400,200));
+		this.setMinimumSize(new Dimension(420,200));
 		this.loadPosition();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
