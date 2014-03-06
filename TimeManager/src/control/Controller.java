@@ -5,6 +5,8 @@ import gui.TimeManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -181,10 +183,20 @@ public class Controller {
          * Changes language
          */
         public void itemStateChanged(ItemEvent e) { 	
+        	Properties props = new Properties();
+        	try {
+				FileInputStream in = new FileInputStream("settings.properties");
+				props.load(in);
+			} catch (FileNotFoundException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             if (e.getStateChange() == ItemEvent.SELECTED) {
             	try {
             		FileOutputStream out = new FileOutputStream("settings.properties");
-                    Properties props = new Properties();
                  	props.setProperty("language", "Svenska");
                     props.store(out, null);
                     out.close();
@@ -197,7 +209,6 @@ public class Controller {
             {
             	try {
              		FileOutputStream out = new FileOutputStream("settings.properties");
-                    Properties props = new Properties();
                   	props.setProperty("language", "English");
                     props.store(out, null);
 	                    out.close();
@@ -223,12 +234,23 @@ public class Controller {
         /**
          * Changes look and feel of the application
          */
-        public void itemStateChanged(ItemEvent e) { 	
+        public void itemStateChanged(ItemEvent e) { 
+        	Properties props = new Properties();
+        	try {
+				FileInputStream in = new FileInputStream("settings.properties");
+				props.load(in);
+			} catch (FileNotFoundException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             if (e.getStateChange() == ItemEvent.SELECTED) {
             	
             	try {
             		FileOutputStream out = new FileOutputStream("settings.properties");
-                    Properties props = new Properties();
+                    
                  	props.setProperty("look_and_feel", "Nimbus");
                     props.store(out, null);
                     out.close();
@@ -242,7 +264,6 @@ public class Controller {
 
             	try {
              		FileOutputStream out = new FileOutputStream("settings.properties");
-                    Properties props = new Properties();
                   	props.setProperty("look_and_feel", "Metal");
                     props.store(out, null);
 	                out.close();

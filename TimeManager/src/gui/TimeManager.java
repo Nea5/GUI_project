@@ -104,7 +104,7 @@ public class TimeManager {
 				if(prop.containsKey("language")){
 					language = prop.getProperty("language");
 					if(language.equals("Svenska")){
-						
+					
 						rb = ResourceBundle.getBundle("gui.resources.language_sv_SE");
 					} else {
 						rb = ResourceBundle.getBundle("gui.resources.language_en_GB");
@@ -114,7 +114,6 @@ public class TimeManager {
 					rb = ResourceBundle.getBundle("gui.resources.language_en_GB");
 				}
 			
-				
 				if(prop.containsKey("look_and_feel")){
 					look_and_feel = prop.getProperty("look_and_feel");
 					if(look_and_feel.equals("Nimbus")){
@@ -122,11 +121,10 @@ public class TimeManager {
 					} else {
 						UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");		
 					}	
-					
+				} else {
+					look_and_feel = "Metal";	
+					UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");
 				}
-					else {
-						UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");
-					}
 				
 			} catch (IOException e) {
 				e.printStackTrace();
