@@ -221,7 +221,7 @@ public class Controller {
 	public class LAFListener implements ItemListener{
         @Override
         /**
-         * Changes language
+         * Changes look and feel of the application
          */
         public void itemStateChanged(ItemEvent e) { 	
             if (e.getStateChange() == ItemEvent.SELECTED) {
