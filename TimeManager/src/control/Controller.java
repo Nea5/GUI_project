@@ -156,9 +156,9 @@ public class Controller {
 		 * Opens a JOptionPane with a HelpPanel
 		 */
 		public void actionPerformed(ActionEvent e) {
-			JPanel p_help = new HelpPanel();
+			JPanel p_help = new MessagePanel(TimeManager.rb.getString("help_info"));
 			JOptionPane.showMessageDialog(view, p_help, 
-					TimeManager.rb.getString("help_window"), JOptionPane.PLAIN_MESSAGE);
+			TimeManager.rb.getString("help_window"), JOptionPane.PLAIN_MESSAGE);
 		}
 		
 	}
@@ -203,8 +203,6 @@ public class Controller {
 						e1.printStackTrace();
 					}
             } 
-
-    		System.out.println("Changed language!");
     		JPanel p_msg = new MessagePanel(TimeManager.rb.getString("changed_lang_msg"));
 			JOptionPane.showMessageDialog(view, p_msg, 
 			TimeManager.rb.getString("msg_title"), JOptionPane.PLAIN_MESSAGE);
