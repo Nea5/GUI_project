@@ -2,14 +2,11 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.event.ItemListener;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -20,6 +17,10 @@ import model.ToDoModel;
  * 
  */
 public class MainFrame extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private TimeMenuBar menubar;
 	private TabPanel tabbedPane;
 	private ToDoModel model;

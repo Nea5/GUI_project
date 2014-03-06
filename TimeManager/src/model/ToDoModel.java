@@ -3,10 +3,12 @@ package model;
 import java.io.Serializable;
 import java.util.*;
 
-import model.*;
-
 public class ToDoModel implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<ToDo> todos = new ArrayList<ToDo>();
 	
 	/**
@@ -80,7 +82,7 @@ public class ToDoModel implements Serializable{
 	 * Prints everything in todos list.
 	 */
 	public void print(){
-		Iterator it = todos.iterator();
+		Iterator<ToDo> it = todos.iterator();
 		while(it.hasNext()){
 			System.out.println(it.next());
 		}

@@ -1,5 +1,4 @@
 package gui;
-import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedInputStream;
@@ -11,10 +10,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Properties;
 import java.util.ResourceBundle;
-
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import model.ToDoModel;
 import gui.MainFrame;
@@ -112,6 +107,8 @@ public class TimeManager {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.srz")));
 			model = (ToDoModel)in.readObject();
 			in.close();
+		}catch(FileNotFoundException e){
+			//Do nothing
 		}catch(Exception e){
 			e.printStackTrace();
 		}

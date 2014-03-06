@@ -1,13 +1,10 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.event.ItemListener;
 
 import javax.swing.AbstractAction;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
 
@@ -22,6 +19,10 @@ import model.ToDoModel;
  * @author Marcus Utter
  */
 public class TabPanel extends JTabbedPane {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel p_calendar;
 	private ListsPanel p_lists;
 	private ToDoModel model;

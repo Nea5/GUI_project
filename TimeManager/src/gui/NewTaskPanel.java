@@ -2,13 +2,9 @@ package gui;
 
 import java.awt.GridLayout;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -26,14 +22,15 @@ import model.*;
  * @author Marcus Utter
  */
 public class NewTaskPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel l_name, l_date, l_category, l_priority;
 	private JTextField tf_name;
-	private JComboBox cb_category, cb_priority;
+	private JComboBox<String> cb_category, cb_priority;
 	private JSpinner s_date;
 	private SpinnerDateModel s_model;
-	private SimpleDateFormat s_format;
-	
-	
 	public NewTaskPanel(){
 		createLabels();
 		createTextFields();
@@ -72,8 +69,8 @@ public class NewTaskPanel extends JPanel {
 	private void createComboBoxes(){
 		String[] categories = {" ", "School", "Work", "Personal"};
 		String[] priorities = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-		cb_category = new JComboBox(categories);
-		cb_priority = new JComboBox(priorities);
+		cb_category = new JComboBox<String>(categories);
+		cb_priority = new JComboBox<String>(priorities);
 	}
 	/**
 	 * Creates a spinner for entering date and time

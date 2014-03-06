@@ -1,12 +1,14 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.LayoutManager;
-
 import javax.swing.*;
 
 public class MessagePanel extends JPanel {
-	private JLabel mheader,textArea;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JLabel textArea;
 	
 	public MessagePanel(String msg) {
 		textArea = new JLabel(msg);

@@ -1,11 +1,13 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.LayoutManager;
-
 import javax.swing.*;
 
 public class HelpPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel l_help;
 	private JTextArea textArea;
 	

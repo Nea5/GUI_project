@@ -1,18 +1,12 @@
 package control;
 
-import gui.EditPanel;
-import gui.NewTaskPanel;
 import gui.TimeManager;
 
-import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Properties;
 
 import javax.swing.*;
@@ -21,7 +15,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import model.*;
 import gui.*;
 /**
  * 
@@ -69,8 +62,13 @@ public class Controller {
 	
 	public class NewTaskAction extends AbstractAction {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		public NewTaskAction() {
 			super(TimeManager.rb.getString("new_task_button"), iNew);
+			
 			// TODO Auto-generated constructor stub
 		}
 		@Override
@@ -82,6 +80,10 @@ public class Controller {
 	
 	public class EditTaskAction extends AbstractAction{
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		public EditTaskAction() {
 			super(TimeManager.rb.getString("edit_task_button"), iEdit);
 			this.setEnabled(false);
@@ -97,6 +99,10 @@ public class Controller {
 	}
 	public class DeleteTaskAction extends AbstractAction{
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		public DeleteTaskAction() {
 			super(TimeManager.rb.getString("delete_task_button"), iDelete);
 			this.setEnabled(false);
@@ -138,6 +144,10 @@ public class Controller {
 	
 	public class HelpAction extends AbstractAction{
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		public HelpAction(){
 			super(TimeManager.rb.getString("mi_help"));
 		}

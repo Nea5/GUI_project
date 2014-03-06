@@ -1,11 +1,7 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
@@ -49,9 +45,13 @@ public class TimeMenuBar extends JMenuBar {
 	 */
 	private void createMenus(){
 		m_file = new JMenu(TimeManager.rb.getString("m_file"));
+		m_file.setMnemonic(KeyEvent.VK_F);
 		m_edit = new JMenu(TimeManager.rb.getString("m_edit"));
+		m_edit.setMnemonic(KeyEvent.VK_E);
 		m_help = new JMenu(TimeManager.rb.getString("m_help"));
+		m_help.setMnemonic(KeyEvent.VK_H);
 		m_language = new JMenu(TimeManager.rb.getString("m_language"));
+		m_language.setMnemonic(KeyEvent.VK_L);
 	}
 	
 	private void getResources(){
@@ -63,15 +63,20 @@ public class TimeMenuBar extends JMenuBar {
 	 * Constructs all JMenuItems to be used in this JMenuBar. And adds ItemListener to RadioButtons
 	 */
 	private void createMenuItems(){
-		mi_new = new JMenuItem();
+		mi_new = new JMenuItem("TEST");
 		mi_help = new JMenuItem();
+		mi_help.setMnemonic(KeyEvent.VK_P);
 		mi_edit = new JMenuItem();
+		mi_edit.setMnemonic(KeyEvent.VK_E);
 		mi_delete = new JMenuItem();
+		mi_delete.setMnemonic(KeyEvent.VK_D);
 		group = new ButtonGroup();
 		rbEnglish = new JRadioButtonMenuItem("English");
 		rbEnglish.setIcon(iEnglish);
+		rbEnglish.setMnemonic(KeyEvent.VK_E);
 		rbSvenska = new JRadioButtonMenuItem("Svenska");
 		rbSvenska.setIcon(iSvenska);
+		rbSvenska.setMnemonic(KeyEvent.VK_S);
 		if(TimeManager.language.equals("Svenska")){
 			rbSvenska.setSelected(true);
 		} else {
