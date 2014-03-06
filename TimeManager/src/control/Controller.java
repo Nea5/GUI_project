@@ -43,7 +43,6 @@ public class Controller {
 		view.addSelectionListener(new SelectedListener());
 		view.addTableModelListener(new CheckedListener());
 		view.addLanguageListener(new LanguageListener());
-		view.addLAFListener(new LAFListener());
 		view.addFilterListener(new FilterListener());
 	}
 	
@@ -173,8 +172,6 @@ public class Controller {
 		
 	}
 	
-	
-	
 	public class LanguageListener implements ItemListener{
         @Override
         /**
@@ -212,52 +209,4 @@ public class Controller {
 		
         }
     }
-	
-	
-	
-	
-
-
-	public class LAFListener implements ItemListener{
-        @Override
-        /**
-         * Changes language
-         */
-        public void itemStateChanged(ItemEvent e) { 	
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-            	
-            	try {
-            		FileOutputStream out = new FileOutputStream("settings.properties");
-                    Properties props = new Properties();
-                 	props.setProperty("look_and_feel", "Nimbus");
-                    props.store(out, null);
-                    out.close();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-            }
-            else
-            {
-
-            	try {
-             		FileOutputStream out = new FileOutputStream("settings.properties");
-                    Properties props = new Properties();
-                  	props.setProperty("look_and_feel", "Metal");
-                    props.store(out, null);
-	                out.close();
-					
-            	} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-            } 
-        }
-    }
-	
-	
-	
-	
-	
-	
 }
