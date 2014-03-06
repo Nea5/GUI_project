@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.FileOutputStream;
@@ -25,6 +26,7 @@ public class TimeMenuBar extends JMenuBar {
 	private ImageIcon iSvenska, iEnglish;
 
 	public TimeMenuBar() {
+		this.setBackground(Color.BLACK);
 		getResources();
 		createMenus();
 		createMenuItems();

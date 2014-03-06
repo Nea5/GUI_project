@@ -193,6 +193,12 @@ public class Controller {
 						e1.printStackTrace();
 					}
             } 
+
+    		System.out.println("Changed language!");
+    		JPanel p_msg = new MessagePanel(TimeManager.rb.getString("changed_lang_msg"));
+			JOptionPane.showMessageDialog(view, p_msg, 
+			TimeManager.rb.getString("msg_title"), JOptionPane.PLAIN_MESSAGE);
+		
         }
     }
 }
