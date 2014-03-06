@@ -22,6 +22,10 @@ public class TimeMenuBar extends JMenuBar {
     private JRadioButtonMenuItem rbSvenska;
     private JRadioButtonMenuItem rbEnglish;
 	private ButtonGroup group;
+	private JMenu m_lookandfeel;
+	private JRadioButtonMenuItem rbMetal;
+    private JRadioButtonMenuItem rbNimbus;
+	private ButtonGroup LAF;
 	private ImageIcon iSvenska, iEnglish;
 
 	public TimeMenuBar() {
@@ -30,6 +34,7 @@ public class TimeMenuBar extends JMenuBar {
 		createMenuItems();
 		m_file.add(mi_new);
 		m_file.add(m_language);
+		m_file.add(m_lookandfeel);
 		m_edit.add(mi_edit);
 		m_edit.add(mi_delete);
 		m_help.add(mi_help);
@@ -37,6 +42,10 @@ public class TimeMenuBar extends JMenuBar {
 		m_language.add(rbEnglish);
 		group.add(rbEnglish);
 		group.add(rbSvenska);
+		m_lookandfeel.add(rbMetal);
+		m_lookandfeel.add(rbNimbus);
+		LAF.add(rbMetal);
+		LAF.add(rbNimbus);
 		mi_delete.setEnabled(false);
 		mi_edit.setEnabled(false);
 		this.add(m_file);
@@ -51,6 +60,7 @@ public class TimeMenuBar extends JMenuBar {
 		m_edit = new JMenu(TimeManager.rb.getString("m_edit"));
 		m_help = new JMenu(TimeManager.rb.getString("m_help"));
 		m_language = new JMenu(TimeManager.rb.getString("m_language"));
+		m_lookandfeel = new JMenu(TimeManager.rb.getString("m_lookandfeel"));
 	}
 	
 	private void getResources(){
@@ -76,11 +86,25 @@ public class TimeMenuBar extends JMenuBar {
 		} else {
 			rbEnglish.setSelected(true);
 		}
+		
+		LAF = new ButtonGroup();
+		rbMetal = new JRadioButtonMenuItem("Metal");
+		rbNimbus = new JRadioButtonMenuItem("Nimbus");
+		if(TimeManager.look_and_feel.equals("Nimbus")){
+			rbNimbus.setSelected(true);
+		} else {
+			rbMetal.setSelected(true);
+		}
 	}
 	
 	public void addLanguageListener(ItemListener l){
 		rbSvenska.addItemListener(l);
 	}
+	
+	public void addLAFListener(ItemListener laf){
+		rbNimbus.addItemListener(laf);
+	}
+	
 	
 	public void addNewTaskAction(AbstractAction a){
 		mi_new.setAction(a);

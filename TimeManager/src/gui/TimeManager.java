@@ -12,7 +12,16 @@ import java.io.ObjectInputStream;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.OceanTheme;
+import javax.swing.plaf.synth.SynthLookAndFeel;
+
+import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
+import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import model.ToDoModel;
 import gui.MainFrame;
@@ -34,8 +43,10 @@ import control.*;
 
 public class TimeManager {
 
+	//public static final String LookAndFeel = null;
 	public static ResourceBundle rb;
 	public static String language;
+	public static String look_and_feel;
 	private ToDoModel model;
 	private MainFrame view;
 
@@ -62,6 +73,10 @@ public class TimeManager {
 		
 		new Controller(view);
 	}	
+	
+
+	
+	
 	private void loadLanguage(){
 		FileInputStream in;
 		File settings = new File("settings.properties");
@@ -71,6 +86,7 @@ public class TimeManager {
 				FileOutputStream out = new FileOutputStream("settings.properties");
                 Properties props = new Properties();
              	props.setProperty("language", "English");
+             	props.setProperty("look_and_feel", "Metal");
                 props.store(out, null);
                 out.close();
 			} catch (IOException e) {
@@ -97,8 +113,34 @@ public class TimeManager {
 					language = "English";
 					rb = ResourceBundle.getBundle("gui.resources.language_en_GB");
 				}
+			
+				
+				if(prop.containsKey("look_and_feel")){
+					look_and_feel = prop.getProperty("look_and_feel");
+					if(look_and_feel.equals("Nimbus")){
+						UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+					} else {
+						UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");		
+					}	
+					
+				}
+					else {
+						UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");
+					}
 				
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedLookAndFeelException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
@@ -161,6 +203,7 @@ public class TimeManager {
 	
 	
 	public static void main(String[] args){
+
 		new TimeManager();
 	}
 

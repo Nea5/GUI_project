@@ -150,6 +150,11 @@ public class MainFrame extends JFrame {
 	public void addLanguageListener(ItemListener l){
 		menubar.addLanguageListener(l);
 	}
+	
+	public void addLAFListener(ItemListener laf){
+		menubar.addLAFListener(laf);
+	}
+	
 	public void newFilter(String s){
 		tabbedPane.newFilter(s);
 	}
