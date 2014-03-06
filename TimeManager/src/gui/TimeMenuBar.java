@@ -1,10 +1,7 @@
 package gui;
 
-import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;

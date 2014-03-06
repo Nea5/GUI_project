@@ -1,13 +1,14 @@
 package gui;
 
-import java.awt.*;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class MyButton extends JButton {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Constructs a JButton with the text and a imageicon
 	 * @param text Button text

@@ -14,8 +14,12 @@ import java.util.Date;
  *
  */
 public class ToDo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name, category;
-	private int priority, progress;
+	private int priority;
 	private Date due;
 	
 	public ToDo(String name, String category, int priority, Date due) {

@@ -2,32 +2,18 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
-import java.util.GregorianCalendar;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 
-import control.Controller.CheckedListener;
-import control.Controller.SelectedListener;
 import model.*;
 
 import java.io.*;
@@ -45,7 +31,7 @@ import java.io.*;
 public class ListsPanel extends JPanel implements Serializable{
 	private static final long serialVersionUID = 6529685098267757690L;
 	private JPanel p_north;
-	private JComboBox filter;
+	private JComboBox<String> filter;
 	private JButton b_new, b_edit, b_delete;
 	private TodoTable t_tasks;
 	private JScrollPane tableScroll;
@@ -84,7 +70,7 @@ public class ListsPanel extends JPanel implements Serializable{
 	 */
 	private void createComboBox(){
 		String [] filters = { "Filter","School", "Personal", "Work"};
-		filter = new JComboBox(filters);
+		filter = new JComboBox<String>(filters);
 	}
 	/**
 	 * Creates all the JPanels

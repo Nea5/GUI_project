@@ -1,18 +1,8 @@
 package gui;
 
-import java.util.*;
-
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
-import model.*;
 
 /**
  * 
@@ -24,6 +14,10 @@ import model.*;
  * @author Marcus Utter
  */
 public class TodoTable extends JTable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private MyTableModel model;
 	private String[] columnNames = {" ", TimeManager.rb.getString("task"), TimeManager.rb.getString("category"),TimeManager.rb.getString("date"), TimeManager.rb.getString("priority")};
 	private Object[][] data;
