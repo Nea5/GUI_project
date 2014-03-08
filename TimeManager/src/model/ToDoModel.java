@@ -48,7 +48,6 @@ public class ToDoModel implements Serializable{
 	public void delete(int i){
 		todos.remove(i);
 	}
-	
 	/**
 	 * Converts the todos list to a Object[][] array to be 
 	 * used as data for a JTable
@@ -87,5 +86,60 @@ public class ToDoModel implements Serializable{
 			System.out.println(it.next());
 		}
 	}
-	
+	public Iterator getWeek(){
+		Calendar currentTime = new GregorianCalendar();
+		currentTime.setTime(new Date());
+		currentTime.setFirstDayOfWeek(Calendar.MONDAY);
+		int week = currentTime.get(Calendar.WEEK_OF_YEAR);
+		List<ToDo> thisWeek = new ArrayList<ToDo>();
+		for(int i = 0; i<todos.size();i++){
+			ToDo t = todos.get(i);
+			Calendar due = new GregorianCalendar();
+			due.setTime(t.getDue());
+			due.setFirstDayOfWeek(Calendar.MONDAY);
+			int dueWeek = due.get(Calendar.WEEK_OF_YEAR);
+			if(dueWeek == week){
+				thisWeek.add(t);
+			}
+		}
+		return thisWeek.iterator();
+	}
+	public Iterator getMonth(){
+		Calendar currentTime = new GregorianCalendar();
+		currentTime.setTime(new Date());
+		int month = currentTime.get(Calendar.MONTH);
+		List<ToDo> thisMonth = new ArrayList<ToDo>();
+		for(int i = 0; i<todos.size();i++){
+			ToDo t = todos.get(i);
+			Calendar due = new GregorianCalendar();
+			due.setTime(t.getDue());
+			int dueWeek = due.get(Calendar.MONTH);
+			if(dueWeek == month){
+				thisMonth.add(t);
+			}
+		}
+		return thisMonth.iterator();
+	}
+	public Iterator getOverdue(){
+		Date currentTime = new Date();
+		List<ToDo> overdue = new ArrayList<ToDo>();
+		for(int i = 0; i<todos.size();i++){
+			ToDo t = todos.get(i);
+			Date due = t.getDue();
+			if(currentTime.compareTo(due) >= 0){
+				overdue.add(t);
+			}
+		}
+		return overdue.iterator();
+	}
+	public Iterator getDone(){
+		List<ToDo> done = new ArrayList<ToDo>();
+		for(int i = 0; i<todos.size();i++){
+			ToDo t = todos.get(i);
+			if(t.isDone()){
+				done.add(t);
+			}
+		}
+		return done.iterator();
+	}
 }

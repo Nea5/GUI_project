@@ -56,6 +56,7 @@ public class TimeManager {
 	 * @throws IOException 
 	 */
 	public TimeManager(){
+		createProperties();
 		loadSaved();
 		loadLanguage();
 		view = new MainFrame(model);
@@ -74,11 +75,7 @@ public class TimeManager {
 		new Controller(view);
 	}	
 	
-
-	
-	
-	private void loadLanguage(){
-		FileInputStream in;
+	private void createProperties(){
 		File settings = new File("settings.properties");
 		if(!settings.exists()){
 			try {
@@ -87,6 +84,10 @@ public class TimeManager {
                 Properties props = new Properties();
              	props.setProperty("language", "English");
              	props.setProperty("look_and_feel", "Metal");
+             	props.setProperty("windowwidth", "500");
+             	props.setProperty("windowheight", "500");
+             	props.setProperty("windowposx", "0");
+             	props.setProperty("windowposy", "0");
                 props.store(out, null);
                 out.close();
 			} catch (IOException e) {
@@ -94,6 +95,11 @@ public class TimeManager {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	
+	private void loadLanguage(){
+		FileInputStream in;
 		try {
 			in = new FileInputStream("settings.properties");
 			Properties prop = new Properties();	
@@ -145,6 +151,7 @@ public class TimeManager {
 			e.printStackTrace();
 		}
 	}
+	
 	private void loadSaved(){
 		try{
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.srz")));
@@ -157,20 +164,8 @@ public class TimeManager {
 			model = new ToDoModel();
 		}
 	}
-	
 	private void storePositions(MainFrame view){
-		File settings = new File("settings.properties");
 		Properties prop = new Properties();
-		
-		if(!settings.exists()){
-			try {
-				settings.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else{
 			try {
 				FileInputStream in = new FileInputStream("settings.properties");
 				prop.load(in);
@@ -182,7 +177,6 @@ public class TimeManager {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
 		
 		try {
 			FileOutputStream out = new FileOutputStream("settings.properties");

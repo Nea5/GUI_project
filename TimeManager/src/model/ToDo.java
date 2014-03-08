@@ -21,12 +21,14 @@ public class ToDo implements Serializable{
 	private String name, category;
 	private int priority;
 	private Date due;
+	private boolean done;
 	
 	public ToDo(String name, String category, int priority, Date due) {
 		this.setName(name);
 		this.setCategory(category);
 		this.setPriority(priority);
 		this.setDue(due);
+		this.done = false;
 	}
 	/**
 	 * Sets this objects name to name
@@ -40,6 +42,7 @@ public class ToDo implements Serializable{
 	 * @return name
 	 */
 	public String getName(){
+		if(name.equals(null)) this.name = " ";
 		return this.name;
 	}
 	/**
@@ -83,5 +86,11 @@ public class ToDo implements Serializable{
 	 */
 	public String getCategory(){
 		return this.category;
+	}
+	public void setDone(){
+		this.done = true;
+	}
+	public boolean isDone(){
+		return this.done;
 	}
 }

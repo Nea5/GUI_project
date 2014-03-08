@@ -1,8 +1,17 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JTable;
 import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
+
+import model.ToDoModel;
 
 /**
  * 
@@ -22,34 +31,30 @@ public class TodoTable extends JTable {
 	private String[] columnNames = {" ", TimeManager.rb.getString("task"), TimeManager.rb.getString("category"),TimeManager.rb.getString("date"), TimeManager.rb.getString("priority")};
 	private Object[][] data;
 	private TableRowSorter<MyTableModel> sorter;
+	private ToDoModel tdModel;
+	private DateCellRenderer dateRenderer;
 	
-	public TodoTable(Object[][] data) {
-		this.data = data;
+	public TodoTable(ToDoModel tdModel) {
+		this.tdModel = tdModel;
+		this.data = tdModel.getData();
 		addModel();
-		
+		addDateCellRenderer();
 	}
 	/**
 	 * Sets the model of this Table
 	 */
 	private void addModel(){
-		/*model = new DefaultTableModel(data, columnNames){
-			@Override
-		    public Class<?> getColumnClass(int col) {
-				if (col == 2){
-					return java.util.GregorianCalendar.class;
-				}
-				return (getValueAt(0, col).getClass());
-		    }
-			@Override
-			public boolean isCellEditable(int row, int col){
-				return (col == 0);
-			}
-		};*/
 		model = new MyTableModel(columnNames, data);
 		this.setModel(model);
 		sorter = new TableRowSorter<MyTableModel>(model);
 		this.setRowSorter(sorter);
 	}
+	
+	private void addDateCellRenderer(){
+		dateRenderer = new DateCellRenderer("dd/MM/yy HH:mm");
+		this.getColumnModel().getColumn(3).setCellRenderer(dateRenderer);
+	}
+	
 	/**
 	 * Returns this tables DefaultTableModel model
 	 */
@@ -101,7 +106,9 @@ public class TodoTable extends JTable {
 		}
 		return marked;
 	} 
-	
+	public void unMark(int row){
+		model.setValueAt(false, row, 0);
+	}
 	public void newFilter(final String category){
 		RowFilter<MyTableModel, Integer> filter = new RowFilter<MyTableModel, Integer>(){
 			@Override
@@ -118,5 +125,26 @@ public class TodoTable extends JTable {
 			
 		};
 		sorter.setRowFilter(filter);
+	}
+	
+	public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+		Component c = super.prepareRenderer(renderer, row, column);
+		if(!isRowSelected(row)){
+			c.setBackground(getBackground());
+			int modelRow = convertRowIndexToModel(row);
+			Date currentTime = new Date();
+			Date rowDate = (Date)model.getValueAt(modelRow, 3);
+			if (currentTime.compareTo(rowDate) >= 0) {
+				c.setBackground(Color.RED);
+			}else if (currentTime.compareTo(rowDate) < 0) {
+				c.setBackground(Color.WHITE);
+			}
+			boolean done = tdModel.get(modelRow).isDone();
+			if(done){
+				c.setBackground(Color.GREEN);
+			}
+			
+		}
+		return c;
 	}
 }

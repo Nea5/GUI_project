@@ -28,21 +28,19 @@ import java.io.*;
  * @author Marcus Utter
  *
  */
-public class ListsPanel extends JPanel implements Serializable{
+public class TablePanel extends JPanel implements Serializable{
 	private static final long serialVersionUID = 6529685098267757690L;
 	private JPanel p_north;
 	private JComboBox<String> filter;
-	private JButton b_new, b_edit, b_delete;
+	private JButton b_new, b_edit, b_delete, b_done;
 	private TodoTable t_tasks;
 	private JScrollPane tableScroll;
-	private Object[][] data;
 	private ToDoModel model;
 	/**
 	 * Constructs a new ListsPanel
 	 */
-	public ListsPanel(ToDoModel model) {
+	public TablePanel(ToDoModel model) {
 		this.model = model;
-		data = model.getData();
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.WHITE);
 		createPanels();
@@ -57,12 +55,13 @@ public class ListsPanel extends JPanel implements Serializable{
 		p_north.add(b_new);
 		p_north.add(b_edit);
 		p_north.add(b_delete);
+		p_north.add(b_done);
 	}
 	/**
 	 * Creates a JTable with a modified DefaultTableModel
 	 */
 	private void createTable(){
-		t_tasks = new TodoTable(data);
+		t_tasks = new TodoTable(model);
 		tableScroll = new JScrollPane(t_tasks);
 	}
 	/**
@@ -88,6 +87,7 @@ public class ListsPanel extends JPanel implements Serializable{
 		b_new = new JButton();
 		b_edit = new JButton();
 		b_delete = new JButton();
+		b_done = new JButton();
 	}
 	
 	public boolean getMarked(){
@@ -102,6 +102,9 @@ public class ListsPanel extends JPanel implements Serializable{
 	}
 	public void addDeleteTaskAction(AbstractAction a){
 		b_delete.setAction(a);
+	}
+	public void addMarkDoneAction(AbstractAction a){
+		b_done.setAction(a);
 	}
 	
 	public void addSelectionListener(ListSelectionListener l){
@@ -121,16 +124,20 @@ public class ListsPanel extends JPanel implements Serializable{
 				TimeManager.rb.getString("enter_task_name"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if(result == JOptionPane.OK_OPTION){
 			ToDo t = p_newTask.getData();
-			model.add(t);
-			Object[] newTask = new Object[]{Boolean.FALSE, t.getName(), t.getCategory(),
-					t.getDue(), t.getPriority()};
-			t_tasks.addRow(newTask);
-			try{
-				ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
-				out.writeObject(model);
-				out.close();
-			}catch(Exception ea){
-				ea.printStackTrace();
+			if(t.getName().equals("")){
+				JOptionPane.showMessageDialog(this, TimeManager.rb.getString("new_error"), TimeManager.rb.getString("new_error_text"), JOptionPane.ERROR_MESSAGE);
+			}else{
+				model.add(t);
+				Object[] newTask = new Object[]{Boolean.FALSE, t.getName(), t.getCategory(),
+						t.getDue(), t.getPriority()};
+				t_tasks.addRow(newTask);
+				try{
+					ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
+					out.writeObject(model);
+					out.close();
+				}catch(Exception ea){
+					ea.printStackTrace();
+				}
 			}
 		}
 	}
@@ -145,6 +152,7 @@ public class ListsPanel extends JPanel implements Serializable{
 					"Edit task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);	
 		if(result == JOptionPane.OK_OPTION){
 			ToDo edit_t = p_edit.getData();
+			if(t.isDone()) edit_t.setDone();
 			model.edit(edit_t, i);
 			Object[] editTask = new Object[]{Boolean.FALSE, edit_t.getName(), edit_t.getCategory(),
 					edit_t.getDue(), edit_t.getPriority()};
@@ -165,10 +173,7 @@ public class ListsPanel extends JPanel implements Serializable{
 		for(int i = 0; i < t_tasks.getRowCount();i++){
 			int x = t_tasks.convertRowIndexToModel(i);
 			boolean b = (Boolean)t_tasks.getValueAt(i,0);
-			System.out.println("" + b);
 			if(b){
-				System.out.println("i " + i);
-				System.out.println("x " + x);
 				t_tasks.removeRow(x);
 				model.delete(x);
 				b = false;
@@ -189,5 +194,25 @@ public class ListsPanel extends JPanel implements Serializable{
 	}
 	public void addFilterListener(ItemListener l){
 		filter.addItemListener(l);
+	}
+	
+	public void markDone(){
+		for(int i = 0; i < t_tasks.getRowCount();i++){
+			int x = t_tasks.convertRowIndexToModel(i);
+			boolean b = (Boolean)t_tasks.getValueAt(i,0);
+			if(b){
+				ToDo t = model.get(x);
+				t.setDone();
+				//t_tasks.getModel().fire
+				t_tasks.unMark(x);
+				try{
+					ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
+					out.writeObject(model);
+					out.close();
+				}catch(Exception ea){
+					ea.printStackTrace();
+				}
+			}
+		}
 	}
 }

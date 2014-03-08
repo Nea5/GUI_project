@@ -1,6 +1,10 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,16 +28,36 @@ public class MainFrame extends JFrame {
 	private TimeMenuBar menubar;
 	private TabPanel tabbedPane;
 	private ToDoModel model;
+	private JPanel background, pWest;
+	private JLabel clock;
+	private JComboBox<String> cList;
 	
 	public MainFrame(ToDoModel model){
 		this.model = model;
 		createMenuBar(System.getProperty("os.name"));
 		createTabbedPane();
+		createClock();
+		createPanels();
+		createCombobox();
 		
-		this.add(tabbedPane);
+		this.add(background);
+		
+		background.add(tabbedPane, BorderLayout.CENTER);
+		background.add(pWest, BorderLayout.WEST);
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weighty = 0.5;
+		c.gridx = 0;
+		c.gridy = 1;
+		pWest.add(clock, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		pWest.add(cList, c);
+		
 		
 		this.setJMenuBar(menubar);
-		this.setMinimumSize(new Dimension(450,200));
+		this.setMinimumSize(new Dimension(700,600));
 		this.loadPosition();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -41,6 +65,22 @@ public class MainFrame extends JFrame {
 		
 		// TODO loadSize works only if it is after pack(), why?
 		this.loadSize();
+	}
+	private void createPanels(){
+		background  = new JPanel(new BorderLayout());
+		pWest  = new JPanel(new GridBagLayout());
+	}
+	private void createCombobox(){
+		String [] lists = { TimeManager.rb.getString("list_week"),
+				 			TimeManager.rb.getString("list_month"), 
+				 			TimeManager.rb.getString("list_done"), 
+				 			TimeManager.rb.getString("list_overdue")};
+		cList= new JComboBox<String>(lists);
+		cList.setBorder(BorderFactory.createTitledBorder(TimeManager.rb.getString("list")));
+	}
+	private void createClock(){
+		clock = new ClockLabel(TimeManager.rb.getString("clock_label"),
+					"dd/MM/yy HH:mm:ss");
 	}
 	
 	private void createMenuBar(String osName){
@@ -98,7 +138,7 @@ public class MainFrame extends JFrame {
 						this.setSize(Integer.parseInt(windowwidth), Integer.parseInt(windowheight));
 					}
 					else{
-						// TODO standard size
+						
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -108,7 +148,32 @@ public class MainFrame extends JFrame {
 			}
 		}
 		else{
-			// TODO standard size
+
+		}
+	}
+	
+	public void list(String s){
+		JPanel pListed;
+		if(s.equals(TimeManager.rb.getString("list_week"))){
+			pListed = new ListPanel(model.getWeek());
+			JOptionPane.showMessageDialog(this, pListed, 
+			TimeManager.rb.getString("list")+ " " +
+			TimeManager.rb.getString("list_week"), JOptionPane.PLAIN_MESSAGE);
+		}else if(s.equals(TimeManager.rb.getString("list_month"))){
+			pListed = new ListPanel(model.getMonth());
+			JOptionPane.showMessageDialog(this, pListed, 
+			TimeManager.rb.getString("list")+ " " +
+			TimeManager.rb.getString("list_month"), JOptionPane.PLAIN_MESSAGE);
+		}else if(s.equals(TimeManager.rb.getString("list_done"))){
+			pListed = new ListPanel(model.getDone());
+			JOptionPane.showMessageDialog(this, pListed, 
+			TimeManager.rb.getString("list")+ " " +
+			TimeManager.rb.getString("list_done"), JOptionPane.PLAIN_MESSAGE);
+		}else if(s.equals(TimeManager.rb.getString("list_overdue"))){
+			pListed = new ListPanel(model.getOverdue());
+			JOptionPane.showMessageDialog(this, pListed, 
+			TimeManager.rb.getString("list") + " " +
+			TimeManager.rb.getString("list_overdue"), JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 	
@@ -161,5 +226,15 @@ public class MainFrame extends JFrame {
 	}
 	public void addFilterListener(ItemListener l){
 		tabbedPane.addFilterListener(l);
+	}
+	
+	public void addMarkDoneAction(AbstractAction a){
+		tabbedPane.addMarkDoneAction(a);
+	}
+	public void markDone(){
+		tabbedPane.markDone();
+	}
+	public void addListListener(ActionListener l){
+		cList.addActionListener(l);
 	}
 }

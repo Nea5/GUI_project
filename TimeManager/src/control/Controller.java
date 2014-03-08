@@ -3,6 +3,7 @@ package control;
 import gui.TimeManager;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.FileInputStream;
@@ -29,8 +30,9 @@ import gui.*;
  */
 public class Controller {
 	private MainFrame view;
-	private AbstractAction newAction, deleteAction, editAction, helpAction;
-	private Icon iNew, iEdit, iDelete;
+	private AbstractAction newAction, deleteAction, editAction, helpAction,
+							doneAction;
+	private Icon iNew, iEdit, iDelete, iDone;
 	
 	
 	public Controller(MainFrame view) {
@@ -42,11 +44,13 @@ public class Controller {
 		view.addEditTaskAction(editAction);
 		view.addDeleteTaskAction(deleteAction);
 		view.addHelpAction(helpAction);
+		view.addMarkDoneAction(doneAction);
 		view.addSelectionListener(new SelectedListener());
 		view.addTableModelListener(new CheckedListener());
 		view.addLanguageListener(new LanguageListener());
 		view.addLAFListener(new LAFListener());
 		view.addFilterListener(new FilterListener());
+		view.addListListener(new ListListener());
 	}
 	
 	private void createActions(){
@@ -54,6 +58,7 @@ public class Controller {
 		editAction = new EditTaskAction();
 		deleteAction = new DeleteTaskAction();
 		helpAction = new HelpAction();
+		doneAction = new MarkDoneAction();
 	}
 	
 	private void getResources(){
@@ -61,6 +66,7 @@ public class Controller {
 		iNew = new ImageIcon(cl.getResource("resources/Add24.gif"));
 		iEdit = new ImageIcon(cl.getResource("resources/Edit24.gif"));
 		iDelete = new ImageIcon(cl.getResource("resources/Delete24.gif"));
+		iDone = new ImageIcon(cl.getResource("resources/tick24.png"));
 	}
 	
 	public class NewTaskAction extends AbstractAction {
@@ -119,6 +125,25 @@ public class Controller {
 		}
 		
 	}
+public class MarkDoneAction extends AbstractAction{
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		public MarkDoneAction() {
+			super(TimeManager.rb.getString("mark_done_button"), iDone);
+			this.setEnabled(false);
+		}
+		@Override
+		/**
+		 * Performs the deleteTasks() method in view
+		 */
+		public void actionPerformed(ActionEvent e) {
+			view.markDone();
+		}
+		
+	}
 	public class SelectedListener implements ListSelectionListener{
 		@Override
 		/**
@@ -141,6 +166,7 @@ public class Controller {
 		public void tableChanged(TableModelEvent e) {
 			boolean b = view.getMarked();
 			deleteAction.setEnabled(b);
+			doneAction.setEnabled(b);
 		}
 		
 	}
@@ -276,8 +302,16 @@ public class Controller {
         }
     }
 	
-	
-	
+	public class ListListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JComboBox cb = (JComboBox)e.getSource();
+	        String selected = (String)cb.getSelectedItem();
+	        view.list(selected);
+		}
+		
+	}
 	
 	
 	

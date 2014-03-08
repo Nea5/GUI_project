@@ -85,7 +85,7 @@ public class NewTaskPanel extends JPanel {
         s_model = new SpinnerDateModel(date, earliestDate, latestDate, Calendar.YEAR);
         //s_model.setValue(date);
 		s_date = new JSpinner(s_model);
-		s_date.setEditor(new JSpinner.DateEditor(s_date,"dd-MM-yyyy HH:mm"));
+		s_date.setEditor(new JSpinner.DateEditor(s_date,"dd/MM/yy HH:mm"));
 	}
 	/**
 	 * Returns the content from the user's input

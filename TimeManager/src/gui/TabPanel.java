@@ -24,54 +24,60 @@ public class TabPanel extends JTabbedPane {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel p_calendar;
-	private ListsPanel p_lists;
+	private TablePanel pTable;
 	private ToDoModel model;
 	
 	public TabPanel(ToDoModel model) {
 		this.model = model;
 		createPanels();
 		//this.setBackground(Color.WHITE);
-		this.addTab(TimeManager.rb.getString("p_lists"), p_lists);
+		this.addTab(TimeManager.rb.getString("p_lists"), pTable);
 		this.addTab(TimeManager.rb.getString("p_calendar"), p_calendar);
 	}
 	/**
 	 * Creates the different panels shown in the tabs
 	 */
 	public void createPanels(){
-		p_lists = new ListsPanel(model);
+		pTable = new TablePanel(model);
 		p_calendar = new JPanel(); // Temp
 	}
 	public void newTask(){
-		p_lists.newTask();
+		pTable.newTask();
 	}
 	public void editTask(){
-		p_lists.editTask();
+		pTable.editTask();
 	}
 	public void deleteTasks(){
-		p_lists.deleteTasks();
+		pTable.deleteTasks();
 	}
 	public void addNewTaskAction(AbstractAction a){
-		p_lists.addNewTaskAction(a);
+		pTable.addNewTaskAction(a);
 	}
 	public void addEditTaskAction(AbstractAction a){
-		p_lists.addEditTaskAction(a);
+		pTable.addEditTaskAction(a);
 	}
 	public void addDeleteTaskAction(AbstractAction a){
-		p_lists.addDeleteTaskAction(a);
+		pTable.addDeleteTaskAction(a);
 	}
 	public void addSelectionListener(ListSelectionListener l){
-		p_lists.addSelectionListener(l);
+		pTable.addSelectionListener(l);
 	}
 	public void addTableModelListener(TableModelListener t){
-		p_lists.addTableModelListener(t);
+		pTable.addTableModelListener(t);
 	}
 	public boolean getMarked(){
-		return p_lists.getMarked();
+		return pTable.getMarked();
 	}
 	public void newFilter(String s){
-		p_lists.newFilter(s);
+		pTable.newFilter(s);
 	}
 	public void addFilterListener(ItemListener l){
-		p_lists.addFilterListener(l);
+		pTable.addFilterListener(l);
+	}
+	public void addMarkDoneAction(AbstractAction a){
+		pTable.addMarkDoneAction(a);
+	}
+	public void markDone(){
+		pTable.markDone();
 	}
 }
