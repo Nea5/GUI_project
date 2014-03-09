@@ -1,6 +1,9 @@
 package gui;
 
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
@@ -79,5 +82,11 @@ public class TabPanel extends JTabbedPane {
 	}
 	public void markDone(){
 		pTable.markDone();
+	}
+	public void addRightClickListener(MouseListener ma){
+		pTable.addRightClickListener(ma);
+	}
+	public void rightClickMenu(MouseEvent e){
+		pTable.rightClickMenu(e);
 	}
 }

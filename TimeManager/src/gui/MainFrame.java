@@ -1,11 +1,15 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,6 +17,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
 
@@ -40,17 +45,24 @@ public class MainFrame extends JFrame {
 		createPanels();
 		createCombobox();
 		
+		int eb = 10;
+			
+		Border border = BorderFactory.createEmptyBorder(eb, eb, eb, eb);
+		background.setBorder(border);
+		
 		this.add(background);
 		
 		background.add(tabbedPane, BorderLayout.CENTER);
 		background.add(pWest, BorderLayout.WEST);
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weighty = 0.5;
+		c.anchor = GridBagConstraints.NORTH;
+		c.weighty = 1;
 		c.gridx = 0;
 		c.gridy = 1;
 		pWest.add(clock, c);
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weighty = 10;
 		c.gridx = 0;
 		c.gridy = 2;
 		pWest.add(cList, c);
@@ -80,7 +92,7 @@ public class MainFrame extends JFrame {
 	}
 	private void createClock(){
 		clock = new ClockLabel(TimeManager.rb.getString("clock_label"),
-					"dd/MM/yy HH:mm:ss");
+					"dd/MM/yy", "HH:mm:ss");
 	}
 	
 	private void createMenuBar(String osName){
@@ -236,5 +248,11 @@ public class MainFrame extends JFrame {
 	}
 	public void addListListener(ActionListener l){
 		cList.addActionListener(l);
+	}
+	public void addRightClickListener(MouseListener ma){
+		tabbedPane.addRightClickListener(ma);
+	}
+	public void rightClickMenu(MouseEvent e){
+		tabbedPane.rightClickMenu(e);
 	}
 }

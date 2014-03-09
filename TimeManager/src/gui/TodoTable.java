@@ -2,9 +2,14 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.AbstractAction;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -33,13 +38,21 @@ public class TodoTable extends JTable {
 	private TableRowSorter<MyTableModel> sorter;
 	private ToDoModel tdModel;
 	private DateCellRenderer dateRenderer;
+	private RightClickMenu rClickMenu;
 	
 	public TodoTable(ToDoModel tdModel) {
 		this.tdModel = tdModel;
 		this.data = tdModel.getData();
 		addModel();
 		addDateCellRenderer();
+
+		createPopupMenu();
 	}
+	
+	private void createPopupMenu(){
+		rClickMenu = new RightClickMenu();
+	}
+	
 	/**
 	 * Sets the model of this Table
 	 */
@@ -146,5 +159,29 @@ public class TodoTable extends JTable {
 			
 		}
 		return c;
+	}
+	public void rightClickMenu(MouseEvent e){
+        int r = this.rowAtPoint(e.getPoint());
+        if (r >= 0 && r < this.getRowCount()) {
+            this.setRowSelectionInterval(r, r);
+        } else {
+            this.clearSelection();
+        }
+
+        int rowindex = this.getSelectedRow();
+        if (rowindex < 0)
+            return;
+        if (e.isPopupTrigger() && e.getComponent() instanceof JTable ) {
+            rClickMenu.show(e.getComponent(), e.getX(), e.getY());
+        }
+	}
+	public void addEditTaskAction(AbstractAction a){
+		rClickMenu.addEditTaskAction(a);
+	}
+	public void addDeleteTaskAction(AbstractAction a){
+		rClickMenu.addDeleteTaskAction(a);
+	}
+	public void addMarkDoneAction(AbstractAction a){
+		rClickMenu.addMarkDoneAction(a);
 	}
 }

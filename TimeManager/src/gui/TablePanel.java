@@ -3,13 +3,19 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
@@ -89,7 +95,6 @@ public class TablePanel extends JPanel implements Serializable{
 		b_delete = new JButton();
 		b_done = new JButton();
 	}
-	
 	public boolean getMarked(){
 		return t_tasks.getMarked();
 	}
@@ -99,12 +104,15 @@ public class TablePanel extends JPanel implements Serializable{
 	}
 	public void addEditTaskAction(AbstractAction a){
 		b_edit.setAction(a);
+		t_tasks.addEditTaskAction(a);
 	}
 	public void addDeleteTaskAction(AbstractAction a){
 		b_delete.setAction(a);
+		t_tasks.addDeleteTaskAction(a);
 	}
 	public void addMarkDoneAction(AbstractAction a){
 		b_done.setAction(a);
+		t_tasks.addMarkDoneAction(a);
 	}
 	
 	public void addSelectionListener(ListSelectionListener l){
@@ -170,6 +178,9 @@ public class TablePanel extends JPanel implements Serializable{
 	 * Deletes the marked tasks in the TodoTable
 	 */
 	public void deleteTasks(){
+		int j = t_tasks.convertRowIndexToModel(t_tasks.getSelectedRow());
+		t_tasks.removeRow(j);
+		model.delete(j);
 		for(int i = 0; i < t_tasks.getRowCount();i++){
 			int x = t_tasks.convertRowIndexToModel(i);
 			boolean b = (Boolean)t_tasks.getValueAt(i,0);
@@ -197,6 +208,10 @@ public class TablePanel extends JPanel implements Serializable{
 	}
 	
 	public void markDone(){
+		int j = t_tasks.convertRowIndexToModel(t_tasks.getSelectedRow());
+		ToDo td = model.get(j);
+		td.setDone();
+		t_tasks.unMark(j);
 		for(int i = 0; i < t_tasks.getRowCount();i++){
 			int x = t_tasks.convertRowIndexToModel(i);
 			boolean b = (Boolean)t_tasks.getValueAt(i,0);
@@ -215,4 +230,11 @@ public class TablePanel extends JPanel implements Serializable{
 			}
 		}
 	}
+	public void rightClickMenu(MouseEvent e){
+		t_tasks.rightClickMenu(e);
+	}
+	public void addRightClickListener(MouseListener ma){
+		t_tasks.addMouseListener(ma);
+	}
+
 }

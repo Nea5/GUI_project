@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -51,6 +53,7 @@ public class Controller {
 		view.addLAFListener(new LAFListener());
 		view.addFilterListener(new FilterListener());
 		view.addListListener(new ListListener());
+		view.addRightClickListener(new RightClickListener());
 	}
 	
 	private void createActions(){
@@ -102,6 +105,7 @@ public class Controller {
 		 * Performs the editTask() method in ListsPanel
 		 */
 		public void actionPerformed(ActionEvent e) {
+			System.out.println();
 			view.editTask();
 		}
 		
@@ -137,7 +141,7 @@ public class MarkDoneAction extends AbstractAction{
 		}
 		@Override
 		/**
-		 * Performs the deleteTasks() method in view
+		 * Performs the markDone() method in view
 		 */
 		public void actionPerformed(ActionEvent e) {
 			view.markDone();
@@ -153,6 +157,8 @@ public class MarkDoneAction extends AbstractAction{
 		public void valueChanged(ListSelectionEvent e) {
 			ListSelectionModel lsm = (ListSelectionModel)e.getSource();
             editAction.setEnabled(!lsm.isSelectionEmpty());
+            doneAction.setEnabled(!lsm.isSelectionEmpty());
+            deleteAction.setEnabled(!lsm.isSelectionEmpty());
 		}
 	}
 	
@@ -309,6 +315,39 @@ public class MarkDoneAction extends AbstractAction{
 			JComboBox cb = (JComboBox)e.getSource();
 	        String selected = (String)cb.getSelectedItem();
 	        view.list(selected);
+		}
+		
+	}
+	public class RightClickListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			view.rightClickMenu(e);
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			view.rightClickMenu(e);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}

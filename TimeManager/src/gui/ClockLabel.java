@@ -1,5 +1,9 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -8,23 +12,52 @@ import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class ClockLabel extends JLabel implements ActionListener {
-	private SimpleDateFormat f;
+	private SimpleDateFormat df, tf;
 	private String prefix;
+	private String time, date;
 	
-	public ClockLabel(String prefix, String format) {
+	public ClockLabel(String prefix, String dateFormat, String timeFormat) {
 		this.prefix = prefix;
-		this.setAlignmentX(JLabel.CENTER);
-		this.setBorder(BorderFactory.createTitledBorder(prefix));
-		this.f = new SimpleDateFormat(format);
+		this.setPreferredSize(new Dimension(25,65));
+		this.df = new SimpleDateFormat(dateFormat);
+		this.tf = new SimpleDateFormat(timeFormat);
+		this.setBorder(BorderFactory.createEtchedBorder());
+		
+		Date d = new Date();
+		time = tf.format(d);
+		date = df.format(d);
 		Timer t = new Timer(1000, this);
 		t.start();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.setText(f.format(new Date()));
+		Date d = new Date();
+		time = tf.format(d);
+		date = df.format(d);
+		this.repaint();
+	}
+	public void paintComponent(Graphics g){
+	    super.paintComponent(g);
+	    
+	    String fontName = "Arial Black";
+	    
+	    g.setColor(Color.BLACK);
+	    Font font = new Font(fontName, Font.PLAIN, 14);
+	    g.setFont(font);
+	    g.drawString(prefix + ":", 10,15);
+	    
+	    int y =  g.getFontMetrics().getHeight();
+	    font = new Font(fontName, Font.PLAIN, 20);
+	    g.setFont(font);
+	    int y2 =  g.getFontMetrics().getHeight();
+	    g.drawString(time, 15, 15 +y);
+	    font = new Font(fontName, Font.PLAIN, 14);
+	    g.setFont(font);
+	    g.drawString(date, 27, 4+ y2+y);
 	}
 
 }
