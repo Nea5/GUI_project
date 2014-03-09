@@ -25,7 +25,6 @@ public class ClockLabel extends JLabel implements ActionListener {
 		this.setPreferredSize(new Dimension(25,65));
 		this.df = new SimpleDateFormat(dateFormat);
 		this.tf = new SimpleDateFormat(timeFormat);
-		this.setBorder(BorderFactory.createEtchedBorder());
 		
 		Date d = new Date();
 		time = tf.format(d);
@@ -42,6 +41,9 @@ public class ClockLabel extends JLabel implements ActionListener {
 	}
 	public void paintComponent(Graphics g){
 	    super.paintComponent(g);
+	    
+	    
+	    g.drawRect(0, 0, this.getWidth()-1, this.getHeight()-1);
 	    
 	    String fontName = "Arial Black";
 	    
