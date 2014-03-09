@@ -32,10 +32,10 @@ public class TodoTable extends JTable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private MyTableModel model;
+	private TodoTableModel model;
 	private String[] columnNames = {" ", TimeManager.rb.getString("task"), TimeManager.rb.getString("category"),TimeManager.rb.getString("date"), TimeManager.rb.getString("priority")};
 	private Object[][] data;
-	private TableRowSorter<MyTableModel> sorter;
+	private TableRowSorter<TodoTableModel> sorter;
 	private ToDoModel tdModel;
 	private DateCellRenderer dateRenderer;
 	private RightClickMenu rClickMenu;
@@ -57,9 +57,9 @@ public class TodoTable extends JTable {
 	 * Sets the model of this Table
 	 */
 	private void addModel(){
-		model = new MyTableModel(columnNames, data);
+		model = new TodoTableModel(columnNames, data);
 		this.setModel(model);
-		sorter = new TableRowSorter<MyTableModel>(model);
+		sorter = new TableRowSorter<TodoTableModel>(model);
 		this.setRowSorter(sorter);
 	}
 	
@@ -71,7 +71,7 @@ public class TodoTable extends JTable {
 	/**
 	 * Returns this tables DefaultTableModel model
 	 */
-	public MyTableModel getModel(){
+	public TodoTableModel getModel(){
 		return model;
 	}
 	/**
@@ -123,10 +123,10 @@ public class TodoTable extends JTable {
 		model.setValueAt(false, row, 0);
 	}
 	public void newFilter(final String category){
-		RowFilter<MyTableModel, Integer> filter = new RowFilter<MyTableModel, Integer>(){
+		RowFilter<TodoTableModel, Integer> filter = new RowFilter<TodoTableModel, Integer>(){
 			@Override
 			public boolean include(
-					javax.swing.RowFilter.Entry<? extends MyTableModel, ? extends Integer> entry) {	
+					javax.swing.RowFilter.Entry<? extends TodoTableModel, ? extends Integer> entry) {	
 			
 				if(category.equals("Filter")){
 					return true;

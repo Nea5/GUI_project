@@ -2,7 +2,7 @@ package gui;
 
 import javax.swing.table.AbstractTableModel;
 
-public class MyTableModel extends AbstractTableModel {
+public class TodoTableModel extends AbstractTableModel {
 	/**
 	 * 
 	 */
@@ -10,7 +10,7 @@ public class MyTableModel extends AbstractTableModel {
 	private String[] columnNames;
 	private Object[][] data;
 	
-	public MyTableModel(String[] columns, Object[][] data) {
+	public TodoTableModel(String[] columns, Object[][] data) {
 		// TODO Auto-generated constructor stub
 		this.columnNames = columns;
 		this.data = data;

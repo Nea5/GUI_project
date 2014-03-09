@@ -24,7 +24,7 @@ import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import model.ToDoModel;
-import gui.MainFrame;
+import gui.View;
 import control.*;
 /**
 * 
@@ -48,7 +48,7 @@ public class TimeManager {
 	public static String language;
 	public static String look_and_feel;
 	private ToDoModel model;
-	private MainFrame view;
+	private View view;
 
 	/**
 	 * @param args
@@ -59,7 +59,7 @@ public class TimeManager {
 		createProperties();
 		loadSaved();
 		loadLanguage();
-		view = new MainFrame(model);
+		view = new View(model);
 		
 		view.addWindowListener( new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
@@ -164,7 +164,7 @@ public class TimeManager {
 			model = new ToDoModel();
 		}
 	}
-	private void storePositions(MainFrame view){
+	private void storePositions(View view){
 		Properties prop = new Properties();
 			try {
 				FileInputStream in = new FileInputStream("settings.properties");

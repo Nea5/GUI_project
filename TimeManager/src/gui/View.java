@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
 import javax.swing.*;
@@ -25,7 +27,7 @@ import model.ToDoModel;
 /**
  * 
  */
-public class MainFrame extends JFrame {
+public class View extends JFrame {
 	/**
 	 * 
 	 */
@@ -37,7 +39,7 @@ public class MainFrame extends JFrame {
 	private JLabel clock;
 	private JComboBox<String> cList;
 	
-	public MainFrame(ToDoModel model){
+	public View(ToDoModel model){
 		this.model = model;
 		createMenuBar(System.getProperty("os.name"));
 		createTabbedPane();
@@ -172,7 +174,10 @@ public class MainFrame extends JFrame {
 			TimeManager.rb.getString("list")+ " " +
 			TimeManager.rb.getString("list_week"), JOptionPane.PLAIN_MESSAGE);
 		}else if(s.equals(TimeManager.rb.getString("list_month"))){
-			pListed = new ListPanel(model.getMonth());
+			Calendar cal = new GregorianCalendar();
+			int month = cal.get(Calendar.MONTH);
+			int year = cal.get(Calendar.YEAR);
+			pListed = new ListPanel(model.getMonth(month, year));
 			JOptionPane.showMessageDialog(this, pListed, 
 			TimeManager.rb.getString("list")+ " " +
 			TimeManager.rb.getString("list_month"), JOptionPane.PLAIN_MESSAGE);
@@ -254,5 +259,23 @@ public class MainFrame extends JFrame {
 	}
 	public void rightClickMenu(MouseEvent e){
 		tabbedPane.rightClickMenu(e);
+	}
+	public void prevMonth(){
+		tabbedPane.prevMonth();
+	}
+	public void nextMonth (){
+		tabbedPane.nextMonth();
+	}
+	public void changeYear(){
+		tabbedPane.changeYear();
+	}
+	public void addNextMonthAction(AbstractAction a){
+		tabbedPane.addNextMonthAction(a);
+	}
+	public void addPrevMonthAction(AbstractAction a){
+		tabbedPane.addPrevMonthAction(a);
+	}
+	public void addChangeYearListener(ActionListener a){
+		tabbedPane.addChangeYearListener(a);
 	}
 }

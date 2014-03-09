@@ -31,13 +31,13 @@ import gui.*;
  * @author Marcus Utter
  */
 public class Controller {
-	private MainFrame view;
+	private View view;
 	private AbstractAction newAction, deleteAction, editAction, helpAction,
-							doneAction;
-	private Icon iNew, iEdit, iDelete, iDone;
+							doneAction, nextMonthAction, prevMonthAction;
+	private Icon iNew, iEdit, iDelete, iDone, iNext, iPrev;
 	
 	
-	public Controller(MainFrame view) {
+	public Controller(View view) {
 		this.view = view;
 		this.getResources();
 		this.createActions();
@@ -47,6 +47,9 @@ public class Controller {
 		view.addDeleteTaskAction(deleteAction);
 		view.addHelpAction(helpAction);
 		view.addMarkDoneAction(doneAction);
+		view.addNextMonthAction(nextMonthAction);
+		view.addPrevMonthAction(prevMonthAction);
+		view.addChangeYearListener(new ChangeYearListener());
 		view.addSelectionListener(new SelectedListener());
 		view.addTableModelListener(new CheckedListener());
 		view.addLanguageListener(new LanguageListener());
@@ -54,6 +57,7 @@ public class Controller {
 		view.addFilterListener(new FilterListener());
 		view.addListListener(new ListListener());
 		view.addRightClickListener(new RightClickListener());
+	
 	}
 	
 	private void createActions(){
@@ -62,6 +66,8 @@ public class Controller {
 		deleteAction = new DeleteTaskAction();
 		helpAction = new HelpAction();
 		doneAction = new MarkDoneAction();
+		nextMonthAction = new NextMonthAction();
+		prevMonthAction = new PrevMonthAction();
 	}
 	
 	private void getResources(){
@@ -70,6 +76,8 @@ public class Controller {
 		iEdit = new ImageIcon(cl.getResource("resources/Edit24.gif"));
 		iDelete = new ImageIcon(cl.getResource("resources/Delete24.gif"));
 		iDone = new ImageIcon(cl.getResource("resources/tick24.png"));
+		iNext = new ImageIcon(cl.getResource("resources/FastForward24.gif"));
+		iPrev = new ImageIcon(cl.getResource("resources/Rewind24.gif"));
 	}
 	
 	public class NewTaskAction extends AbstractAction {
@@ -129,7 +137,7 @@ public class Controller {
 		}
 		
 	}
-public class MarkDoneAction extends AbstractAction{
+	public class MarkDoneAction extends AbstractAction{
 		
 		/**
 		 * 
@@ -147,6 +155,31 @@ public class MarkDoneAction extends AbstractAction{
 			view.markDone();
 		}
 		
+	}
+	public class NextMonthAction extends AbstractAction{
+		private static final long serialVersionUID = 1L;
+		public NextMonthAction() {
+			super("", iNext);
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			view.nextMonth();
+		}	
+	}
+	public class PrevMonthAction extends AbstractAction{
+		private static final long serialVersionUID = 1L;
+		public PrevMonthAction() {
+			super("", iPrev);
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			view.prevMonth();
+		}	
+	}
+	public class ChangeYearListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			view.changeYear();
+		}
 	}
 	public class SelectedListener implements ListSelectionListener{
 		@Override
@@ -207,8 +240,6 @@ public class MarkDoneAction extends AbstractAction{
 		
 	}
 	
-	
-	
 	public class LanguageListener implements ItemListener{
         @Override
         /**
@@ -255,12 +286,6 @@ public class MarkDoneAction extends AbstractAction{
 		
         }
     }
-	
-	
-	
-	
-
-
 	public class LAFListener implements ItemListener{
         @Override
         /**
@@ -319,37 +344,17 @@ public class MarkDoneAction extends AbstractAction{
 		
 	}
 	public class RightClickListener implements MouseListener{
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
+		public void mouseClicked(MouseEvent e) {}
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
 			view.rightClickMenu(e);
 		}
-
-		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 			view.rightClickMenu(e);
 		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}	
 	}
 	
 	

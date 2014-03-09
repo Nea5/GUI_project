@@ -104,17 +104,15 @@ public class ToDoModel implements Serializable{
 		}
 		return thisWeek.iterator();
 	}
-	public Iterator getMonth(){
-		Calendar currentTime = new GregorianCalendar();
-		currentTime.setTime(new Date());
-		int month = currentTime.get(Calendar.MONTH);
+	public Iterator getMonth(int month, int year){
 		List<ToDo> thisMonth = new ArrayList<ToDo>();
 		for(int i = 0; i<todos.size();i++){
 			ToDo t = todos.get(i);
 			Calendar due = new GregorianCalendar();
 			due.setTime(t.getDue());
 			int dueWeek = due.get(Calendar.MONTH);
-			if(dueWeek == month){
+			int dueYear = due.get(Calendar.YEAR);
+			if(dueWeek == month && dueYear == year){
 				thisMonth.add(t);
 			}
 		}

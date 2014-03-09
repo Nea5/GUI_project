@@ -1,9 +1,11 @@
 package gui;
 
+import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
@@ -26,7 +28,7 @@ public class TabPanel extends JTabbedPane {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel p_calendar;
+	private CalendarPanel pCalendar;
 	private TablePanel pTable;
 	private ToDoModel model;
 	
@@ -35,14 +37,14 @@ public class TabPanel extends JTabbedPane {
 		createPanels();
 		//this.setBackground(Color.WHITE);
 		this.addTab(TimeManager.rb.getString("p_lists"), pTable);
-		this.addTab(TimeManager.rb.getString("p_calendar"), p_calendar);
+		this.addTab(TimeManager.rb.getString("p_calendar"), pCalendar);
 	}
 	/**
 	 * Creates the different panels shown in the tabs
 	 */
 	public void createPanels(){
 		pTable = new TablePanel(model);
-		p_calendar = new JPanel(); // Temp
+		pCalendar = new CalendarPanel(model); // Temp
 	}
 	public void newTask(){
 		pTable.newTask();
@@ -88,5 +90,23 @@ public class TabPanel extends JTabbedPane {
 	}
 	public void rightClickMenu(MouseEvent e){
 		pTable.rightClickMenu(e);
+	}
+	public void prevMonth(){
+		pCalendar.prevMonth();
+	}
+	public void nextMonth (){
+		pCalendar.nextMonth();
+	}
+	public void changeYear(){
+		pCalendar.changeYear();
+	}
+	public void addNextMonthAction(AbstractAction a){
+		pCalendar.addNextMonthAction(a);
+	}
+	public void addPrevMonthAction(AbstractAction a){
+		pCalendar.addPrevMonthAction(a);
+	}
+	public void addChangeYearListener(ActionListener a){
+		pCalendar.addChangeYearListener(a);
 	}
 }
