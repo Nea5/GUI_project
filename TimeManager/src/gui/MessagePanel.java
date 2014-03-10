@@ -1,11 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
-<<<<<<< HEAD
 import java.awt.Color;
-=======
->>>>>>> refs/remotes/origin/master
-
 import javax.swing.*;
 
 public class MessagePanel extends JPanel {
@@ -24,18 +20,12 @@ public class MessagePanel extends JPanel {
 		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
 		textArea.setEditable(false);
-<<<<<<< HEAD
 		
 		textArea.setEnabled(false);
 		textArea.setDisabledTextColor(Color.BLACK);
 		
 		textArea.setBackground(null);
 		textArea.setBorder(null);
-		
-		
-=======
-		textArea.setBackground(null);
->>>>>>> refs/remotes/origin/master
 		
 		textArea.setSize(textArea.getPreferredSize().width, 1);
 		
