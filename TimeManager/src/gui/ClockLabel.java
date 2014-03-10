@@ -27,7 +27,8 @@ public class ClockLabel extends JLabel implements ActionListener {
 	 */
 	public ClockLabel(String prefix, String dateFormat, String timeFormat) {
 		this.prefix = prefix;
-		this.setPreferredSize(new Dimension(25,65));
+		this.setPreferredSize(new Dimension(120,65));
+		this.setMinimumSize(new Dimension(100,65));
 		this.df = new SimpleDateFormat(dateFormat);
 		this.tf = new SimpleDateFormat(timeFormat);
 		

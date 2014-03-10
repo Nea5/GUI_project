@@ -56,7 +56,7 @@ public class View extends JFrame {
 		
 		background.add(tabbedPane, BorderLayout.CENTER);
 		background.add(pWest, BorderLayout.WEST);
-		//pWest.setPreferredSize(new Dimension(250, 250));
+		pWest.setPreferredSize(new Dimension(150, 250));
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.NORTH;
