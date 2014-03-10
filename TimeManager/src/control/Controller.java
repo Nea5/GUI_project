@@ -53,7 +53,6 @@ public class Controller {
 		view.addSelectionListener(new SelectedListener());
 		view.addTableModelListener(new CheckedListener());
 		view.addLanguageListener(new LanguageListener());
-		view.addLAFListener(new LAFListener());
 		view.addFilterListener(new FilterListener());
 		view.addListListener(new ListListener());
 		view.addRightClickListener(new RightClickListener());
@@ -286,6 +285,7 @@ public class Controller {
 		
         }
     }
+
 	public class LAFListener implements ItemListener{
         @Override
         /**
