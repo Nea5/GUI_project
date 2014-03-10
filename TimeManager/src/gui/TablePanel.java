@@ -165,13 +165,13 @@ public class TablePanel extends JPanel implements Serializable{
 			Object[] editTask = new Object[]{Boolean.FALSE, edit_t.getName(), edit_t.getCategory(),
 					edit_t.getDue(), edit_t.getPriority()};
 			t_tasks.editRow(i, editTask);
-			try{
-				ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
-				out.writeObject(model);
-				out.close();
-			}catch(Exception ea){
-				ea.printStackTrace();
-			}
+		}
+		try{
+			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
+			out.writeObject(model);
+			out.close();
+		}catch(Exception ea){
+			ea.printStackTrace();
 		}
 	}
 	/**
@@ -189,14 +189,14 @@ public class TablePanel extends JPanel implements Serializable{
 				model.delete(x);
 				b = false;
 				// i--;
-				try{
-					ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
-					out.writeObject(model);
-					out.close();
-				}catch(Exception ea){
-					ea.printStackTrace();
-				}
 			}
+		}
+		try{
+			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
+			out.writeObject(model);
+			out.close();
+		}catch(Exception ea){
+			ea.printStackTrace();
 		}
 	}
 	

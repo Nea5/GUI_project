@@ -47,10 +47,7 @@ public class CalendarCellRenderer extends DefaultTableCellRenderer {
 				d = 7;
 				w--;
 			}
-			if((d-1) == column && (w-1) == row && t.isDone()){
-				setBackground(new Color(205, 255, 175));
-			}
-			else if((d-1) == column && (w-1) == row){
+			if((d-1) == column && (w-1) == row){
 				setBackground(new Color(255, 255, 195));
 			}
 		}
