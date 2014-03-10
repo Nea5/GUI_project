@@ -157,6 +157,8 @@ public class TimeManager {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.srz")));
 			model = (ToDoModel)in.readObject();
 			in.close();
+		}catch(FileNotFoundException e){
+			//Do nothing
 		}catch(Exception e){
 			e.printStackTrace();
 		}
