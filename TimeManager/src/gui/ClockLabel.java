@@ -19,7 +19,12 @@ public class ClockLabel extends JLabel implements ActionListener {
 	private SimpleDateFormat df, tf;
 	private String prefix;
 	private String time, date;
-	
+	/**
+	 * 
+	 * @param prefix
+	 * @param dateFormat
+	 * @param timeFormat
+	 */
 	public ClockLabel(String prefix, String dateFormat, String timeFormat) {
 		this.prefix = prefix;
 		this.setPreferredSize(new Dimension(25,65));
@@ -41,12 +46,8 @@ public class ClockLabel extends JLabel implements ActionListener {
 	}
 	public void paintComponent(Graphics g){
 	    super.paintComponent(g);
-	    
-	    
 	    g.drawRect(0, 0, this.getWidth()-1, this.getHeight()-1);
-	    
 	    String fontName = "Arial Black";
-	    
 	    g.setColor(Color.BLACK);
 	    Font font = new Font(fontName, Font.PLAIN, 14);
 	    g.setFont(font);

@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.Locale;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -34,7 +35,7 @@ public class CalendarCellRenderer extends DefaultTableCellRenderer {
 			setBackground(Color.WHITE);
 		}
 		Iterator<ToDo> it = tdModel.getMonth(month, year);
-		Calendar cal = new GregorianCalendar();
+		Calendar cal = new GregorianCalendar(Locale.ENGLISH);
 		while(it.hasNext()){
 			ToDo t = it.next();
 			Date due = t.getDue();
