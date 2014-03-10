@@ -80,12 +80,12 @@ public class NewTaskPanel extends JPanel {
         Date date = cal.getTime();
         cal.add(Calendar.HOUR, -1);
         Date earliestDate = cal.getTime();
-        cal.add(Calendar.YEAR, 50);
+        cal.add(Calendar.YEAR, 3);
         Date latestDate = cal.getTime();
         s_model = new SpinnerDateModel(date, earliestDate, latestDate, Calendar.YEAR);
         //s_model.setValue(date);
 		s_date = new JSpinner(s_model);
-		s_date.setEditor(new JSpinner.DateEditor(s_date,"dd-MM-yyyy HH:mm"));
+		s_date.setEditor(new JSpinner.DateEditor(s_date,"dd/MM/yy HH:mm"));
 	}
 	/**
 	 * Returns the content from the user's input

@@ -24,7 +24,7 @@ import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import model.ToDoModel;
-import gui.MainFrame;
+import gui.View;
 import control.*;
 /**
 * 
@@ -48,7 +48,7 @@ public class TimeManager {
 	public static String language;
 	public static String look_and_feel;
 	private ToDoModel model;
-	private MainFrame view;
+	private View view;
 
 	/**
 	 * @param args
@@ -56,9 +56,10 @@ public class TimeManager {
 	 * @throws IOException 
 	 */
 	public TimeManager(){
+		createProperties();
 		loadSaved();
 		loadLanguage();
-		view = new MainFrame(model);
+		view = new View(model);
 		
 		view.addWindowListener( new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
@@ -74,11 +75,7 @@ public class TimeManager {
 		new Controller(view);
 	}	
 	
-
-	
-	
-	private void loadLanguage(){
-		FileInputStream in;
+	private void createProperties(){
 		File settings = new File("settings.properties");
 		if(!settings.exists()){
 			try {
@@ -87,6 +84,10 @@ public class TimeManager {
                 Properties props = new Properties();
              	props.setProperty("language", "English");
              	props.setProperty("look_and_feel", "Metal");
+             	props.setProperty("windowwidth", "500");
+             	props.setProperty("windowheight", "500");
+             	props.setProperty("windowposx", "0");
+             	props.setProperty("windowposy", "0");
                 props.store(out, null);
                 out.close();
 			} catch (IOException e) {
@@ -94,6 +95,11 @@ public class TimeManager {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	
+	private void loadLanguage(){
+		FileInputStream in;
 		try {
 			in = new FileInputStream("settings.properties");
 			Properties prop = new Properties();	
@@ -104,7 +110,7 @@ public class TimeManager {
 				if(prop.containsKey("language")){
 					language = prop.getProperty("language");
 					if(language.equals("Svenska")){
-						
+					
 						rb = ResourceBundle.getBundle("gui.resources.language_sv_SE");
 					} else {
 						rb = ResourceBundle.getBundle("gui.resources.language_en_GB");
@@ -114,7 +120,6 @@ public class TimeManager {
 					rb = ResourceBundle.getBundle("gui.resources.language_en_GB");
 				}
 			
-				
 				if(prop.containsKey("look_and_feel")){
 					look_and_feel = prop.getProperty("look_and_feel");
 					if(look_and_feel.equals("Nimbus")){
@@ -122,11 +127,10 @@ public class TimeManager {
 					} else {
 						UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");		
 					}	
-					
+				} else {
+					look_and_feel = "Metal";	
+					UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");
 				}
-					else {
-						UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");
-					}
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -147,6 +151,7 @@ public class TimeManager {
 			e.printStackTrace();
 		}
 	}
+	
 	private void loadSaved(){
 		try{
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.srz")));
@@ -159,20 +164,8 @@ public class TimeManager {
 			model = new ToDoModel();
 		}
 	}
-	
-	private void storePositions(MainFrame view){
-		File settings = new File("settings.properties");
+	private void storePositions(View view){
 		Properties prop = new Properties();
-		
-		if(!settings.exists()){
-			try {
-				settings.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else{
 			try {
 				FileInputStream in = new FileInputStream("settings.properties");
 				prop.load(in);
@@ -184,7 +177,6 @@ public class TimeManager {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
 		
 		try {
 			FileOutputStream out = new FileOutputStream("settings.properties");

@@ -1,8 +1,22 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.swing.AbstractAction;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
+
+import model.ToDoModel;
 
 /**
  * 
@@ -18,42 +32,46 @@ public class TodoTable extends JTable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private MyTableModel model;
+	private TodoTableModel model;
 	private String[] columnNames = {" ", TimeManager.rb.getString("task"), TimeManager.rb.getString("category"),TimeManager.rb.getString("date"), TimeManager.rb.getString("priority")};
 	private Object[][] data;
-	private TableRowSorter<MyTableModel> sorter;
+	private TableRowSorter<TodoTableModel> sorter;
+	private ToDoModel tdModel;
+	private DateCellRenderer dateRenderer;
+	private RightClickMenu rClickMenu;
 	
-	public TodoTable(Object[][] data) {
-		this.data = data;
+	public TodoTable(ToDoModel tdModel) {
+		this.tdModel = tdModel;
+		this.data = tdModel.getData();
 		addModel();
-		
+		addDateCellRenderer();
+
+		createPopupMenu();
 	}
+	
+	private void createPopupMenu(){
+		rClickMenu = new RightClickMenu();
+	}
+	
 	/**
 	 * Sets the model of this Table
 	 */
 	private void addModel(){
-		/*model = new DefaultTableModel(data, columnNames){
-			@Override
-		    public Class<?> getColumnClass(int col) {
-				if (col == 2){
-					return java.util.GregorianCalendar.class;
-				}
-				return (getValueAt(0, col).getClass());
-		    }
-			@Override
-			public boolean isCellEditable(int row, int col){
-				return (col == 0);
-			}
-		};*/
-		model = new MyTableModel(columnNames, data);
+		model = new TodoTableModel(columnNames, data);
 		this.setModel(model);
-		sorter = new TableRowSorter<MyTableModel>(model);
+		sorter = new TableRowSorter<TodoTableModel>(model);
 		this.setRowSorter(sorter);
 	}
+	
+	private void addDateCellRenderer(){
+		dateRenderer = new DateCellRenderer("dd/MM/yy HH:mm");
+		this.getColumnModel().getColumn(3).setCellRenderer(dateRenderer);
+	}
+	
 	/**
 	 * Returns this tables DefaultTableModel model
 	 */
-	public MyTableModel getModel(){
+	public TodoTableModel getModel(){
 		return model;
 	}
 	/**
@@ -101,12 +119,14 @@ public class TodoTable extends JTable {
 		}
 		return marked;
 	} 
-	
+	public void unMark(int row){
+		model.setValueAt(false, row, 0);
+	}
 	public void newFilter(final String category){
-		RowFilter<MyTableModel, Integer> filter = new RowFilter<MyTableModel, Integer>(){
+		RowFilter<TodoTableModel, Integer> filter = new RowFilter<TodoTableModel, Integer>(){
 			@Override
 			public boolean include(
-					javax.swing.RowFilter.Entry<? extends MyTableModel, ? extends Integer> entry) {	
+					javax.swing.RowFilter.Entry<? extends TodoTableModel, ? extends Integer> entry) {	
 			
 				if(category.equals("Filter")){
 					return true;
@@ -118,5 +138,50 @@ public class TodoTable extends JTable {
 			
 		};
 		sorter.setRowFilter(filter);
+	}
+	
+	public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+		Component c = super.prepareRenderer(renderer, row, column);
+		if(!isRowSelected(row)){
+			c.setBackground(getBackground());
+			int modelRow = convertRowIndexToModel(row);
+			Date currentTime = new Date();
+			Date rowDate = (Date)model.getValueAt(modelRow, 3);
+			if (currentTime.compareTo(rowDate) >= 0) {
+				c.setBackground(Color.RED);
+			}else if (currentTime.compareTo(rowDate) < 0) {
+				c.setBackground(Color.WHITE);
+			}
+			boolean done = tdModel.get(modelRow).isDone();
+			if(done){
+				c.setBackground(Color.GREEN);
+			}
+			
+		}
+		return c;
+	}
+	public void rightClickMenu(MouseEvent e){
+        int r = this.rowAtPoint(e.getPoint());
+        if (r >= 0 && r < this.getRowCount()) {
+            this.setRowSelectionInterval(r, r);
+        } else {
+            this.clearSelection();
+        }
+
+        int rowindex = this.getSelectedRow();
+        if (rowindex < 0)
+            return;
+        if (e.isPopupTrigger() && e.getComponent() instanceof JTable ) {
+            rClickMenu.show(e.getComponent(), e.getX(), e.getY());
+        }
+	}
+	public void addEditTaskAction(AbstractAction a){
+		rClickMenu.addEditTaskAction(a);
+	}
+	public void addDeleteTaskAction(AbstractAction a){
+		rClickMenu.addDeleteTaskAction(a);
+	}
+	public void addMarkDoneAction(AbstractAction a){
+		rClickMenu.addMarkDoneAction(a);
 	}
 }

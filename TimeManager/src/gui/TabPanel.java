@@ -1,6 +1,11 @@
 package gui;
 
+import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
@@ -23,55 +28,85 @@ public class TabPanel extends JTabbedPane {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel p_calendar;
-	private ListsPanel p_lists;
+	private CalendarPanel pCalendar;
+	private TablePanel pTable;
 	private ToDoModel model;
 	
 	public TabPanel(ToDoModel model) {
 		this.model = model;
 		createPanels();
 		//this.setBackground(Color.WHITE);
-		this.addTab(TimeManager.rb.getString("p_lists"), p_lists);
-		this.addTab(TimeManager.rb.getString("p_calendar"), p_calendar);
+		this.addTab(TimeManager.rb.getString("p_lists"), pTable);
+		this.addTab(TimeManager.rb.getString("p_calendar"), pCalendar);
 	}
 	/**
 	 * Creates the different panels shown in the tabs
 	 */
 	public void createPanels(){
-		p_lists = new ListsPanel(model);
-		p_calendar = new JPanel(); // Temp
+		pTable = new TablePanel(model);
+		pCalendar = new CalendarPanel(model); // Temp
 	}
 	public void newTask(){
-		p_lists.newTask();
+		pTable.newTask();
 	}
 	public void editTask(){
-		p_lists.editTask();
+		pTable.editTask();
 	}
 	public void deleteTasks(){
-		p_lists.deleteTasks();
+		pTable.deleteTasks();
 	}
 	public void addNewTaskAction(AbstractAction a){
-		p_lists.addNewTaskAction(a);
+		pTable.addNewTaskAction(a);
 	}
 	public void addEditTaskAction(AbstractAction a){
-		p_lists.addEditTaskAction(a);
+		pTable.addEditTaskAction(a);
 	}
 	public void addDeleteTaskAction(AbstractAction a){
-		p_lists.addDeleteTaskAction(a);
+		pTable.addDeleteTaskAction(a);
 	}
 	public void addSelectionListener(ListSelectionListener l){
-		p_lists.addSelectionListener(l);
+		pTable.addSelectionListener(l);
 	}
 	public void addTableModelListener(TableModelListener t){
-		p_lists.addTableModelListener(t);
+		pTable.addTableModelListener(t);
 	}
 	public boolean getMarked(){
-		return p_lists.getMarked();
+		return pTable.getMarked();
 	}
 	public void newFilter(String s){
-		p_lists.newFilter(s);
+		pTable.newFilter(s);
 	}
 	public void addFilterListener(ItemListener l){
-		p_lists.addFilterListener(l);
+		pTable.addFilterListener(l);
+	}
+	public void addMarkDoneAction(AbstractAction a){
+		pTable.addMarkDoneAction(a);
+	}
+	public void markDone(){
+		pTable.markDone();
+	}
+	public void addRightClickListener(MouseListener ma){
+		pTable.addRightClickListener(ma);
+	}
+	public void rightClickMenu(MouseEvent e){
+		pTable.rightClickMenu(e);
+	}
+	public void prevMonth(){
+		pCalendar.prevMonth();
+	}
+	public void nextMonth (){
+		pCalendar.nextMonth();
+	}
+	public void changeYear(){
+		pCalendar.changeYear();
+	}
+	public void addNextMonthAction(AbstractAction a){
+		pCalendar.addNextMonthAction(a);
+	}
+	public void addPrevMonthAction(AbstractAction a){
+		pCalendar.addPrevMonthAction(a);
+	}
+	public void addChangeYearListener(ActionListener a){
+		pCalendar.addChangeYearListener(a);
 	}
 }
