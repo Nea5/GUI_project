@@ -20,8 +20,6 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 
-import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
-import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import model.ToDoModel;
 import gui.View;

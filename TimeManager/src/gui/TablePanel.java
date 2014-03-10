@@ -48,7 +48,7 @@ public class TablePanel extends JPanel implements Serializable{
 	public TablePanel(ToDoModel model) {
 		this.model = model;
 		this.setLayout(new BorderLayout());
-		this.setBackground(Color.WHITE);
+		// this.setBackground(Color.BLACK);
 		createPanels();
 		createComboBox();
 		createButtons();

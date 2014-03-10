@@ -71,7 +71,7 @@ public class View extends JFrame {
 		
 		
 		this.setJMenuBar(menubar);
-		this.setMinimumSize(new Dimension(700,600));
+		this.setMinimumSize(new Dimension(710,300));
 		this.loadPosition();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

@@ -11,6 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
@@ -59,6 +60,8 @@ public class TodoTable extends JTable {
 	private void addModel(){
 		model = new TodoTableModel(columnNames, data);
 		this.setModel(model);
+		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		sorter = new TableRowSorter<TodoTableModel>(model);
 		this.setRowSorter(sorter);
 	}
@@ -148,13 +151,13 @@ public class TodoTable extends JTable {
 			Date currentTime = new Date();
 			Date rowDate = (Date)model.getValueAt(modelRow, 3);
 			if (currentTime.compareTo(rowDate) >= 0) {
-				c.setBackground(Color.RED);
+				c.setBackground(new Color(255, 100, 100));
 			}else if (currentTime.compareTo(rowDate) < 0) {
 				c.setBackground(Color.WHITE);
 			}
 			boolean done = tdModel.get(modelRow).isDone();
 			if(done){
-				c.setBackground(Color.GREEN);
+				c.setBackground(new Color(100, 255, 100));
 			}
 			
 		}

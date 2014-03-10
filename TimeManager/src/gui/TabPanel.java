@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -35,7 +36,7 @@ public class TabPanel extends JTabbedPane {
 	public TabPanel(ToDoModel model) {
 		this.model = model;
 		createPanels();
-		//this.setBackground(Color.WHITE);
+		this.setBackground(Color.WHITE);
 		this.addTab(TimeManager.rb.getString("p_lists"), pTable);
 		this.addTab(TimeManager.rb.getString("p_calendar"), pCalendar);
 	}
