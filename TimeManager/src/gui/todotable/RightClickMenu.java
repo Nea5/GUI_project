@@ -12,6 +12,10 @@ import javax.swing.JPopupMenu;
  * @author Marcus Utter
  */
 public class RightClickMenu extends JPopupMenu {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JMenuItem miDelete, miEdit, miDone;
 	/**
 	 * Constructs a RightClickMenu()

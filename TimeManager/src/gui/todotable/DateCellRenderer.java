@@ -16,6 +16,10 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author Marcus Utter
  */
 public class DateCellRenderer extends DefaultTableCellRenderer {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private SimpleDateFormat f;
 	/**
 	 * Constructs a DateCellRenderer with a format

@@ -1,8 +1,6 @@
 package gui;
 
 import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;

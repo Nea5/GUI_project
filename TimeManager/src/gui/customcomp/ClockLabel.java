@@ -9,10 +9,7 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.Timer;
 /**
  * 
@@ -24,6 +21,10 @@ import javax.swing.Timer;
  * @author Marcus Utter
  */
 public class ClockLabel extends JLabel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private SimpleDateFormat df, tf;
 	private String prefix;
 	private String time, date;

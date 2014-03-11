@@ -1,6 +1,5 @@
 package gui.mypanels;
 
-import java.awt.LayoutManager;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
@@ -19,8 +18,12 @@ import model.ToDo;
  * @author Marcus Utter
  */
 public class ListPanel extends JPanel {
-	private JList lListName;
-	private DefaultListModel listModel = new DefaultListModel();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JList<Object> lListName;
+	private DefaultListModel<Object> listModel = new DefaultListModel<Object>();
 	/**
 	 * Constructs a ListPanel that show some data
 	 * @param data Data to be shown
@@ -34,7 +37,7 @@ public class ListPanel extends JPanel {
 	 * Creates a JList with a DefaultListModel
 	 */
 	private void createList(){
-		lListName = new JList(listModel);	
+		lListName = new JList<Object>(listModel);	
 	}
 	/**
 	 * Adds data to the JList

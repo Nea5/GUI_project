@@ -23,6 +23,10 @@ import model.ToDoModel;
  * @author Marcus Utter
  */
 public class CalendarCellRenderer extends DefaultTableCellRenderer {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ToDoModel tdModel;
 	private int month, year;
 	/**

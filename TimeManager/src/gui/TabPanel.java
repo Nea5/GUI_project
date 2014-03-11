@@ -6,13 +6,10 @@ import gui.todotable.TablePanel;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
@@ -42,6 +39,7 @@ public class TabPanel extends JTabbedPane {
 		this.setBackground(Color.WHITE);
 		this.addTab(TimeManager.rb.getString("p_lists"), pTable);
 		this.addTab(TimeManager.rb.getString("p_calendar"), pCalendar);
+		this.setSelectedIndex(Integer.parseInt(TimeManager.active_tab));
 	}
 	/**
 	 * Creates all the JPanels to be used

@@ -4,13 +4,11 @@ import gui.customcomp.ClockLabel;
 import gui.mypanels.ListPanel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -23,6 +21,8 @@ import java.util.Properties;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
 
@@ -222,6 +222,12 @@ public class View extends JFrame {
 	 */
 	private void createTabbedPane(){
 		tabbedPane = new TabPanel(model);
+		tabbedPane.addChangeListener(new ChangeListener() {
+		    public void stateChanged(ChangeEvent e) {
+		        System.out.println("Tab: " + tabbedPane.getSelectedIndex());
+		        TimeManager.active_tab = Integer.toString(tabbedPane.getSelectedIndex());
+		    }
+		});
 	}
 	/**
 	 * Runs the newTask() method in TabPanel

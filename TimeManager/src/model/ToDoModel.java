@@ -89,7 +89,7 @@ public class ToDoModel implements Serializable{
 	 * Gets the ToDo items that is due this week
 	 * @return Iterator of ToDos this week 
 	 */
-	public Iterator getWeek(){
+	public Iterator<ToDo> getWeek(){
 		Calendar currentTime = new GregorianCalendar();
 		currentTime.setTime(new Date());
 		currentTime.setFirstDayOfWeek(Calendar.MONDAY);
@@ -115,7 +115,7 @@ public class ToDoModel implements Serializable{
 	 * @param year
 	 * @return Iterator of ToDos in month and year
 	 */
-	public Iterator getMonth(int month, int year){
+	public Iterator<ToDo> getMonth(int month, int year){
 		List<ToDo> thisMonth = new ArrayList<ToDo>();
 		for(int i = 0; i<todos.size();i++){
 			ToDo t = todos.get(i);
@@ -133,7 +133,7 @@ public class ToDoModel implements Serializable{
 	 * Gets the ToDo items that is not done and due date has passed
 	 * @return Iterator of overdue ToDos
 	 */
-	public Iterator getOverdue(){
+	public Iterator<ToDo> getOverdue(){
 		Date currentTime = new Date();
 		List<ToDo> overdue = new ArrayList<ToDo>();
 		for(int i = 0; i<todos.size();i++){
@@ -149,7 +149,7 @@ public class ToDoModel implements Serializable{
 	 * Returns all ToDo items that are done
 	 * @return Iterator of ToDos that are done
 	 */
-	public Iterator getDone(){
+	public Iterator<ToDo> getDone(){
 		List<ToDo> done = new ArrayList<ToDo>();
 		for(int i = 0; i<todos.size();i++){
 			ToDo t = todos.get(i);

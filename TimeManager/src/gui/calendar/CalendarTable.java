@@ -3,24 +3,9 @@ package gui.calendar;
 import gui.TimeManager;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.Vector;
-
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
-
-import model.ToDo;
 import model.ToDoModel;
 /**
  * 
@@ -32,7 +17,10 @@ import model.ToDoModel;
  * @author Marcus Utter
  */
 public class CalendarTable extends JTable {
-	private Calendar date;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String[] columnNames = {TimeManager.rb.getString("mon"),
 			TimeManager.rb.getString("tue"),
 			TimeManager.rb.getString("wen"),
@@ -53,7 +41,6 @@ public class CalendarTable extends JTable {
 		this.tdModel = tdModel;
 		month = date.get(Calendar.MONTH);
 		year = date.get(Calendar.YEAR);
-		this.date = date;
 		this.setRowSelectionAllowed(false);
 		//this.setColumnSelectionAllowed(true);
 		//this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

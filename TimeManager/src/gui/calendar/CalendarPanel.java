@@ -4,7 +4,6 @@ import gui.TimeManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
 
@@ -26,14 +25,18 @@ import model.ToDoModel;
  * @author Marcus Utter
  */
 public class CalendarPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private CalendarTable calTable;
 	private JScrollPane tableScroll;
 	private ToDoModel tdModel;
 	private JButton bNext, bPrev;
-	private int realDay, realMonth, realYear, currentMonth, currentYear;
+	private int realMonth, realYear, currentMonth, currentYear;
 	private GregorianCalendar cal;
 	private JPanel pNorth;
-	private JComboBox cbYear;
+	private JComboBox<String> cbYear;
 	private JLabel lMonth;
 	private String[] months =  {
 			TimeManager.rb.getString("jan"),
@@ -76,7 +79,7 @@ public class CalendarPanel extends JPanel {
 	 */
 	private void setTime(){
 		cal = new GregorianCalendar(); //Create calendar
-		realDay = cal.get(GregorianCalendar.DAY_OF_MONTH); //Get day
+		cal.get(GregorianCalendar.DAY_OF_MONTH);
 		realMonth = cal.get(GregorianCalendar.MONTH); //Get month
 		realYear = cal.get(GregorianCalendar.YEAR); //Get year
 		currentMonth = realMonth; //Match month and year
@@ -106,7 +109,7 @@ public class CalendarPanel extends JPanel {
 	 * Creates a JComboBox with the values from realYear-1 to realYear+5
 	 */
 	private void createComboBox(){
-		cbYear = new JComboBox();
+		cbYear = new JComboBox<String>();
 		for (int i=realYear-1; i<=realYear+5; i++){
 			cbYear.addItem(String.valueOf(i));
 		}

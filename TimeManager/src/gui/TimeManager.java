@@ -1,5 +1,4 @@
 package gui;
-import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedInputStream;
@@ -12,14 +11,8 @@ import java.io.ObjectInputStream;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.metal.OceanTheme;
-import javax.swing.plaf.synth.SynthLookAndFeel;
-
 
 import model.ToDoModel;
 import gui.View;
@@ -41,8 +34,7 @@ import control.*;
 
 public class TimeManager {
 	public static ResourceBundle rb;
-	public static String language;
-	public static String look_and_feel;
+	public static String language,look_and_feel,active_tab;
 	private ToDoModel model;
 	private View view;
 	/**
@@ -83,6 +75,7 @@ public class TimeManager {
              	props.setProperty("windowheight", "500");
              	props.setProperty("windowposx", "0");
              	props.setProperty("windowposy", "0");
+             	props.setProperty("active_tab", "0");
                 props.store(out, null);
                 out.close();
 			} catch (IOException e) {
@@ -93,6 +86,7 @@ public class TimeManager {
 	}
 	/**
 	 * Loads in from the settings.properties file wich Language should be used
+	 * @param active_tab 
 	 */
 	private void loadLanguage(){
 		FileInputStream in;
@@ -127,7 +121,11 @@ public class TimeManager {
 					look_and_feel = "Metal";	
 					UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");
 				}
-				
+				if(prop.containsKey("active_tab")){
+					active_tab = prop.getProperty("active_tab");	
+				} else {
+					active_tab = "0";
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
@@ -188,6 +186,7 @@ public class TimeManager {
          	prop.setProperty("windowposy", Integer.toString(view.getLocationOnScreen().y));
          	prop.setProperty("windowwidth", Integer.toString(view.getWidth()));
          	prop.setProperty("windowheight", Integer.toString(view.getHeight()));
+         	prop.setProperty("active_tab", active_tab);
             prop.store(out, null);
             out.close();
 		} catch (IOException e) {

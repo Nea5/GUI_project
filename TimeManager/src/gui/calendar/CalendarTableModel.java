@@ -11,6 +11,10 @@ import javax.swing.table.AbstractTableModel;
  * @author Marcus Utter
  */
 public class CalendarTableModel extends AbstractTableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String[] columnNames;
 	private Object[][] data = new Object[6][7];
 	/**

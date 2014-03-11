@@ -334,7 +334,8 @@ public class Controller {
 		 * triggered the event.
 		 */
 		public void actionPerformed(ActionEvent e) {
-			JComboBox cb = (JComboBox)e.getSource();
+			@SuppressWarnings("unchecked")
+			JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	        String selected = (String)cb.getSelectedItem();
 	        view.list(selected);
 		}
