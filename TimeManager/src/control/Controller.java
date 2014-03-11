@@ -54,6 +54,7 @@ public class Controller {
 		view.addMarkDoneAction(doneAction);
 		view.addNextMonthAction(nextMonthAction);
 		view.addPrevMonthAction(prevMonthAction);
+		view.addLAFListener(new LAFListener());
 		view.addChangeYearListener(new ChangeYearListener());
 		view.addSelectionListener(new SelectedListener());
 		view.addTableModelListener(new CheckedListener());
@@ -301,7 +302,6 @@ public class Controller {
             if (e.getStateChange() == ItemEvent.SELECTED) {
             	try {
             		FileOutputStream out = new FileOutputStream("settings.properties");
-                    
                  	props.setProperty("look_and_feel", "Nimbus");
                     props.store(out, null);
                     out.close();
@@ -321,6 +321,10 @@ public class Controller {
 						e1.printStackTrace();
 				}
             } 
+
+    		JPanel p_msg = new MessagePanel(TimeManager.rb.getString("changed_laf_msg"));
+			JOptionPane.showMessageDialog(view, p_msg, 
+			TimeManager.rb.getString("msg_title"), JOptionPane.PLAIN_MESSAGE);
         }
     }
 	public class ListListener implements ActionListener{

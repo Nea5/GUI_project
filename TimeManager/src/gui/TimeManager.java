@@ -121,7 +121,7 @@ public class TimeManager {
 					if(look_and_feel.equals("Nimbus")){
 						UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 					} else {
-						UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");		
+						UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");		
 					}	
 				} else {
 					look_and_feel = "Metal";	
