@@ -40,14 +40,11 @@ import control.*;
 */
 
 public class TimeManager {
-
-	//public static final String LookAndFeel = null;
 	public static ResourceBundle rb;
 	public static String language;
 	public static String look_and_feel;
 	private ToDoModel model;
 	private View view;
-
 	/**
 	 * @param args
 	 * @return 
@@ -58,7 +55,6 @@ public class TimeManager {
 		loadSaved();
 		loadLanguage();
 		view = new View(model);
-		
 		view.addWindowListener( new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
                 try {
@@ -69,10 +65,11 @@ public class TimeManager {
                 System.exit(0);
             }
         });
-		
 		new Controller(view);
 	}	
-	
+	/**
+	 * Creates the settings.properties file
+	 */
 	private void createProperties(){
 		File settings = new File("settings.properties");
 		if(!settings.exists()){
@@ -94,8 +91,9 @@ public class TimeManager {
 			}
 		}
 	}
-	
-	
+	/**
+	 * Loads in from the settings.properties file wich Language should be used
+	 */
 	private void loadLanguage(){
 		FileInputStream in;
 		try {
@@ -149,7 +147,9 @@ public class TimeManager {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Loads from todos.srz the ToDoModel
+	 */
 	private void loadSaved(){
 		try{
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.srz")));
@@ -164,6 +164,10 @@ public class TimeManager {
 			model = new ToDoModel();
 		}
 	}
+	/**
+	 * Saves the current position of the View and saves it to settings.properties
+	 * @param view View
+	 */
 	private void storePositions(View view){
 		Properties prop = new Properties();
 			try {
@@ -190,21 +194,8 @@ public class TimeManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	
-	
+	}	
 	public static void main(String[] args){
-		//try 
-	    //{ 
-	        //UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-			
-			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-	    //} 
-	    //catch(Exception e){ 
-	    //}
-
 		new TimeManager();
 	}
 

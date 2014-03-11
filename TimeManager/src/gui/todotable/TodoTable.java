@@ -1,4 +1,6 @@
-package gui;
+package gui.todotable;
+
+import gui.TimeManager;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -29,9 +31,6 @@ import model.ToDoModel;
  * @author Marcus Utter
  */
 public class TodoTable extends JTable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private TodoTableModel model;
 	private String[] columnNames = {" ", TimeManager.rb.getString("task"), TimeManager.rb.getString("category"),TimeManager.rb.getString("date"), TimeManager.rb.getString("priority")};
@@ -40,22 +39,27 @@ public class TodoTable extends JTable {
 	private ToDoModel tdModel;
 	private DateCellRenderer dateRenderer;
 	private RightClickMenu rClickMenu;
-	
+	/**
+	 * Constructs a TodoTable with a ToDoModel to get and set data from/to
+	 * @param tdModel ToDoModel to use
+	 */
 	public TodoTable(ToDoModel tdModel) {
 		this.tdModel = tdModel;
 		this.data = tdModel.getData();
 		addModel();
 		addDateCellRenderer();
-
 		createPopupMenu();
 	}
-	
+	/**
+	 * Creates a RightClickMenu
+	 */
 	private void createPopupMenu(){
 		rClickMenu = new RightClickMenu();
 	}
-	
 	/**
-	 * Sets the model of this Table
+	 * Sets the model of this Table to TodoTableModel
+	 * sets the selection mode to single selection
+	 * and adds a TableRowSorter
 	 */
 	private void addModel(){
 		model = new TodoTableModel(columnNames, data);
@@ -65,14 +69,15 @@ public class TodoTable extends JTable {
 		sorter = new TableRowSorter<TodoTableModel>(model);
 		this.setRowSorter(sorter);
 	}
-	
+	/**
+	 * Adds a DateCellRenderer to the third column of this table
+	 */
 	private void addDateCellRenderer(){
 		dateRenderer = new DateCellRenderer("dd/MM/yy HH:mm");
 		this.getColumnModel().getColumn(3).setCellRenderer(dateRenderer);
 	}
-	
 	/**
-	 * Returns this tables DefaultTableModel model
+	 * Returns this tables TodoTableModel
 	 */
 	public TodoTableModel getModel(){
 		return model;
@@ -122,9 +127,17 @@ public class TodoTable extends JTable {
 		}
 		return marked;
 	} 
+	/**
+	 * Sets the value of row to false
+	 * @param row
+	 */
 	public void unMark(int row){
 		model.setValueAt(false, row, 0);
 	}
+	/**
+	 * Creates a new filter for the RowFilter to use
+	 * @param category
+	 */
 	public void newFilter(final String category){
 		RowFilter<TodoTableModel, Integer> filter = new RowFilter<TodoTableModel, Integer>(){
 			@Override
@@ -142,10 +155,13 @@ public class TodoTable extends JTable {
 		};
 		sorter.setRowFilter(filter);
 	}
-	
+	/**
+	 * Colors the Rows of this table to green if the Todo it represent 
+	 * is done. And red if it is overdue.
+	 */
 	public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
 		Component c = super.prepareRenderer(renderer, row, column);
-		if(!isRowSelected(row)){
+		if(!isRowSelected(row)){ // IF row is not selected
 			c.setBackground(getBackground());
 			int modelRow = convertRowIndexToModel(row);
 			Date currentTime = new Date();
@@ -158,11 +174,14 @@ public class TodoTable extends JTable {
 			boolean done = tdModel.get(modelRow).isDone();
 			if(done){
 				c.setBackground(new Color(100, 255, 100));
-			}
-			
+			}	
 		}
 		return c;
 	}
+	/**
+	 * Opens up a JPopupMenu on the row that the MouseEvent is.
+	 * @param e MouseEvent
+	 */
 	public void rightClickMenu(MouseEvent e){
         int r = this.rowAtPoint(e.getPoint());
         if (r >= 0 && r < this.getRowCount()) {
@@ -178,12 +197,24 @@ public class TodoTable extends JTable {
             rClickMenu.show(e.getComponent(), e.getX(), e.getY());
         }
 	}
+	/**
+	 * Runs the addEditTaskAction(AbstractAction) method in RightClickMenu
+	 * @param a AbstractAction to use
+	 */
 	public void addEditTaskAction(AbstractAction a){
 		rClickMenu.addEditTaskAction(a);
 	}
+	/**
+	 * Runs the addDeleteTaskAction(AbstractAction) method in RightClickMenu
+	 * @param a AbstractAction to use
+	 */
 	public void addDeleteTaskAction(AbstractAction a){
 		rClickMenu.addDeleteTaskAction(a);
 	}
+	/**
+	 * Runs the addMarkDoneAction(AbstractAction) method in RightClickMenu
+	 * @param a AbstractAction to use
+	 */
 	public void addMarkDoneAction(AbstractAction a){
 		rClickMenu.addMarkDoneAction(a);
 	}

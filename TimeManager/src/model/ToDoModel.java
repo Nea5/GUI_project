@@ -2,15 +2,17 @@ package model;
 
 import java.io.Serializable;
 import java.util.*;
-
+/**
+ * @author Johan Dahlkar 
+ * @author Markus Ebbesson 
+ * @author Marcus Enderskog
+ * @author Jonas Rosenlind
+ * @author Linnea Sandelin
+ * @author Marcus Utter
+ */
 public class ToDoModel implements Serializable{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private ArrayList<ToDo> todos = new ArrayList<ToDo>();
-	
+	private ArrayList<ToDo> todos = new ArrayList<ToDo>();//List of our Todos
 	/**
 	 * Adds a ToDo object to the todos list.
 	 * 
@@ -19,7 +21,6 @@ public class ToDoModel implements Serializable{
 	public void add(ToDo t){
 		todos.add(t);
 	}
-	
 	/**
 	 * Gets the ToDo object on index i from the todos list
 	 * 
@@ -67,7 +68,6 @@ public class ToDoModel implements Serializable{
 		}
 		return data;
 	}
-	
 	/**
 	 * Returns a ArrayList of ToDo objects
 	 * 
@@ -76,7 +76,6 @@ public class ToDoModel implements Serializable{
 	public ArrayList<ToDo> getList(){
 		return todos;
 	}
-	
 	/**
 	 * Prints everything in todos list.
 	 */
@@ -86,11 +85,16 @@ public class ToDoModel implements Serializable{
 			System.out.println(it.next());
 		}
 	}
+	/**
+	 * Gets the ToDo items that is due this week
+	 * @return Iterator of ToDos this week 
+	 */
 	public Iterator getWeek(){
 		Calendar currentTime = new GregorianCalendar();
 		currentTime.setTime(new Date());
 		currentTime.setFirstDayOfWeek(Calendar.MONDAY);
-		int week = currentTime.get(Calendar.WEEK_OF_YEAR);
+		int week = currentTime.get(Calendar.WEEK_OF_YEAR); //Gets the week of year
+		int year = currentTime.get(Calendar.YEAR);
 		List<ToDo> thisWeek = new ArrayList<ToDo>();
 		for(int i = 0; i<todos.size();i++){
 			ToDo t = todos.get(i);
@@ -98,12 +102,19 @@ public class ToDoModel implements Serializable{
 			due.setTime(t.getDue());
 			due.setFirstDayOfWeek(Calendar.MONDAY);
 			int dueWeek = due.get(Calendar.WEEK_OF_YEAR);
-			if(dueWeek == week){
+			int dueYear = due.get(Calendar.YEAR);
+			if(dueWeek == week && dueYear == year){ //Checks if it is due this week
 				thisWeek.add(t);
 			}
 		}
 		return thisWeek.iterator();
 	}
+	/**
+	 * Gets the ToDo items that is due within month and year
+	 * @param month
+	 * @param year
+	 * @return Iterator of ToDos in month and year
+	 */
 	public Iterator getMonth(int month, int year){
 		List<ToDo> thisMonth = new ArrayList<ToDo>();
 		for(int i = 0; i<todos.size();i++){
@@ -118,6 +129,10 @@ public class ToDoModel implements Serializable{
 		}
 		return thisMonth.iterator();
 	}
+	/**
+	 * Gets the ToDo items that is not done and due date has passed
+	 * @return Iterator of overdue ToDos
+	 */
 	public Iterator getOverdue(){
 		Date currentTime = new Date();
 		List<ToDo> overdue = new ArrayList<ToDo>();
@@ -130,6 +145,10 @@ public class ToDoModel implements Serializable{
 		}
 		return overdue.iterator();
 	}
+	/**
+	 * Returns all ToDo items that are done
+	 * @return Iterator of ToDos that are done
+	 */
 	public Iterator getDone(){
 		List<ToDo> done = new ArrayList<ToDo>();
 		for(int i = 0; i<todos.size();i++){

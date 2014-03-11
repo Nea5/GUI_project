@@ -10,56 +10,68 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
-
+/**
+ * 
+ * @author Johan Dahlkar
+ * @author Markus Ebbesson
+ * @author Marcus Enderskog
+ * @author Jonas Rosenlind
+ * @author Linnea Sandelin
+ * @author Marcus Utter
+ */
 public class TimeMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1L;
-	private JMenu m_file, m_edit, m_help;
-	private JMenuItem mi_new, mi_help, mi_edit, mi_delete;
-	private JMenu m_language;
+	private JMenu mFile, mEdit, mHelp;
+	private JMenuItem miNew, miHelp, miEdit, miDelete;
+	private JMenu mLanguage;
     private JRadioButtonMenuItem rbSvenska;
     private JRadioButtonMenuItem rbEnglish;
 	private ButtonGroup group;
-	private JMenu m_lookandfeel;
+	private JMenu mLookandfeel;
 	private JRadioButtonMenuItem rbMetal;
     private JRadioButtonMenuItem rbNimbus;
 	private ButtonGroup LAF;
 	private ImageIcon iSvenska, iEnglish;
-
+	/** 
+	 * Constructs a TimeMenuBar
+	 */
 	public TimeMenuBar() {
 		getResources();
 		createMenus();
 		createMenuItems();
-		m_file.add(mi_new);
-		m_file.add(m_language);
-		m_file.add(m_lookandfeel);
-		m_edit.add(mi_edit);
-		m_edit.add(mi_delete);
-		m_help.add(mi_help);
-		m_language.add(rbSvenska);
-		m_language.add(rbEnglish);
+		mFile.add(miNew);
+		mFile.add(mLanguage);
+		mFile.add(mLookandfeel);
+		mEdit.add(miEdit);
+		mEdit.add(miDelete);
+		mHelp.add(miHelp);
+		mLanguage.add(rbSvenska);
+		mLanguage.add(rbEnglish);
 		group.add(rbEnglish);
 		group.add(rbSvenska);
-		m_lookandfeel.add(rbMetal);
-		m_lookandfeel.add(rbNimbus);
+		mLookandfeel.add(rbMetal);
+		mLookandfeel.add(rbNimbus);
 		LAF.add(rbMetal);
 		LAF.add(rbNimbus);
-		mi_delete.setEnabled(false);
-		mi_edit.setEnabled(false);
-		this.add(m_file);
-		this.add(m_edit);
-		this.add(m_help);
+		miDelete.setEnabled(false);
+		miEdit.setEnabled(false);
+		this.add(mFile);
+		this.add(mEdit);
+		this.add(mHelp);
 	}
 	/**
 	 * Constructs all the JMenus to be used in this JMenuBar
 	 */
 	private void createMenus(){
-		m_file = new JMenu(TimeManager.rb.getString("m_file"));
-		m_edit = new JMenu(TimeManager.rb.getString("m_edit"));
-		m_help = new JMenu(TimeManager.rb.getString("m_help"));
-		m_language = new JMenu(TimeManager.rb.getString("m_language"));
-		m_lookandfeel = new JMenu(TimeManager.rb.getString("m_lookandfeel"));
+		mFile = new JMenu(TimeManager.rb.getString("m_file"));
+		mEdit = new JMenu(TimeManager.rb.getString("m_edit"));
+		mHelp = new JMenu(TimeManager.rb.getString("m_help"));
+		mLanguage = new JMenu(TimeManager.rb.getString("m_language"));
+		mLookandfeel = new JMenu(TimeManager.rb.getString("m_lookandfeel"));
 	}
-	
+	/**
+	 * Loads in the Icons to be used
+	 */
 	private void getResources(){
 		ClassLoader cl = getClass().getClassLoader();
 		iSvenska = new ImageIcon(cl.getResource("resources/Sweden24.png"));
@@ -69,10 +81,10 @@ public class TimeMenuBar extends JMenuBar {
 	 * Constructs all JMenuItems to be used in this JMenuBar. And adds ItemListener to RadioButtons
 	 */
 	private void createMenuItems(){
-		mi_new = new JMenuItem();
-		mi_help = new JMenuItem();
-		mi_edit = new JMenuItem();
-		mi_delete = new JMenuItem();
+		miNew = new JMenuItem();
+		miHelp = new JMenuItem();
+		miEdit = new JMenuItem();
+		miDelete = new JMenuItem();
 		group = new ButtonGroup();
 		rbEnglish = new JRadioButtonMenuItem("English");
 		rbEnglish.setIcon(iEnglish);
@@ -93,29 +105,46 @@ public class TimeMenuBar extends JMenuBar {
 			rbMetal.setSelected(true);
 		}
 	}
-	
+	/**
+	 * Adds a ItemListener to rbSvenska
+	 * @param l ItemListener to add
+	 */
 	public void addLanguageListener(ItemListener l){
 		rbSvenska.addItemListener(l);
 	}
-	
+	/**
+	 * Adds a ItemListener to rbNimbus
+	 * @param l ItemListener to add
+	 */
 	public void addLAFListener(ItemListener laf){
 		rbNimbus.addItemListener(laf);
 	}
-	
-	
+	/**
+	 * Sets a AbstractAction to miNew
+	 * @param a AbstractAction to set
+	 */
 	public void addNewTaskAction(AbstractAction a){
-		mi_new.setAction(a);
+		miNew.setAction(a);
 	}
-	
+	/**
+	 * Sets a AbstractAction to miEdit
+	 * @param a AbstractAction to set
+	 */
 	public void addEditTaskAction(AbstractAction a){
-		mi_edit.setAction(a);
+		miEdit.setAction(a);
 	}
-	
+	/**
+	 * Sets a AbstractAction to miDelete
+	 * @param a AbstractAction to set
+	 */
 	public void addDeleteTaskAction(AbstractAction a){
-		mi_delete.setAction(a);
+		miDelete.setAction(a);
 	}
-	
+	/**
+	 * Sets a AbstractAction to miHelp
+	 * @param a AbstractAction to set
+	 */
 	public void addHelpAction(AbstractAction a){
-		mi_help.setAction(a);
+		miHelp.setAction(a);
 	}
 }

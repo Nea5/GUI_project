@@ -1,14 +1,17 @@
 package gui;
 
 import javax.swing.*;
-
+/**
+ * 
+ * @author Johan Dahlkar
+ * @author Markus Ebbesson
+ * @author Marcus Enderskog
+ * @author Jonas Rosenlind
+ * @author Linnea Sandelin
+ * @author Marcus Utter
+ */
 public class MyButton extends JButton {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
 	/**
 	 * Constructs a JButton with the text and a imageicon
 	 * @param text Button text
@@ -20,5 +23,4 @@ public class MyButton extends JButton {
 		this.setIcon(i);
 		this.setText(text);
 	}
-
 }

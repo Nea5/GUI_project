@@ -1,4 +1,6 @@
-package gui;
+package gui.mypanels;
+
+import gui.TimeManager;
 
 import java.awt.GridLayout;
 import java.util.Date;
@@ -22,21 +24,20 @@ import model.*;
  * @author Marcus Utter
  */
 public class NewTaskPanel extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel l_name, l_date, l_category, l_priority;
 	private JTextField tf_name;
 	private JComboBox<String> cb_category, cb_priority;
 	private JSpinner s_date;
 	private SpinnerDateModel s_model;
+	/**
+	 * Constructs a NewTaskPanel
+	 */
 	public NewTaskPanel(){
 		createLabels();
 		createTextFields();
 		createComboBoxes();
-		createSpinners();
-		
+		createSpinners();		
 		this.add(l_name);
 		this.add(tf_name);
 		this.add(l_date);

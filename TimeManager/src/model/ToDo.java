@@ -87,9 +87,16 @@ public class ToDo implements Serializable{
 	public String getCategory(){
 		return this.category;
 	}
+	/**
+	 * Sets done to true
+	 */
 	public void setDone(){
 		this.done = true;
 	}
+	/**
+	 * Gets value of done
+	 * @return
+	 */
 	public boolean isDone(){
 		return this.done;
 	}

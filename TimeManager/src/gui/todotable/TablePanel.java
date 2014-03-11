@@ -1,4 +1,8 @@
-package gui;
+package gui.todotable;
+
+import gui.TimeManager;
+import gui.mypanels.EditPanel;
+import gui.mypanels.NewTaskPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,12 +42,15 @@ public class TablePanel extends JPanel implements Serializable{
 	private static final long serialVersionUID = 6529685098267757690L;
 	private JPanel p_north;
 	private JComboBox<String> filter;
-	private JButton b_new, b_edit, b_delete, b_done;
-	private TodoTable t_tasks;
+	private JButton bNew, bEdit, bDelete, bDone;
+	private TodoTable todoTable;
 	private JScrollPane tableScroll;
 	private ToDoModel model;
 	/**
-	 * Constructs a new ListsPanel
+	 * Constructs a new TablePanel with a ToDoModel to get
+	 * and set data to/from
+	 * 
+	 * @param model ToDoModel to get and set data to/from
 	 */
 	public TablePanel(ToDoModel model) {
 		this.model = model;
@@ -53,75 +60,98 @@ public class TablePanel extends JPanel implements Serializable{
 		createComboBox();
 		createButtons();
 		createTable();
-		
 		this.add(p_north, BorderLayout.NORTH);
 		this.add(tableScroll, BorderLayout.CENTER);
-		
 		p_north.add(filter);
-		p_north.add(b_new);
-		p_north.add(b_edit);
-		p_north.add(b_delete);
-		p_north.add(b_done);
+		p_north.add(bNew);
+		p_north.add(bEdit);
+		p_north.add(bDelete);
+		p_north.add(bDone);
 	}
 	/**
-	 * Creates a JTable with a modified DefaultTableModel
+	 * Creates a ToDoTable and adds it to a JScrollPane
 	 */
 	private void createTable(){
-		t_tasks = new TodoTable(model);
-		tableScroll = new JScrollPane(t_tasks);
+		todoTable = new TodoTable(model);
+		tableScroll = new JScrollPane(todoTable);
 	}
 	/**
-	 * Creates all the JComboBoxes, filter list and sort by list
+	 * Creates a JComobBox
 	 */
 	private void createComboBox(){
 		String [] filters = { "Filter","School", "Personal", "Work"};
 		filter = new JComboBox<String>(filters);
 	}
 	/**
-	 * Creates all the JPanels
+	 * Creates all the JPanels to be used
 	 */
 	private void createPanels(){
 		p_north = new JPanel();
-		//p_center = new JPanel();
-		//p_north.setBackground(Color.WHITE);
-		//p_center.setBackground(Color.WHITE);
 	}
 	/**
-	 * Creates the new task button
+	 * Creates all the JButtons to be used
 	 */
 	private void createButtons(){
-		b_new = new JButton();
-		b_edit = new JButton();
-		b_delete = new JButton();
-		b_done = new JButton();
+		bNew = new JButton();
+		bEdit = new JButton();
+		bDelete = new JButton();
+		bDone = new JButton();
 	}
+	/**
+	 * Runs the getMarked() method in TodoTable
+	 * @return boolean
+	 */
 	public boolean getMarked(){
-		return t_tasks.getMarked();
+		return todoTable.getMarked();
 	}
-	
+	/**
+	 * Sets a AbstractAction to bNew
+	 * @param a AbstractAction to set
+	 */
 	public void addNewTaskAction(AbstractAction a){
-		b_new.setAction(a);
+		bNew.setAction(a);
 	}
+	/**
+	 * Sets a AbstractAction to bEdit, and runs the
+	 * addEditTaskAction(AbstractAction) in TodoTable
+	 * @param a AbstractAction to set and use
+	 */
 	public void addEditTaskAction(AbstractAction a){
-		b_edit.setAction(a);
-		t_tasks.addEditTaskAction(a);
+		bEdit.setAction(a);
+		todoTable.addEditTaskAction(a);
 	}
+	/**
+	 * Sets a AbstractAction to bDelete, and runs the
+	 * addDeleteTaskAction(AbstractAction) in TodoTable
+	 * @param a AbstractAction to set and use
+	 */
 	public void addDeleteTaskAction(AbstractAction a){
-		b_delete.setAction(a);
-		t_tasks.addDeleteTaskAction(a);
+		bDelete.setAction(a);
+		todoTable.addDeleteTaskAction(a);
 	}
+	/**
+	 * Sets a AbstractAction to bDone, and runs the
+	 * addMarkDoneAction(AbstractAction) in TodoTable
+	 * @param a AbstractAction to set and use
+	 */
 	public void addMarkDoneAction(AbstractAction a){
-		b_done.setAction(a);
-		t_tasks.addMarkDoneAction(a);
+		bDone.setAction(a);
+		todoTable.addMarkDoneAction(a);
 	}
-	
+	/**
+	 * Adds a ListSelectionListener to TodoTables model
+	 * @param l ListSelectionListener to add
+	 */
 	public void addSelectionListener(ListSelectionListener l){
-		ListSelectionModel listSelectModel = t_tasks.getSelectionModel();
+		ListSelectionModel listSelectModel = todoTable.getSelectionModel();
 		listSelectModel.addListSelectionListener(l);
 	}
-	
+	/**
+	 * Adds a TableModelListener to TodoTables model
+	 * @param t
+	 */
 	public void addTableModelListener(TableModelListener t){
-		t_tasks.getModel().addTableModelListener(t);
+		todoTable.getModel().addTableModelListener(t);
 	}
 	/**
 	 * Opens a JOptionPane to be able to add a new task to the TodoTable
@@ -132,13 +162,13 @@ public class TablePanel extends JPanel implements Serializable{
 				TimeManager.rb.getString("enter_task_name"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if(result == JOptionPane.OK_OPTION){
 			ToDo t = p_newTask.getData();
-			if(t.getName().equals("")){
+			if(t.getName().equals("")){ // If no name has been written open a warning message
 				JOptionPane.showMessageDialog(this, TimeManager.rb.getString("new_error"), TimeManager.rb.getString("new_error_text"), JOptionPane.ERROR_MESSAGE);
-			}else{
+			}else{//Adds the new task to TodoModel and saves it.
 				model.add(t);
 				Object[] newTask = new Object[]{Boolean.FALSE, t.getName(), t.getCategory(),
 						t.getDue(), t.getPriority()};
-				t_tasks.addRow(newTask);
+				todoTable.addRow(newTask);
 				try{
 					ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
 					out.writeObject(model);
@@ -153,7 +183,7 @@ public class TablePanel extends JPanel implements Serializable{
 	 * Opens a JOptionPane to be able to edit the currently selected task in the TodoTable
 	 */
 	public void editTask(){
-		int i = t_tasks.convertRowIndexToModel(t_tasks.getSelectedRow());
+		int i = todoTable.convertRowIndexToModel(todoTable.getSelectedRow());
 		ToDo t = model.get(i);
 		EditPanel p_edit = new EditPanel(t);
 		int result = JOptionPane.showConfirmDialog(this, p_edit,
@@ -164,9 +194,9 @@ public class TablePanel extends JPanel implements Serializable{
 			model.edit(edit_t, i);
 			Object[] editTask = new Object[]{Boolean.FALSE, edit_t.getName(), edit_t.getCategory(),
 					edit_t.getDue(), edit_t.getPriority()};
-			t_tasks.editRow(i, editTask);
+			todoTable.editRow(i, editTask);
 		}
-		try{
+		try{ // Saves the changes
 			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
 			out.writeObject(model);
 			out.close();
@@ -175,23 +205,23 @@ public class TablePanel extends JPanel implements Serializable{
 		}
 	}
 	/**
-	 * Deletes the marked tasks in the TodoTable
+	 * Deletes the marked and selected tasks in the TodoTable
 	 */
 	public void deleteTasks(){
-		int j = t_tasks.convertRowIndexToModel(t_tasks.getSelectedRow());
-		t_tasks.removeRow(j);
+		int j = todoTable.convertRowIndexToModel(todoTable.getSelectedRow());
+		todoTable.removeRow(j);
 		model.delete(j);
-		for(int i = 0; i < t_tasks.getRowCount();i++){
-			int x = t_tasks.convertRowIndexToModel(i);
-			boolean b = (Boolean)t_tasks.getValueAt(i,0);
+		for(int i = 0; i < todoTable.getRowCount();i++){
+			int x = todoTable.convertRowIndexToModel(i);
+			boolean b = (Boolean)todoTable.getValueAt(i,0);
 			if(b){
-				t_tasks.removeRow(x);
+				todoTable.removeRow(x);
 				model.delete(x);
 				b = false;
 				// i--;
 			}
 		}
-		try{
+		try{ // Saves the changes
 			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
 			out.writeObject(model);
 			out.close();
@@ -199,27 +229,35 @@ public class TablePanel extends JPanel implements Serializable{
 			ea.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Runs the newFilter(String) method in TodoTable
+	 * @param s String to use
+	 */
 	public void newFilter(String s){
-		t_tasks.newFilter(s);
+		todoTable.newFilter(s);
 	}
+	/**
+	 * Adds a ItemListener to filter
+	 * @param l ItemListener to add
+	 */
 	public void addFilterListener(ItemListener l){
 		filter.addItemListener(l);
 	}
-	
+	/**
+	 * Marks all the checked in and selected tasks in todoTable as done.
+	 */
 	public void markDone(){
-		int j = t_tasks.convertRowIndexToModel(t_tasks.getSelectedRow());
+		int j = todoTable.convertRowIndexToModel(todoTable.getSelectedRow());
 		ToDo td = model.get(j);
 		td.setDone();
-		t_tasks.unMark(j);
-		for(int i = 0; i < t_tasks.getRowCount();i++){
-			int x = t_tasks.convertRowIndexToModel(i);
-			boolean b = (Boolean)t_tasks.getValueAt(i,0);
-			if(b){
+		todoTable.unMark(j);
+		for(int i = 0; i < todoTable.getRowCount();i++){
+			int x = todoTable.convertRowIndexToModel(i);
+			boolean b = (Boolean)todoTable.getValueAt(i,0);
+			if(b){//Checked in
 				ToDo t = model.get(x);
 				t.setDone();
-				//t_tasks.getModel().fire
-				t_tasks.unMark(x);
+				todoTable.unMark(x);
 				try{
 					ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
 					out.writeObject(model);
@@ -230,11 +268,18 @@ public class TablePanel extends JPanel implements Serializable{
 			}
 		}
 	}
+	/**
+	 * Runs the rightClickMenu(MouseEvent) method in TodoTable
+	 * @param e MouseEven to use
+	 */
 	public void rightClickMenu(MouseEvent e){
-		t_tasks.rightClickMenu(e);
+		todoTable.rightClickMenu(e);
 	}
+	/**
+	 * Adds a MouseListener to todoTable
+	 * @param ma MouseListener to add
+	 */
 	public void addRightClickListener(MouseListener ma){
-		t_tasks.addMouseListener(ma);
+		todoTable.addMouseListener(ma);
 	}
-
 }

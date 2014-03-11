@@ -1,4 +1,6 @@
-package gui;
+package gui.calendar;
+
+import gui.TimeManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,7 +16,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import model.ToDoModel;
-
+/**
+ * 
+ * @author Johan Dahlkar
+ * @author Markus Ebbesson
+ * @author Marcus Enderskog
+ * @author Jonas Rosenlind
+ * @author Linnea Sandelin
+ * @author Marcus Utter
+ */
 public class CalendarPanel extends JPanel {
 	private CalendarTable calTable;
 	private JScrollPane tableScroll;
@@ -38,7 +48,10 @@ public class CalendarPanel extends JPanel {
 			TimeManager.rb.getString("oct"),
 			TimeManager.rb.getString("nov"),
 			TimeManager.rb.getString("dec")};
-	
+	/**
+	 * Constructs a CalendarPanel, with a ToDoModel to get data from.
+	 * @param tdModel ToDoModel to get data from.
+	 */
 	public CalendarPanel(ToDoModel tdModel) {
 		this.tdModel = tdModel;
 		this.setLayout(new BorderLayout());
@@ -56,11 +69,11 @@ public class CalendarPanel extends JPanel {
 		pNorth.add(bPrev);
 		pNorth.add(lMonth);
 		pNorth.add(cbYear);
-		pNorth.add(bNext);
-		
-		
-		
+		pNorth.add(bNext);	
 	}
+	/**
+	 * Sets the time of this CalendarPanel
+	 */
 	private void setTime(){
 		cal = new GregorianCalendar(); //Create calendar
 		realDay = cal.get(GregorianCalendar.DAY_OF_MONTH); //Get day
@@ -69,38 +82,57 @@ public class CalendarPanel extends JPanel {
 		currentMonth = realMonth; //Match month and year
 		currentYear = realYear;
 	}
+	/**
+	 * Creates all JButtons to be used.
+	 */
 	private void createButtons(){
 		bNext = new JButton();
 		bPrev = new JButton();
 	}
+	/**
+	 * Creates the CalendarTable to be used.
+	 */
 	private void createCalendar(){
 		calTable = new CalendarTable(cal, tdModel);
 		tableScroll = new JScrollPane(calTable);
 	}
+	/**
+	 * Create all JPanels to be used.
+	 */
 	private void createPanels(){
 		pNorth = new JPanel();
 	}
+	/**
+	 * Creates a JComboBox with the values from realYear-1 to realYear+5
+	 */
 	private void createComboBox(){
 		cbYear = new JComboBox();
 		for (int i=realYear-1; i<=realYear+5; i++){
 			cbYear.addItem(String.valueOf(i));
 		}
 	}
+	/**
+	 * Creates all JLabels to be used.
+	 */
 	private void createLabels(){
 		lMonth = new JLabel();
-		lMonth.setText(months[currentMonth]); 
+		lMonth.setText(months[currentMonth]); //Sets the text to currentMonth
 	}
+	/**
+	 * Sets all the components.
+	 */
 	private void setComponents(){
 		//Allow/disallow buttons
-				bPrev.setEnabled(true);
-				bNext.setEnabled(true);
-				if (currentMonth == 0 && currentYear <= realYear-1){bPrev.setEnabled(false);} //Too early
-				if (currentMonth == 11 && currentYear >= realYear+5){bNext.setEnabled(false);} //Too late
-				lMonth.setText(months[currentMonth]); //Refresh the month label (at the top)
-				//lMonth.setBounds(160-lMonth.getPreferredSize().width/2, 25, 180, 25); //Re-align label with calendar
-				cbYear.setSelectedItem(String.valueOf(currentYear)); //Select the correct year in the combo box
+		bPrev.setEnabled(true);
+		bNext.setEnabled(true);
+		if (currentMonth == 0 && currentYear <= realYear-1){bPrev.setEnabled(false);} //Too early
+		if (currentMonth == 11 && currentYear >= realYear+5){bNext.setEnabled(false);} //Too late
+		lMonth.setText(months[currentMonth]); //Refresh the month label
+		cbYear.setSelectedItem(String.valueOf(currentYear)); //Select the correct year in the combo box
 	}
-	
+	/**
+	 * Shows previous month
+	 */
 	public void prevMonth(){
 		if (currentMonth == 0){ //Back one year
 			currentMonth = 11;
@@ -110,8 +142,11 @@ public class CalendarPanel extends JPanel {
 			currentMonth -= 1;
 		}
 		setComponents();
-		calTable.updateTable(currentMonth, currentYear);
+		calTable.updateTable(currentMonth, currentYear); //Updates CalendarTable
 	}
+	/**
+	 * Shows next month.
+	 */
 	public void nextMonth (){
 		if (currentMonth == 11){ //Foward one year
 			currentMonth = 0;
@@ -121,8 +156,12 @@ public class CalendarPanel extends JPanel {
 			currentMonth += 1;
 		}
 		setComponents();
-		calTable.updateTable(currentMonth, currentYear);
+		calTable.updateTable(currentMonth, currentYear);//Updates CalendarTable
 	}
+	/**
+	 * Changes year to be shown, to the currently selected value of
+	 * the JComboBox
+	 */
 	public void changeYear(){
 		if (cbYear.getSelectedItem() != null){
 			String b = cbYear.getSelectedItem().toString();
@@ -130,14 +169,26 @@ public class CalendarPanel extends JPanel {
 			calTable.updateTable(currentMonth, currentYear);
 		}
 		setComponents();
-		calTable.updateTable(currentMonth, currentYear);
+		calTable.updateTable(currentMonth, currentYear);//Updates CalendarTable
 	}
+	/**
+	 * Sets a AbstractAction to bNext
+	 * @param a AbstractAction to set
+	 */
 	public void addNextMonthAction(AbstractAction a){
 		bNext.setAction(a);
 	}
+	/**
+	 * Sets a AbstractAction to bPrev
+	 * @param a AbstractAction to set
+	 */
 	public void addPrevMonthAction(AbstractAction a){
 		bPrev.setAction(a);
 	}
+	/**
+	 * Adds a ActionListener to cbYear
+	 * @param a ActionListener to add
+	 */
 	public void addChangeYearListener(ActionListener a){
 		cbYear.addActionListener(a);
 	}

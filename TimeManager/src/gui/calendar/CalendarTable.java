@@ -1,4 +1,6 @@
-package gui;
+package gui.calendar;
+
+import gui.TimeManager;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -20,7 +22,15 @@ import javax.swing.table.TableModel;
 
 import model.ToDo;
 import model.ToDoModel;
-
+/**
+ * 
+ * @author Johan Dahlkar
+ * @author Markus Ebbesson
+ * @author Marcus Enderskog
+ * @author Jonas Rosenlind
+ * @author Linnea Sandelin
+ * @author Marcus Utter
+ */
 public class CalendarTable extends JTable {
 	private Calendar date;
 	private String[] columnNames = {TimeManager.rb.getString("mon"),
@@ -31,11 +41,14 @@ public class CalendarTable extends JTable {
 			TimeManager.rb.getString("sat"),
 			TimeManager.rb.getString("sun")
 	};
-
 	private CalendarTableModel tableModel = new CalendarTableModel(columnNames);
 	private ToDoModel tdModel;
 	private int month, year, som, nod;
-	
+	/**
+	 * Constructs a Calendar table with a date and a ToDoModel
+	 * @param date Date to show
+	 * @param tdModel Used to get data.
+	 */
 	public CalendarTable(Calendar date, ToDoModel tdModel) {
 		this.tdModel = tdModel;
 		month = date.get(Calendar.MONTH);
@@ -51,7 +64,12 @@ public class CalendarTable extends JTable {
 		
 		updateTable(month, year);
 	}
-	
+	/**
+	 * Updates which month of which year this table should show
+	 * 
+	 * @param month Month to be shown
+	 * @param year Year to be shown
+	 */
 	public void updateTable(int month, int year){
 		for (int i=0; i<6; i++){
 			for (int j=0; j<7; j++){
@@ -62,7 +80,7 @@ public class CalendarTable extends JTable {
 		cal.setFirstDayOfWeek(Calendar.MONDAY);
 		nod = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 		som = cal.get(GregorianCalendar.DAY_OF_WEEK);
-		if(som > 1){
+		if(som > 1){// Converts to European week standard.
 			som--;
 		}else{
 			som = 7;
