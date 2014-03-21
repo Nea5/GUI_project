@@ -253,14 +253,15 @@ public class TablePanel extends JPanel implements Serializable{
 				ToDo t = model.get(x);
 				t.setDone();
 				todoTable.unMark(x);
-				try{
-					ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
-					out.writeObject(model);
-					out.close();
-				}catch(Exception ea){
-					ea.printStackTrace();
-				}
 			}
+		}
+		
+		try{
+			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.srz")));
+			out.writeObject(model);
+			out.close();
+		}catch(Exception ea){
+			ea.printStackTrace();
 		}
 	}
 	/**
